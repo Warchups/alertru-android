@@ -13,4 +13,17 @@
     <string name="incidents">Incidencias</string>
     <string name="alertru">Alertru</string>
     <string name="menu">Menú</string>
+    <string name="webPage">www.gnommostudios.com</string>
+    <string name="numberFixedPhone">96 206 40 64</string>
+    <string name="numberMobilePhone">675 215 026</string>
+    <string name="emailInfo">info@gnommostudios.com</string>
+    <string name="emailSupport">soporte@gnommostudios.com</string>
+
+    <string name="province_prompt">- ninguna -</string>
+
+    <string-array name="province_arrays">
+        <item>Barcelona</item>
+        <item>Andalucía</item>
+    </string-array>
+
 </resources>
