@@ -5,4 +5,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="search">Búsqueda</string>
+    <string name="settings">Configuración</string>
+    <string name="info">Información</string>
+    <string name="user_data">Datos de usuario</string>
+    <string name="incidents">Incidencias</string>
+    <string name="alertru">Alertru</string>
+    <string name="menu">Menú</string>
 </resources>

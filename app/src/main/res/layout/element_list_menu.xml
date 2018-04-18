@@ -4,17 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingVertical="5dp">
-
-    <ImageView
-        android:id="@+id/imagenMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"/>
+    android:paddingVertical="5dp"
+    android:background="@color/colorWhite">
 
     <TextView
-        android:id="@+id/textoMenu"
+        android:id="@+id/textMenu"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
 
 </LinearLayout>
