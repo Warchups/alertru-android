@@ -2,9 +2,11 @@ package com.gnommostudios.alertru.alertru_android.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.AdapterMenu;
+import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
+import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
 
 import java.util.ArrayList;
 
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private int positionMenu = -1;
+    private CustomViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +46,20 @@ public class MainActivity extends AppCompatActivity {
         initPowered();
 
         initTitle();
+
+        initFragments();
+    }
+
+    private void initFragments() {
+        viewPager = (CustomViewPager) findViewById(R.id.view_pager_main);
+
+        viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+
+        viewPager.disableScroll(true);
     }
 
     private void initTitle() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
 
@@ -53,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
 
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -130,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                         //Info
                         break;
                 }
+
+                viewPager.setCurrentItem(position);
                 changeTitle();
                 onBackPressed();
             }

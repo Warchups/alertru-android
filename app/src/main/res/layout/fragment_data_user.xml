@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.fragments.DatosUsuario"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.DataUserFragment">
 
     <LinearLayout
         android:id="@+id/fondoDatosUsuario"
@@ -127,4 +127,5 @@
             android:text="Login"/>
 
     </LinearLayout>
+
 </FrameLayout>
