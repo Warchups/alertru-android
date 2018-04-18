@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         initPowered();
 
         initTitle();
+
     }
 
     private void initTitle() {
