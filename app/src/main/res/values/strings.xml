@@ -12,6 +12,13 @@
     <string name="user_data">Datos de usuario</string>
     <string name="incidents">Incidencias</string>
     <string name="alertru">Alertru</string>
+    <string name="searchTitle">BUSCADOR DE ALERTAS</string>
+    <string name="searchAction">Acciones</string>
+    <string name="searchRadio1">Buscar abiertas</string>
+    <string name="searchRadio2">Buscar cerradas</string>
+    <string name="searchCheckBox">Buscar abiertas y cerradas</string>
+    <string name="searchButtonAll">BUSCAR TODAS</string>
+    <string name="searchButtonByDate">BUSCAR POR FECHA</string>
     <string name="menu">Menú</string>
     <string name="webPage">www.gnommostudios.com</string>
     <string name="numberFixedPhone">96 206 40 64</string>
