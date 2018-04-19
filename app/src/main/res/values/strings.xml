@@ -41,5 +41,6 @@
     <string name="activate_alerts">Activar Alertas:</string>
     <string name="ringote_choice">Elige un sonido de alerta:</string>
     <string name="ringote">Sonido de Alerta:</string>
+    <string name="version">Ver: 1.2.0</string>
 
 </resources>

@@ -29,6 +29,10 @@ public class SearchDialog extends DialogFragment {
 
         builder.setView(context);
 
-        return builder.create();
+        AlertDialog dialog = builder.create();
+
+        //dialog.getWindow().setLayout(20, 20);
+
+        return dialog;
     }
 }

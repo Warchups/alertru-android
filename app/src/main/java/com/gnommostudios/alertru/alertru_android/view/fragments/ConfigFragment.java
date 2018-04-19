@@ -42,6 +42,25 @@ public class ConfigFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_config, container, false);
     }
 
+    public void choiceRingote(String option) {
+        switch (option) {
+            case "nu":
+                Toast.makeText(getActivity(), "Nuclear", Toast.LENGTH_SHORT).show();
+                break;
+            case "be":
+                Toast.makeText(getActivity(), "Beep", Toast.LENGTH_SHORT).show();
+                break;
+            case "a1":
+                Toast.makeText(getActivity(), "Alarm1", Toast.LENGTH_SHORT).show();
+                break;
+            case "a2":
+                Toast.makeText(getActivity(), "Alarm2", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(getActivity(), "Default", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public static class MyPreferenceFragment extends PreferenceFragment {
 
         static ListPreference ringote;
@@ -65,10 +84,12 @@ public class ConfigFragment extends Fragment {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if (activate.isChecked()) {
                         //Toast.makeText(getActivity(), "Checked", Toast.LENGTH_SHORT).show();
-                        editor.putString("ringote", ringote.getValue());
+                        editor.putString("ringote", (String) newValue);
                         editor.putBoolean("activateAlert", activate.isChecked());
                         editor.commit();
                     }
+
+                    //choiceRingote((String) newValue);
 
                     return true;
                 }
@@ -77,20 +98,41 @@ public class ConfigFragment extends Fragment {
             activate.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    //Lo pongo asi porque me funciona del reves
-                    if (!activate.isChecked()) {
+                    if ((boolean) newValue) {
                         //Toast.makeText(getActivity(), "Check", Toast.LENGTH_SHORT).show();
                         editor.putString("ringote", ringote.getValue());
                     }else {
                         //Toast.makeText(getActivity(), "Uncheck", Toast.LENGTH_SHORT).show();
                         editor.putString("ringote", "def");
                     }
-                    editor.putBoolean("activateAlert", !activate.isChecked());
+                    editor.putBoolean("activateAlert", (boolean) newValue);
                     editor.commit();
+
+                    //choiceRingote(ringote.getValue());
+
                     return true;
                 }
             });
 
+        }
+
+        private void choiceRingote(String option) {
+            switch (option) {
+                case "nu":
+                    Toast.makeText(getActivity(), "Nuclear", Toast.LENGTH_SHORT).show();
+                    break;
+                case "be":
+                    Toast.makeText(getActivity(), "Beep", Toast.LENGTH_SHORT).show();
+                    break;
+                case "a1":
+                    Toast.makeText(getActivity(), "Alarm1", Toast.LENGTH_SHORT).show();
+                    break;
+                case "a2":
+                    Toast.makeText(getActivity(), "Alarm2", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(getActivity(), "Default", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
