@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="activateAlert"
-            android:summary="Activar Alertas:"
-            android:title="Activar Alertas:" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="activateAlert"
+        android:title="@string/activate_alerts" />
 
-
-        <RingtonePreference
-            android:defaultValue="content://settings/system/notification_sound"
-            android:dependency="notifications_new_message"
-            android:key="soundAlert"
-            android:ringtoneType="notification"
-            android:summary="Sonido de Alerta:"
-            android:title="Sonido de Alerta:" />
-
-    </PreferenceCategory>
+    <ListPreference
+        android:dialogTitle="@string/ringote_choice"
+        android:entries="@array/ringote"
+        android:entryValues="@array/ringotecode"
+        android:key="ringote"
+        android:title="@string/ringote" />
 
 </PreferenceScreen>

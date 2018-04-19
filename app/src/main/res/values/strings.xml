@@ -36,5 +36,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="computerSolutions">Soluciones Informáticas</string>
+    <string name="since">Desde</string>
+    <string name="to">Hasta</string>
+    <string name="activate_alerts">Activar Alertas:</string>
+    <string name="ringote_choice">Elige un sonido de alerta:</string>
+    <string name="ringote">Sonido de Alerta:</string>
 
 </resources>

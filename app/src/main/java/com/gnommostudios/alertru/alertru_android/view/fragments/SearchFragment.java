@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnommostudios.alertru.alertru_android.R;
+import com.gnommostudios.alertru.alertru_android.util.SearchDialog;
 
 public class SearchFragment extends Fragment {
 
@@ -18,6 +19,9 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        SearchDialog searchDialog = new SearchDialog();
+        searchDialog.show(getFragmentManager(), "tagSearch");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
     }

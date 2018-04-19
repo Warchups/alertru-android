@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ringote">
+        <item>Por Defecto</item>
+        <item>nuclear</item>
+        <item>beep</item>
+        <item>alarm 1</item>
+        <item>alarm 2</item>
+    </string-array>
+    <string-array name="ringotecode">
+        <item>def</item>
+        <item>nu</item>
+        <item>be</item>
+        <item>a1</item>
+        <item>a2</item>
+    </string-array>
+
+</resources>
