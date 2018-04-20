@@ -1,102 +1,98 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.DataUserFragment">
 
-    <LinearLayout
-        android:id="@+id/fondoDatosUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp" >
 
-        <TextView
-            android:id="@+id/nombreDatosUsuario"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:textAlignment="center"
-            android:text="Nombre:" />
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
-        <EditText
-            android:id="@+id/txtNombreUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:text="Cristian"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
-
-        <TextView
-            android:id="@+id/apellidosDatosUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:text="Apellidos:" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INTRODUZCA LAS LETRAS"
+                android:layout_marginBottom="45dp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:textSize="23dp"
+                android:singleLine="true"
+                android:textStyle="italic|bold"
+                android:textColor="@color/colorPrimary" />
 
         <EditText
-            android:id="@+id/txtApellidosUsuario"
-            android:layout_width="match_parent"
+            android:id="@+id/txtName"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Guil"
-            android:textAlignment="textEnd"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#A6ACAF"
+            android:hint="Nombre"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:inputType="textCapWords"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint" />
+
+
+            <EditText
+                android:id="@+id/txtSurname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:hint="Apellidos"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:inputType="textCapWords"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint"/>
+
+        <EditText
+            android:id="@+id/txtDniUser"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="#A6ACAF"
+            android:hint="DNI"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:inputType="textCapWords"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint"
             />
-        <TextView
-            android:id="@+id/dniDatosUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:text="DNI:" />
 
         <EditText
-            android:id="@+id/txtDniUsuario"
-            android:layout_width="match_parent"
+            android:id="@+id/txtPassword"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="227g526E"
-            android:textAlignment="textEnd"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
+            android:layout_marginBottom="10dp"
+            android:background="#A6ACAF"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/input_register_hint" />
 
-        <TextView
-            android:id="@+id/passwordDatosUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
-            android:text="Constraseña:" />
-
-        <EditText
-            android:id="@+id/txtPasswordUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:textAlignment="textEnd"
-            android:text="**"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="textPassword" />
-
-        <TextView
-            android:id="@+id/provinciaDatosUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:paddingBottom="10dp"
-            android:text="Provincia:" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:minHeight="0.8dp"/>
 
         <Spinner
             android:id="@+id/spinner"
@@ -110,22 +106,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@color/colorPrimaryDark"
-            android:minHeight="1dp"/>
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
+            android:minHeight="0.8dp"/>
 
         <Button
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnRegister"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Login"/>
+            android:layout_marginTop="20dip"
+            android:background="@color/colorPrimary"
+            android:text="Login"
+            android:textColor="@color/white"/>
+        </LinearLayout>
 
-    </LinearLayout>
-
+    </RelativeLayout>
 </FrameLayout>
