@@ -5,11 +5,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.gnommostudios.alertru.alertru_android.R;
+import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
+import com.gnommostudios.alertru.alertru_android.model.Alert;
 import com.gnommostudios.alertru.alertru_android.util.SearchDialog;
 
+import java.util.ArrayList;
+
 public class SearchFragment extends Fragment {
+
+    private ListView alertList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,10 +26,30 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+
+        alertList = (ListView) view.findViewById(R.id.alert_list);
+
+        initList();
 
         SearchDialog searchDialog = new SearchDialog();
         searchDialog.show(getFragmentManager(), "tagSearch");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return view;
+    }
+
+    private void initList() {
+        ArrayList<Alert> alertArrayList = new ArrayList<>();
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", false));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", false));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", false));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", false));
+        alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
+
+        alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
     }
 }
