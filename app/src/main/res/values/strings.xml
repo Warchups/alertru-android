@@ -42,5 +42,7 @@
     <string name="ringote_choice">Elige un sonido de alerta:</string>
     <string name="ringote">Sonido de Alerta:</string>
     <string name="version">Ver: 1.2.0</string>
+    <string name="assigned">-assigned-</string>
+    <string name="unassigned">-unassigned-</string>
 
 </resources>
