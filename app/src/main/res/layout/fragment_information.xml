@@ -70,7 +70,7 @@
                         android:gravity="center"
                         android:text="@string/webPage"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="@color/green" />
+                        android:textColor="#008000" />
 
                     <TextView
                         android:id="@+id/txtNumberPhone1"
@@ -81,7 +81,7 @@
                         android:autoLink="phone"
                         android:gravity="center"
                         android:text="@string/numberFixedPhone"
-                        android:textColor="@color/green" />
+                        android:textColor="#008000" />
 
                     <TextView
                         android:id="@+id/txtNumberPhone2"
@@ -103,7 +103,7 @@
                         android:autoLink="email"
                         android:gravity="center"
                         android:text="@string/emailInfo"
-                        android:textColor="@color/green" />
+                        android:textColor="#008000"/>
 
                     <TextView
                         android:id="@+id/txtInformationMail2"
@@ -114,7 +114,7 @@
                         android:autoLink="email"
                         android:gravity="center"
                         android:text="@string/emailSupport"
-                        android:textColor="@color/green" />
+                        android:textColor="#008000" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
