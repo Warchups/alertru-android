@@ -1,55 +1,39 @@
 package com.gnommostudios.alertru.alertru_android.util;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.gnommostudios.alertru.alertru_android.R;
 
-public class SearchDialog extends AppCompatDialog {
+public class SearchDialog extends DialogFragment {
 
-    public Button yes , no;
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View context = inflater.inflate(R.layout.search_dialog, null);
 
-    private TextView txt;
+        ImageView closeButton = (ImageView) context.findViewById(R.id.searchCloseWindow);
 
-    private Context context ;
-
-    final SearchDialog dialog;
-
-    public SearchDialog(Context co)
-    {
-        this.context = co;
-        dialog = new SearchDialog(context);
-    }
-
-    public void SearchDialog(String message , String btn_yes , String btn_no , String image_title)
-    {
-
-        dialog.set_text(message,btn_yes,btn_no);
-        dialog.set_image(image_title);
-
-        yes = (Button) dialog.findViewById(R.id.alert_yes);
-        no = (Button) dialog.findViewById(R.id.alert_no);
-
-        txt = (TextView) dialog.findViewById(R.id.alert_msg);
-
-        no.setOnClickListener(new Button.OnClickListener()
-        {
-            public void onClick(View v)     {
-                dialog_dismiss();
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
-        dialog.show();
-    }
 
-    public void dialog_dismiss()
-    {
-        dialog.dismiss();
-    }
+        builder.setView(context);
 
-    public void False_visible_btn_no()
-    {
-        no.setVisibility(View.INVISIBLE);
-    }
+        AlertDialog dialog = builder.create();
 
+        //dialog.getWindow().setLayout(20, 20);
+
+        return dialog;
+    }
 }
