@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
@@ -33,6 +34,7 @@ public class AdapterAlertList extends ArrayAdapter<Alert>{
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(R.layout.element_list, null);
 
+        LinearLayout background = (LinearLayout) convertView.findViewById(R.id.background_element);
         ImageView imagePadlock = (ImageView) convertView.findViewById(R.id.imagePadlock);
         TextView affairTxt = (TextView) convertView.findViewById(R.id.affairTxt);
         TextView assignedTxt = (TextView) convertView.findViewById(R.id.assignedTxt);
@@ -44,9 +46,11 @@ public class AdapterAlertList extends ArrayAdapter<Alert>{
         if (elements.get(position).isAssigned()) {
             assignedTxt.setText(R.string.assigned);
             imagePadlock.setImageResource(R.drawable.icono_candado4);
+            background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_assigned));
         }else {
             assignedTxt.setText(R.string.unassigned);
             imagePadlock.setImageResource(R.drawable.candado_cerrado4);
+            background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_unassigned));
         }
 
         return convertView;

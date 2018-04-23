@@ -2,6 +2,7 @@ package com.gnommostudios.alertru.alertru_android.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -27,8 +28,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listMenu;
-    private TextView poweredText;
+    //private ListView listMenu;
+    private TabLayout tabLayout;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -43,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         initMenu();
 
-        initPowered();
-
         initTitle();
 
         initFragments();
+
+        initTabLayout();
     }
 
     private void initFragments() {
@@ -62,66 +63,78 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
+    }
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    private void initTabLayout() {
+        tabLayout = (TabLayout) findViewById(R.id.appbartabs);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setupWithViewPager(viewPager);
 
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
+            public void onTabSelected(TabLayout.Tab tab) {
+                positionMenu = tab.getPosition();
+                switch (tab.getPosition()) {
+                    case 0:
+                        tab.setIcon(R.drawable.home_black);
+                        break;
+                    case 1:
+                        tab.setIcon(R.drawable.search_black);
+                        break;
+                    case 2:
 
-        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
+                        break;
+                    case 3:
+                        tab.setIcon(R.drawable.config_black);
+                        break;
+                    case 4:
+                        tab.setIcon(R.drawable.user_black);
+                        break;
 
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(getResources().getString(R.string.menu));
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
+                }
                 changeTitle();
             }
 
             @Override
-            public void onDrawerStateChanged(int newState) {
+            public void onTabUnselected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        tab.setIcon(R.drawable.home_white);
+                        break;
+                    case 1:
+                        tab.setIcon(R.drawable.search_white);
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+                        tab.setIcon(R.drawable.config_white);
+                        break;
+                    case 4:
+                        tab.setIcon(R.drawable.user_white);
+                        break;
+
+                }
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-    }
+        tabLayout.getTabAt(0).setIcon(R.drawable.home_black);
+        tabLayout.getTabAt(1).setIcon(R.drawable.search_white);
+        tabLayout.getTabAt(2).setIcon(R.drawable.alertru_azul500);
+        tabLayout.getTabAt(3).setIcon(R.drawable.config_white);
+        tabLayout.getTabAt(4).setIcon(R.drawable.user_white);
 
-    private void initPowered() {
-        poweredText = (TextView) findViewById(R.id.powered_text);
-
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-
-        String poweredBy = "Powered by ";
-        SpannableString poweredBySpannable = new SpannableString(poweredBy);
-        poweredBySpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#ffffff")), 0, poweredBy.length(), 0);
-        builder.append(poweredBySpannable);
-
-        String gnommostudios = "Gnommostudios";
-        SpannableString gnommostudiosSpannable = new SpannableString(gnommostudios);
-        gnommostudiosSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#cccccc")), 0, gnommostudios.length(), 0);
-        builder.append(gnommostudiosSpannable);
-
-        poweredText.setText(builder, TextView.BufferType.SPANNABLE);
 
     }
 
     private void initMenu() {
-        listMenu = (ListView) findViewById(R.id.menu_nav_list);
+        /*listMenu = (ListView) findViewById(R.id.menu_nav_list);
 
         ArrayList<String> elementsListMenu = new ArrayList<>();
         elementsListMenu.add(getResources().getString(R.string.search));
@@ -157,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 changeTitle();
                 onBackPressed();
             }
-        });
+        });*/
     }
 
     private void changeTitle() {
@@ -177,15 +190,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
                 break;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 }
