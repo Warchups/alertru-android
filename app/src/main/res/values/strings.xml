@@ -20,12 +20,13 @@
     <string name="searchButtonAll">BUSCAR TODAS</string>
     <string name="searchButtonByDate">BUSCAR POR FECHA</string>
     <string name="menu">Menú</string>
+    <string name="textProvince">Seleccione una provincia:</string>
     <string name="webPage">www.gnommostudios.com</string>
     <string name="numberFixedPhone">96 206 40 64</string>
     <string name="numberMobilePhone">675 215 026</string>
     <string name="emailInfo">info@gnommostudios.com</string>
     <string name="emailSupport">soporte@gnommostudios.com</string>
-
+    <string name="titleDataUser">Rellene los campos</string>
     <string name="province_prompt">- ninguna -</string>
 
     <string-array name="province_arrays">
