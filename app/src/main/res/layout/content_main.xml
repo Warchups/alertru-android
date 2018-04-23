@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="?attr/actionBarSize">
 
     <com.gnommostudios.alertru.alertru_android.util.CustomViewPager
         android:id="@+id/view_pager_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/linear_power"
+        app:layout_constraintBottom_toTopOf="@+id/appbartabs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="30dp" />
+        app:layout_constraintGuide_end="60dp" />
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/linear_power"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -43,6 +44,15 @@
             android:layout_height="wrap_content"
             android:text="Text"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/appbartabs"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"/>
 
 </android.support.constraint.ConstraintLayout>
