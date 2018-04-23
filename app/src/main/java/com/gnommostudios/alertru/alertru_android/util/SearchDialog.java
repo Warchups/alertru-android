@@ -1,5 +1,6 @@
 package com.gnommostudios.alertru.alertru_android.util;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -8,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
 
 public class SearchDialog extends DialogFragment {
+
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
