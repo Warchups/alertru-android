@@ -45,5 +45,6 @@
     <string name="version">Ver: 1.2.0</string>
     <string name="assigned">-assigned-</string>
     <string name="unassigned">-unassigned-</string>
+    <string name="control_panel">Panel de control</string>
 
 </resources>
