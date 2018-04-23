@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.gnommostudios.alertru.alertru_android.view.fragments.ConfigFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.DataUserFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.InformationFragment;
+import com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.SearchFragment;
 
 
@@ -23,10 +24,10 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                f = new SearchFragment();
+                f = new AlertListFragment();
                 break;
             case 1:
-                f = new DataUserFragment();
+                f = new SearchFragment();
                 break;
             case 2:
                 f = new InformationFragment();
@@ -35,7 +36,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
                 f = new ConfigFragment();
                 break;
             case 4:
-                f = new InformationFragment();
+                f = new DataUserFragment();
                 break;
         }
 

@@ -179,13 +179,16 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle(getResources().getString(R.string.incidents));
                 break;
             case 1:
-                getSupportActionBar().setTitle(getResources().getString(R.string.user_data));
+                getSupportActionBar().setTitle(getResources().getString(R.string.search));
                 break;
             case 2:
-                getSupportActionBar().setTitle(getResources().getString(R.string.settings));
+                getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
                 break;
             case 3:
-                getSupportActionBar().setTitle(getResources().getString(R.string.info));
+                getSupportActionBar().setTitle(getResources().getString(R.string.settings));
+                break;
+            case 4:
+                getSupportActionBar().setTitle(getResources().getString(R.string.user_data));
                 break;
             default:
                 getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
