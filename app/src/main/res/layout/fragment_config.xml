@@ -3,7 +3,7 @@
     android:id="@+id/fragment_config"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@color/background"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.ConfigFragment">
 
 

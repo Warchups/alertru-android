@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    android:paddingTop="8dp">
+    android:paddingBottom="35px">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/degraded_elements_unassigned"
-            android:paddingLeft="10dp"
-            android:paddingRight="3dp">
+            android:paddingLeft="15dp">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

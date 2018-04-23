@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@android:color/white"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.InformationFragment">
 
     <LinearLayout
@@ -12,23 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
-
-        <!--Esto no se porque no te lo muestra-->
-        <TextView
-            android:id="@+id/txtTitleInfomation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
-            android:textColor="@color/gray"
-            android:textSize="24dp"
-            android:elevation="10dp"
-            android:textStyle="italic|bold"
-            android:text="@string/computerSolutions" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
 
         <ScrollView
             android:id="@+id/scrollViewInformation"

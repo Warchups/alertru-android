@@ -1,4 +1,4 @@
-package com.gnommostudios.alertru.alertru_android.datepicker;
+package com.gnommostudios.alertru.alertru_android.util;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -9,8 +9,6 @@ import android.support.v4.app.DialogFragment;
 import java.util.Calendar;
 
 public class DatePicker extends DialogFragment {
-
-
 
     private DatePickerDialog.OnDateSetListener listener;
 
