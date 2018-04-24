@@ -9,15 +9,15 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/background"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
+            android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
@@ -26,26 +26,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
-                android:fontFamily="@font/lobster"
-                android:padding="5dp"
+                android:fontFamily="@font/walkway_black"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:text="@string/titleDataUser"
-                android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="26sp"
-                android:textStyle="italic|bold" />
+                android:textSize="26sp"/>
 
-        <EditText
-            android:id="@+id/txtName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#A6ACAF"
-            android:hint="Nombre"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint" />
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:background="#A6ACAF"
+                android:hint="Nombre"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
 
 
             <EditText
@@ -54,65 +53,68 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
                 android:hint="Apellidos"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint"/>
+                android:textColorHint="@color/input_register_hint" />
 
-        <EditText
-            android:id="@+id/txtDniUser"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#A6ACAF"
-            android:hint="DNI"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint"
-            />
+            <EditText
+                android:id="@+id/txtDniUser"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="DNI"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
 
-        <EditText
-            android:id="@+id/txtPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#A6ACAF"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:textColor="@color/input_register"
-            android:textColorHint="@color/input_register_hint" />
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
 
             <!-- Borde del primer spinner -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorPrimary"/>
+                android:background="@color/colorPrimary" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:text="@string/textProvince"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/textProvince"
+                    android:gravity="center|left"
+                    android:layout_weight="1"
+                    android:textSize="12dp" />
 
 
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:entries="@array/province_arrays"
-                    android:textAlignment="center"
-                    android:prompt="@string/province_prompt" />
+                    android:prompt="@string/province_prompt"
+                    android:layout_weight="1"
+                    android:textAlignment="center"/>
 
             </LinearLayout>
             <!-- Borde del segundo spinner -->
@@ -120,16 +122,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorPrimary"/>
+                android:background="@color/colorPrimary" />
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/colorPrimary"
-            android:text="Login"
-            android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:background="@color/colorPrimary"
+                android:text="Login"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

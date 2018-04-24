@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
@@ -19,9 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView settingsButton;
     private ImageView infoButton;
 
+    private TextView titleToolbar;
     private Toolbar toolbar;
     private AppBarLayout appBar;
-    private int positionMenu = 0;
     private CustomViewPager viewPager;
 
     @Override
@@ -47,9 +48,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initTitle() {
+        titleToolbar = (TextView) findViewById(R.id.titleToolbar);
         appBar = (AppBarLayout) findViewById(R.id.appbarMain);
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         changeTitle(-1);
         changeIcons(R.id.button_home);
@@ -180,22 +183,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void changeTitle(int id) {
         switch (id) {
             case R.id.button_home:
-                getSupportActionBar().setTitle(getResources().getString(R.string.incidents));
+                titleToolbar.setText(R.string.incidents);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.incidents));
                 break;
             case R.id.button_search:
-                getSupportActionBar().setTitle(getResources().getString(R.string.search));
+                titleToolbar.setText(R.string.search);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.search));
                 break;
             case R.id.button_config:
-                getSupportActionBar().setTitle(getResources().getString(R.string.settings));
+                titleToolbar.setText(R.string.settings);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.settings));
                 break;
             case R.id.button_user:
-                getSupportActionBar().setTitle(getResources().getString(R.string.user_data));
+                titleToolbar.setText(R.string.user_data);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.user_data));
                 break;
             case R.id.button_info:
-                getSupportActionBar().setTitle(getResources().getString(R.string.info));
+                titleToolbar.setText(R.string.info);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.info));
                 break;
             default:
-                getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
+                titleToolbar.setText(R.string.alertru);
+                //getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
                 break;
         }
     }
