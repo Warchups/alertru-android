@@ -1,6 +1,5 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,11 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.gnommostudios.alertru.alertru_android.R;
@@ -25,6 +21,7 @@ public class SearchFragment extends Fragment {
     private RadioButton searchOpen, searchClose;
     private CheckBox checkBoxSearch;
     private Button btnSearchAll, btnSearchByDate;
+    private String dEnter, dExit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,6 @@ public class SearchFragment extends Fragment {
 
         btnSearchAll = view.findViewById(R.id.searchButtonAll);
         btnSearchByDate = view.findViewById(R.id.searchButtonByDate);
-
 
         dateEnter.setOnClickListener(new View.OnClickListener() {
 
@@ -81,6 +77,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 
@@ -90,6 +87,7 @@ public class SearchFragment extends Fragment {
             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
                 final String selectedDate = day + "/" + (month + 1) + "/" + year;
                 dateEnter.setText(selectedDate);
+                dEnter = selectedDate;
             }
         });
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
@@ -101,8 +99,19 @@ public class SearchFragment extends Fragment {
             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
                 final String selectedDate = day + "/" + (month + 1) + "/" + year;
                 dateExit.setText(selectedDate);
+                dExit = selectedDate;
             }
         });
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkBoxSearch.setChecked(false);
+        searchOpen.setChecked(false);
+        searchClose.setChecked(false);
+        dateEnter.setText(dEnter);
+        dateExit.setText(dExit);
     }
 }

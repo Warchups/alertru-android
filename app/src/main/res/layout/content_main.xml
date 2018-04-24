@@ -25,20 +25,11 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="?attr/actionBarSize" />
 
-    <!--<android.support.design.widget.TabLayout
-        android:id="@+id/appbartabs"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/colorTabLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"/>-->
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/tabsCustom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:elevation="10dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +97,5 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
-
 
 </android.support.constraint.ConstraintLayout>

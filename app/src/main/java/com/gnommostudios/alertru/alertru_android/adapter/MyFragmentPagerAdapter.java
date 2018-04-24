@@ -4,13 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.gnommostudios.alertru.alertru_android.view.fragments.BuildFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.ConfigFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.DataUserFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.InformationFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.SearchFragment;
-
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 5;

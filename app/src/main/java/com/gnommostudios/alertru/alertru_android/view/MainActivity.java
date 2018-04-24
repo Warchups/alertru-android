@@ -42,8 +42,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
 
+        //Deshabilitamos el scroll de las paginas del ViewPager desde la clase CustomViewPager
         viewPager.disableScroll(true);
 
+        //Ponemos el ViewPager en la tercera pagina, así inicia en la pagina que contiene la lista
         viewPager.setCurrentItem(2);
     }
 
@@ -52,9 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         appBar = (AppBarLayout) findViewById(R.id.appbarMain);
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
+        //Deshabilitamos el titulo del ToolBar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //Llamamos al método changeTitle(int) pasándole un -1 para que vaya al default
         changeTitle(-1);
+        //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el homa
         changeIcons(R.id.button_home);
     }
 
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        //Switch para navegar por las paginas con los botones del TabLayout hecho a mano
         switch (v.getId()) {
             case R.id.button_search:
                 viewPager.setCurrentItem(0);
@@ -93,11 +99,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+        //Llamamos a los metodos changeIcons(int) y changeTitle(int) pasándole la id de la imagen que hemos pulsado
+        //para que colore y cambie el titulo dependiendo de cual hemos pulsado
         changeIcons(v.getId());
         changeTitle(v.getId());
     }
 
+    //Función para cambiar los iconos y resaltarlos si los hemos pulsado
     private void changeIcons(int id) {
+        //Si ha sido Search
         if (id == R.id.button_search) {
             searchButton.setImageResource(R.drawable.search_black);
             searchButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
@@ -114,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
         }
 
+        //Si ha sido User
         if (id == R.id.button_user) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -130,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
         }
 
+        //Si ha sido Home
         if (id == R.id.button_home) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -146,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
         }
 
+        //Si ha sido Config
         if (id == R.id.button_config) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -162,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
         }
 
+        //Si ha sido Info
         if (id == R.id.button_info) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -180,31 +194,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //Función para cambiar el titulo dependiendo de la opción que hemos pulsado
     private void changeTitle(int id) {
         switch (id) {
             case R.id.button_home:
                 titleToolbar.setText(R.string.incidents);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.incidents));
                 break;
             case R.id.button_search:
                 titleToolbar.setText(R.string.search);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.search));
                 break;
             case R.id.button_config:
                 titleToolbar.setText(R.string.settings);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.settings));
                 break;
             case R.id.button_user:
                 titleToolbar.setText(R.string.user_data);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.user_data));
                 break;
             case R.id.button_info:
                 titleToolbar.setText(R.string.info);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.info));
                 break;
             default:
                 titleToolbar.setText(R.string.alertru);
-                //getSupportActionBar().setTitle(getResources().getString(R.string.alertru));
                 break;
         }
     }

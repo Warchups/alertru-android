@@ -25,13 +25,13 @@ public class AlertListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_alert_list, container, false);
 
         alertList = (ListView) view.findViewById(R.id.alert_list);
 
         initList();
 
-        // Inflate the layout for this fragment
         return view;
     }
 
