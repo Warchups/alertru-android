@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="30dp"
-                android:fontFamily="@font/architects_daughter"
+                android:fontFamily="@font/lobster"
                 android:padding="5dp"
                 android:singleLine="true"
                 android:text="@string/titleDataUser"
