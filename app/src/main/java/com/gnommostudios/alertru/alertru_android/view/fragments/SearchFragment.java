@@ -1,5 +1,6 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.gnommostudios.alertru.alertru_android.R;
-import com.gnommostudios.alertru.alertru_android.util.DatePicker;
+import com.gnommostudios.alertru.alertru_android.datepicker.DatePicker;
 
 public class SearchFragment extends Fragment {
 

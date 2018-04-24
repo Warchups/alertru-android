@@ -131,6 +131,5 @@
             android:text="Login"
             android:textColor="@color/white"/>
         </LinearLayout>
-
     </LinearLayout>
 </FrameLayout>
