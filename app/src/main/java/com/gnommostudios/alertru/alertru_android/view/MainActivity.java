@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(4);
                 break;
         }
-
         changeIcons(v.getId());
         changeTitle(v.getId());
     }
