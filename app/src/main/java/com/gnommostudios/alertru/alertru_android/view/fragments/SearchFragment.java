@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 
 import com.gnommostudios.alertru.alertru_android.R;
-import com.gnommostudios.alertru.alertru_android.datepicker.DatePicker;
+import com.gnommostudios.alertru.alertru_android.util.DatePicker;
 
 public class SearchFragment extends Fragment {
 
