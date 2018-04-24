@@ -35,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.aviso)
+                        .setSmallIcon(R.drawable.icon_alarma)
                         .setLargeIcon(imagen)
                         .setContentTitle(getApplication().getPackageName())
                         .setContentText(remoteMessage.getNotification().getBody())
