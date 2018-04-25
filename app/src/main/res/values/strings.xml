@@ -29,7 +29,7 @@
 
     <string-array name="province_arrays">
         <item>Barcelona</item>
-        <item>Andalucía</item>
+        <item>Madrid</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -45,5 +45,6 @@
     <string name="unassigned">-unassigned-</string>
     <string name="control_panel">Panel de control</string>
     <string name="messaje_login">AVISO: No esta logeado!</string>
+    <string name="alerta">ALERTA NUEVA</string>
 
 </resources>

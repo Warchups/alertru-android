@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
 import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initTitle();
 
         initFragments();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("Madrid");
+        FirebaseMessaging.getInstance().subscribeToTopic("Barcelona");
     }
 
     private void initFragments() {

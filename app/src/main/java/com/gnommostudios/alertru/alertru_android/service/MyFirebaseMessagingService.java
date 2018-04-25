@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -19,8 +20,6 @@ import java.net.URL;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    Bitmap imagen;
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.i("FIREBASE", remoteMessage.getNotification().getBody());
@@ -29,48 +28,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.turtle);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        String url = "https://firebasestorage.googleapis.com/v0/b/christianllopis-271d8.appspot.com/o/op.png?alt=media&token=379531e3-99a5-4aa9-beaf-d8d2bc1f419d";
-
-        imagen = descargarImagen(url);
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.icon_alarma)
-                        .setLargeIcon(imagen)
-                        .setContentTitle(getApplication().getPackageName())
+                        .setLargeIcon(image)
+                        .setPriority(Integer.parseInt(remoteMessage.getData().get("priority")))
+                        .setContentTitle(remoteMessage.getNotification().getTitle())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setVibrate(vibrate)
-                        .setAutoCancel(true)
+
                         .setSound(sound)
                         .setLights(0xFFFF0000, 300, 100);
 
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Log.i("PRUEBA", remoteMessage.getData().get("priority"));
+        Log.i("TIME", remoteMessage.getTtl()+"");
+
+        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mNotificationManager.notify(0, mBuilder.build());
 
-        /*AlertDialog.Builder alerta =
-                new AlertDialog.Builder(getApplicationContext());
-        alerta.setMessage(remoteMessage.getNotification().getBody())
-                .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        alerta.show();*/
-    }
-
-    private Bitmap descargarImagen (String imageHttpAddress){
-        URL imageUrl = null;
-        Bitmap imagen = null;
-        try{
-            imageUrl = new URL(imageHttpAddress);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            imagen = BitmapFactory.decodeStream(conn.getInputStream());
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-
-        return imagen;
+        long delayInMilliseconds = remoteMessage.getTtl();
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                mNotificationManager.cancelAll();
+            }
+        }, delayInMilliseconds);
     }
 }

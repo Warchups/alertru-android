@@ -14,13 +14,15 @@
         android:padding="10dp">
 
         <LinearLayout
+            android:id="@+id/logout_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingRight="20dp"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,6 +44,7 @@
                 android:fontFamily="@font/walkway_oblique_bold"
                 android:background="#A6ACAF"
                 android:hint="Nombre"
+                android:text="patata@patata.com"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/input_register"
@@ -82,6 +85,7 @@
                 android:background="#A6ACAF"
                 android:fontFamily="@font/walkway_oblique_bold"
                 android:hint="Password"
+                android:text="j12345"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"
@@ -140,5 +144,27 @@
 
             </android.support.v7.widget.CardView>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/emailLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/walkway_black"
+                android:text="email2email.com"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+
     </LinearLayout>
 </FrameLayout>
