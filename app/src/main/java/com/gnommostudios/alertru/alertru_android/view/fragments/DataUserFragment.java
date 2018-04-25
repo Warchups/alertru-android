@@ -1,5 +1,7 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.model.Doctor;
+import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 
 import org.json.JSONException;
@@ -37,8 +42,18 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     private EditText txtPassword;
 
     private Button buttonLogin;
+    private Button buttonLogout;
+
+    private TextView emailLogged;
+    private TextView provinceLogged;
+
+    private LinearLayout layoutLogin;
+    private LinearLayout layoutLogout;
 
     private String email, password;
+
+    private SharedPreferences prefs;
+    private String stateLog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,22 +66,64 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_data_user, container, false);
 
+        prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
+        layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
+
+        emailLogged = (TextView) view.findViewById(R.id.emailLogout);
+        provinceLogged = (TextView) view.findViewById(R.id.provinceLogout);
+
         txtName = (EditText) view.findViewById(R.id.txtName);
         txtPassword = (EditText) view.findViewById(R.id.txtPassword);
 
-        buttonLogin = (Button) view.findViewById(R.id.btnRegister);
+        buttonLogin = (Button) view.findViewById(R.id.btnLogin);
+        buttonLogout = (Button) view.findViewById(R.id.btnLogout);
         buttonLogin.setOnClickListener(this);
+        buttonLogout.setOnClickListener(this);
+
+        changeStateVisibility();
 
         return view;
+    }
+
+    private void changeStateVisibility() {
+        stateLog = prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+
+        switch (stateLog) {
+            case StatesLog.LOGGED:
+                layoutLogout.setVisibility(View.VISIBLE);
+                layoutLogin.setVisibility(View.GONE);
+                emailLogged.setText(prefs.getString("email", ""));
+                provinceLogged.setText(prefs.getString("province", ""));
+                break;
+            case StatesLog.DISCONNECTED:
+                layoutLogout.setVisibility(View.GONE);
+                layoutLogin.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnRegister:
+            case R.id.btnLogin:
                 login();
                 break;
+            case R.id.btnLogout:
+                logout();
+                break;
         }
+    }
+
+    private void logout() {
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+
+        editor.commit();
+
+        changeStateVisibility();
     }
 
     private void login() {
@@ -171,6 +228,18 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                         Doctor doctor = new Doctor(name, surname, username, email, emailVerified, id, province);
 
+                        SharedPreferences.Editor editor = prefs.edit();
+
+                        editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
+                        editor.putString("name", doctor.getName());
+                        editor.putString("surname", doctor.getSurname());
+                        editor.putString("email", doctor.getEmail());
+                        editor.putBoolean("emailVerified", doctor.isEmailVerified());
+                        editor.putString("id", doctor.getId());
+                        editor.putString("province", doctor.getProvince());
+
+                        editor.commit();
+
                         Log.i("DOCTOR", doctor.toString());
 
                         return 1;
@@ -198,6 +267,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     break;
                 case 1:
                     Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                    changeStateVisibility();
                     break;
                 case 2:
                     Toast.makeText(getActivity(), "Error Desconocido", Toast.LENGTH_SHORT).show();

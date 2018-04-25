@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.DataUserFragment">
 
@@ -13,16 +13,17 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <!--Register-->
         <LinearLayout
-            android:id="@+id/logout_login"
+            android:id="@+id/layout_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,25 +35,25 @@
                 android:singleLine="true"
                 android:text="@string/titleDataUser"
                 android:textColor="@color/colorPrimary"
-                android:textSize="26sp"/>
+                android:textSize="26sp" />
 
             <EditText
-                android:id="@+id/txtName"
+                android:id="@+id/txtNameRegistry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:fontFamily="@font/walkway_oblique_bold"
                 android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
                 android:hint="Nombre"
-                android:text="patata@patata.com"
                 android:padding="10dp"
                 android:singleLine="true"
+                android:text="patata@patata.com"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
 
 
             <EditText
-                android:id="@+id/txtSurname"
+                android:id="@+id/txtSurnameRegistry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -65,7 +66,7 @@
                 android:textColorHint="@color/input_register_hint" />
 
             <EditText
-                android:id="@+id/txtDniUser"
+                android:id="@+id/txtDniUserRegistry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -78,17 +79,17 @@
                 android:textColorHint="@color/input_register_hint" />
 
             <EditText
-                android:id="@+id/txtPassword"
+                android:id="@+id/txtPasswordRegistry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="#A6ACAF"
                 android:fontFamily="@font/walkway_oblique_bold"
                 android:hint="Password"
-                android:text="j12345"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"
+                android:text="j12345"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
 
@@ -106,9 +107,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/textProvince"
-                    android:gravity="center|left"
                     android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:text="@string/textProvince"
                     android:textSize="12dp" />
 
 
@@ -116,10 +117,10 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:entries="@array/province_arrays"
                     android:prompt="@string/province_prompt"
-                    android:layout_weight="1"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
 
             </LinearLayout>
             <!-- Borde del segundo spinner -->
@@ -134,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dip"
                 app:cardCornerRadius="2dp">
+
                 <Button
                     android:id="@+id/btnRegister"
                     android:layout_width="fill_parent"
@@ -143,15 +145,87 @@
                     android:textColor="@color/white" />
 
             </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
+        <!--Login-->
+        <LinearLayout
+            android:id="@+id/layout_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/walkway_black"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="@string/titleDataUser"
+                android:textColor="@color/colorPrimary"
+                android:textSize="26sp" />
+
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="Nombre"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="patata@patata.com"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
+
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="j12345"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                app:cardCornerRadius="2dp">
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button"
+                    android:text="Login"
+                    android:textColor="@color/white" />
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <!--Logout-->
         <LinearLayout
             android:id="@+id/layout_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:visibility="gone">
@@ -160,10 +234,33 @@
                 android:id="@+id/emailLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/walkway_black"
-                android:text="email2email.com"
                 android:layout_gravity="center"
-                />
+                android:fontFamily="@font/walkway_black"
+                android:text="email@email.com" />
+
+            <TextView
+                android:id="@+id/provinceLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/walkway_black"
+                android:text="province" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                app:cardCornerRadius="2dp">
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button"
+                    android:text="Logout"
+                    android:textColor="@color/white" />
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </LinearLayout>
