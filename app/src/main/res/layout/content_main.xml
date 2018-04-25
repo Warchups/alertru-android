@@ -29,8 +29,8 @@
         android:id="@+id/tabsCustom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
         android:background="@android:color/transparent"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -57,42 +57,115 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:id="@+id/button_search"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/search_white" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/button_user"
+                <ImageView
+                    android:id="@+id/button_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:paddingHorizontal="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/search_white" />
+
+                <LinearLayout
+                    android:id="@+id/sub_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:background="@color/colorWhite"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/user_white" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/button_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:paddingHorizontal="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/user_white" />
+
+                <LinearLayout
+                    android:id="@+id/sub_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:background="@color/colorWhite"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9" />
 
-            <ImageView
-                android:id="@+id/button_config"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/config_white" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/button_info"
+                <ImageView
+                    android:id="@+id/button_config"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:paddingHorizontal="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/config_white" />
+
+                <LinearLayout
+                    android:id="@+id/sub_config"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:background="@color/colorWhite"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/info_white" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/button_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:paddingHorizontal="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/info_white" />
+
+                <LinearLayout
+                    android:id="@+id/sub_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="9"
+                    android:background="@color/colorWhite"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

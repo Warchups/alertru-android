@@ -4,9 +4,9 @@
     <item android:drawable="@drawable/circle_tab" />
     <item
         android:drawable="@drawable/home_white"
-        android:bottom="10dp"
-        android:top="10dp"
-        android:right="10dp"
-        android:left="10dp"/>
+        android:bottom="20dp"
+        android:top="20dp"
+        android:right="20dp"
+        android:left="20dp"/>
 
 </layer-list>

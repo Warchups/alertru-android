@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView userButton;
     private ImageView settingsButton;
     private ImageView infoButton;
+
+    private LinearLayout subSearch;
+    private LinearLayout subUser;
+    private LinearLayout subSettings;
+    private LinearLayout subInfo;
 
     private TextView titleToolbar;
     private Toolbar toolbar;
@@ -74,6 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settingsButton = (ImageView) findViewById(R.id.button_config);
         infoButton = (ImageView) findViewById(R.id.button_info);
 
+        subSearch = (LinearLayout) findViewById(R.id.sub_search);
+        subInfo = (LinearLayout) findViewById(R.id.sub_info);
+        subSettings = (LinearLayout) findViewById(R.id.sub_config);
+        subUser = (LinearLayout) findViewById(R.id.sub_user);
+
         homeButton.setOnClickListener(this);
         searchButton.setOnClickListener(this);
         userButton.setOnClickListener(this);
@@ -113,87 +124,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void changeIcons(int id) {
         //Si ha sido Search
         if (id == R.id.button_search) {
-            searchButton.setImageResource(R.drawable.search_black);
+            //searchButton.setImageResource(R.drawable.search_black);
             searchButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
+            subSearch.setVisibility(View.VISIBLE);
 
             userButton.setImageResource(R.drawable.user_white);
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subUser.setVisibility(View.INVISIBLE);
 
             homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSettings.setVisibility(View.INVISIBLE);
 
             infoButton.setImageResource(R.drawable.info_white);
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subInfo.setVisibility(View.INVISIBLE);
         }
 
         //Si ha sido User
         if (id == R.id.button_user) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSearch.setVisibility(View.INVISIBLE);
 
-            userButton.setImageResource(R.drawable.user_black);
+            //userButton.setImageResource(R.drawable.user_black);
             userButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
+            subUser.setVisibility(View.VISIBLE);
 
             homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSettings.setVisibility(View.INVISIBLE);
 
             infoButton.setImageResource(R.drawable.info_white);
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subInfo.setVisibility(View.INVISIBLE);
         }
 
         //Si ha sido Home
         if (id == R.id.button_home) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSearch.setVisibility(View.INVISIBLE);
 
             userButton.setImageResource(R.drawable.user_white);
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subUser.setVisibility(View.INVISIBLE);
 
             homeButton.setImageResource(R.drawable.icon_tab_center_black);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSettings.setVisibility(View.INVISIBLE);
 
             infoButton.setImageResource(R.drawable.info_white);
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subInfo.setVisibility(View.INVISIBLE);
         }
 
         //Si ha sido Config
         if (id == R.id.button_config) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSearch.setVisibility(View.INVISIBLE);
 
             userButton.setImageResource(R.drawable.user_white);
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subUser.setVisibility(View.INVISIBLE);
 
             homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
-            settingsButton.setImageResource(R.drawable.config_black);
+            //settingsButton.setImageResource(R.drawable.config_black);
             settingsButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
+            subSettings.setVisibility(View.VISIBLE);
 
             infoButton.setImageResource(R.drawable.info_white);
             infoButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subInfo.setVisibility(View.INVISIBLE);
         }
 
         //Si ha sido Info
         if (id == R.id.button_info) {
             searchButton.setImageResource(R.drawable.search_white);
             searchButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSearch.setVisibility(View.INVISIBLE);
 
             userButton.setImageResource(R.drawable.user_white);
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subUser.setVisibility(View.INVISIBLE);
 
             homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
+            subSettings.setVisibility(View.INVISIBLE);
 
-            infoButton.setImageResource(R.drawable.info_black);
+            //infoButton.setImageResource(R.drawable.info_black);
             infoButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
+            subInfo.setVisibility(View.VISIBLE);
         }
 
     }
