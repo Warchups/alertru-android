@@ -13,9 +13,9 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <!--Register-->
+        <!--Registry-->
         <LinearLayout
-            android:id="@+id/layout_register"
+            android:id="@+id/layout_registry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -146,6 +146,15 @@
 
             </android.support.v7.widget.CardView>
 
+            <TextView
+                android:id="@+id/loggin_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loggin_option"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="@drawable/text_registry"/>
+
         </LinearLayout>
 
         <!--Login-->
@@ -173,7 +182,7 @@
                 android:textSize="26sp" />
 
             <EditText
-                android:id="@+id/txtName"
+                android:id="@+id/txtEmail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -216,6 +225,15 @@
                     android:textColor="@color/white" />
 
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/registry_option"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/registry_option"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="@drawable/text_registry"/>
         </LinearLayout>
 
         <!--Logout-->

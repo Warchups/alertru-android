@@ -46,5 +46,7 @@
     <string name="control_panel">Panel de control</string>
     <string name="messaje_login">AVISO: No esta logeado!</string>
     <string name="alerta">ALERTA NUEVA</string>
+    <string name="registry_option">¿No te has registrado? Hazlo ahora</string>
+    <string name="loggin_option">¿Ya estas registrado? Inicia sesión aqui</string>
 
 </resources>

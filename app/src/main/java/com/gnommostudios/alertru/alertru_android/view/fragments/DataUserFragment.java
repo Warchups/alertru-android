@@ -26,7 +26,6 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,17 +37,21 @@ import java.net.URL;
 
 public class DataUserFragment extends Fragment implements View.OnClickListener {
 
-    private EditText txtName;
+    private EditText txtEmail;
     private EditText txtPassword;
 
     private Button buttonLogin;
     private Button buttonLogout;
+
+    private TextView registryOption;
+    private TextView logginOption;
 
     private TextView emailLogged;
     private TextView provinceLogged;
 
     private LinearLayout layoutLogin;
     private LinearLayout layoutLogout;
+    private LinearLayout layoutRegisty;
 
     private String email, password;
 
@@ -70,17 +73,23 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
         layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
         layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
+        layoutRegisty = (LinearLayout) view.findViewById(R.id.layout_registry);
 
         emailLogged = (TextView) view.findViewById(R.id.emailLogout);
         provinceLogged = (TextView) view.findViewById(R.id.provinceLogout);
 
-        txtName = (EditText) view.findViewById(R.id.txtName);
+        txtEmail = (EditText) view.findViewById(R.id.txtEmail);
         txtPassword = (EditText) view.findViewById(R.id.txtPassword);
 
         buttonLogin = (Button) view.findViewById(R.id.btnLogin);
         buttonLogout = (Button) view.findViewById(R.id.btnLogout);
         buttonLogin.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
+
+        registryOption = (TextView) view.findViewById(R.id.registry_option);
+        logginOption = (TextView) view.findViewById(R.id.loggin_option);
+        registryOption.setOnClickListener(this);
+        logginOption.setOnClickListener(this);
 
         changeStateVisibility();
 
@@ -94,12 +103,19 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             case StatesLog.LOGGED:
                 layoutLogout.setVisibility(View.VISIBLE);
                 layoutLogin.setVisibility(View.GONE);
+                layoutRegisty.setVisibility(View.GONE);
                 emailLogged.setText(prefs.getString("email", ""));
                 provinceLogged.setText(prefs.getString("province", ""));
                 break;
             case StatesLog.DISCONNECTED:
                 layoutLogout.setVisibility(View.GONE);
                 layoutLogin.setVisibility(View.VISIBLE);
+                layoutRegisty.setVisibility(View.GONE);
+                break;
+            case StatesLog.CHECKING_IN:
+                layoutLogout.setVisibility(View.GONE);
+                layoutLogin.setVisibility(View.GONE);
+                layoutRegisty.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -113,28 +129,39 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             case R.id.btnLogout:
                 logout();
                 break;
+            case R.id.registry_option:
+                changeState(StatesLog.CHECKING_IN);
+                break;
+            case R.id.loggin_option:
+                changeState(StatesLog.DISCONNECTED);
+                break;
         }
     }
 
-    private void logout() {
+    private void changeState(String state) {
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+        editor.putString(StatesLog.STATE_LOG, state);
 
         editor.commit();
 
         changeStateVisibility();
     }
 
+    private void logout() {
+        LogoutAsyncTask logoutAsyncTask = new LogoutAsyncTask();
+        logoutAsyncTask.execute();
+    }
+
     private void login() {
-        if (txtName.getText().length() == 0 || txtPassword.getText().length() == 0) {
+        if (txtEmail.getText().length() == 0 || txtPassword.getText().length() == 0) {
             Toast.makeText(getActivity(), "Almenos hay que llenar el Nombre (con un correo) y la password", Toast.LENGTH_SHORT).show();
         } else {
-            email = txtName.getText().toString();
+            email = txtEmail.getText().toString();
             password = txtPassword.getText().toString();
 
-            LoginAsyncTask lat = new LoginAsyncTask();
-            lat.execute(email, password);
+            LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
+            loginAsyncTask.execute(email, password);
         }
     }
 
@@ -191,6 +218,9 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     JSONObject respuestaJSON = new JSONObject(result.toString());
 
                     String userIdJSON = respuestaJSON.getString("userId");
+
+                    String access_token = respuestaJSON.getString("id");
+
                     JSONObject jsonSelect = new JSONObject();
                     jsonParam.put("id", userIdJSON);
 
@@ -237,6 +267,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                         editor.putBoolean("emailVerified", doctor.isEmailVerified());
                         editor.putString("id", doctor.getId());
                         editor.putString("province", doctor.getProvince());
+                        editor.putString("access_token", access_token);
 
                         editor.commit();
 
@@ -275,4 +306,55 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
+    class LogoutAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                URL url = new URL(Urls.LOGOUT + prefs.getString("access_token", ""));
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                connection.connect();
+
+                int respuesta = connection.getResponseCode();
+
+                if (respuesta == HttpURLConnection.HTTP_NO_CONTENT) {
+                    return true;
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean correct) {
+            super.onPostExecute(correct);
+
+            if (correct) {
+                Toast.makeText(getActivity(), "Hasta luego.", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = prefs.edit();
+
+                editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+
+                editor.commit();
+                changeState(StatesLog.DISCONNECTED);
+            }else {
+                Toast.makeText(getActivity(), "Hay algun problema, no te puedes desloguear.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
