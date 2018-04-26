@@ -5,14 +5,21 @@
     android:background="@color/background"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment">
 
-    <ListView
-        android:id="@+id/alert_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refesh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp"
-        android:background="@android:color/transparent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:scrollbars="none"/>
+        android:layout_marginHorizontal="16dp">
+
+        <ListView
+            android:id="@+id/alert_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:scrollbars="none"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

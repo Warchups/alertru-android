@@ -4,13 +4,30 @@ import java.io.Serializable;
 
 public class Alert implements Serializable {
 
+    private String id;
     private String affair;
     private String date;
+    private String idDoctor;
     private boolean assigned;
 
     public Alert(String affair, String date, boolean assigned) {
         this.affair = affair;
         this.date = date;
+        this.assigned = assigned;
+    }
+
+    public Alert(String id, String affair, String date, boolean assigned) {
+        this.id = id;
+        this.affair = affair;
+        this.date = date;
+        this.assigned = assigned;
+    }
+
+    public Alert(String id, String affair, String date, String idDoctor, boolean assigned) {
+        this.id = id;
+        this.affair = affair;
+        this.date = date;
+        this.idDoctor = idDoctor;
         this.assigned = assigned;
     }
 
@@ -41,11 +58,20 @@ public class Alert implements Serializable {
         this.assigned = assigned;
     }
 
+    public String getIdDoctor() {
+        return idDoctor;
+    }
+
+    public void setIdDoctor(String idDoctor) {
+        this.idDoctor = idDoctor;
+    }
+
     @Override
     public String toString() {
         return "Alert{" +
                 "affair='" + affair + '\'' +
                 ", date='" + date + '\'' +
+                ", idDoctor='" + idDoctor + '\'' +
                 ", assigned=" + assigned +
                 '}';
     }
