@@ -19,6 +19,7 @@ import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.model.Doctor;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,15 +44,11 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     private Button buttonLogin;
     private Button buttonLogout;
 
-    private TextView registryOption;
-    private TextView logginOption;
-
     private TextView emailLogged;
     private TextView provinceLogged;
 
     private LinearLayout layoutLogin;
     private LinearLayout layoutLogout;
-    private LinearLayout layoutRegisty;
 
     private String email, password;
 
@@ -73,7 +70,6 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
         layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
         layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
-        layoutRegisty = (LinearLayout) view.findViewById(R.id.layout_registry);
 
         emailLogged = (TextView) view.findViewById(R.id.emailLogout);
         provinceLogged = (TextView) view.findViewById(R.id.provinceLogout);
@@ -85,11 +81,6 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         buttonLogout = (Button) view.findViewById(R.id.btnLogout);
         buttonLogin.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
-
-        registryOption = (TextView) view.findViewById(R.id.registry_option);
-        logginOption = (TextView) view.findViewById(R.id.loggin_option);
-        registryOption.setOnClickListener(this);
-        logginOption.setOnClickListener(this);
 
         changeStateVisibility();
 
@@ -103,19 +94,12 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             case StatesLog.LOGGED:
                 layoutLogout.setVisibility(View.VISIBLE);
                 layoutLogin.setVisibility(View.GONE);
-                layoutRegisty.setVisibility(View.GONE);
                 emailLogged.setText(prefs.getString("email", ""));
                 provinceLogged.setText(prefs.getString("province", ""));
                 break;
             case StatesLog.DISCONNECTED:
                 layoutLogout.setVisibility(View.GONE);
                 layoutLogin.setVisibility(View.VISIBLE);
-                layoutRegisty.setVisibility(View.GONE);
-                break;
-            case StatesLog.CHECKING_IN:
-                layoutLogout.setVisibility(View.GONE);
-                layoutLogin.setVisibility(View.GONE);
-                layoutRegisty.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -129,12 +113,6 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             case R.id.btnLogout:
                 logout();
                 break;
-            case R.id.registry_option:
-                changeState(StatesLog.CHECKING_IN);
-                break;
-            case R.id.loggin_option:
-                changeState(StatesLog.DISCONNECTED);
-                break;
         }
     }
 
@@ -144,7 +122,6 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         editor.putString(StatesLog.STATE_LOG, state);
 
         editor.commit();
-
         changeStateVisibility();
     }
 
@@ -218,13 +195,9 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     JSONObject respuestaJSON = new JSONObject(result.toString());
 
                     String userIdJSON = respuestaJSON.getString("userId");
-
                     String access_token = respuestaJSON.getString("id");
 
-                    JSONObject jsonSelect = new JSONObject();
-                    jsonParam.put("id", userIdJSON);
-
-                    URL urlSelect = new URL(Urls.SELECT_ID + jsonSelect.toString());
+                    URL urlSelect = new URL(Urls.SELECT_ID + userIdJSON + "?access_token=" + access_token);
 
                     HttpURLConnection conSelect = (HttpURLConnection) urlSelect.openConnection();
                     conSelect.setRequestProperty("User-Agent", "Mozilla/5.0" +
@@ -233,9 +206,11 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     conSelect.connect();
 
                     int respuestaSelect = conSelect.getResponseCode();
+                    Log.i("EE", conSelect.getResponseCode() + "");
                     StringBuilder resultSelect = new StringBuilder();
 
                     if (respuestaSelect == HttpURLConnection.HTTP_OK) {
+                        Log.i("EE", "Llego aqui");
                         InputStream in = new BufferedInputStream(conSelect.getInputStream());
 
                         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -252,11 +227,10 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                         String surname = respuestaJSONSelect.getString("surname");
                         String username = respuestaJSONSelect.getString("username");
                         String email = respuestaJSONSelect.getString("email");
-                        boolean emailVerified = respuestaJSONSelect.getBoolean("emailVerified");
                         String id = respuestaJSONSelect.getString("id");
                         String province = respuestaJSONSelect.getString("province");
 
-                        Doctor doctor = new Doctor(name, surname, username, email, emailVerified, id, province);
+                        Doctor doctor = new Doctor(name, surname, username, email, id, province);
 
                         SharedPreferences.Editor editor = prefs.edit();
 
@@ -264,7 +238,6 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                         editor.putString("name", doctor.getName());
                         editor.putString("surname", doctor.getSurname());
                         editor.putString("email", doctor.getEmail());
-                        editor.putBoolean("emailVerified", doctor.isEmailVerified());
                         editor.putString("id", doctor.getId());
                         editor.putString("province", doctor.getProvince());
                         editor.putString("access_token", access_token);
@@ -298,6 +271,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     break;
                 case 1:
                     Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                    FirebaseMessaging.getInstance().subscribeToTopic(prefs.getString("province", ""));
                     changeStateVisibility();
                     break;
                 case 2:
@@ -350,8 +324,10 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
 
                 editor.commit();
+
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(prefs.getString("province", ""));
                 changeState(StatesLog.DISCONNECTED);
-            }else {
+            } else {
                 Toast.makeText(getActivity(), "Hay algun problema, no te puedes desloguear.", Toast.LENGTH_SHORT).show();
             }
         }

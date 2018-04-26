@@ -5,5 +5,4 @@ public class StatesLog {
 
     public static final String LOGGED = "LOGGED";
     public static final String DISCONNECTED = "DISCONNECTED";
-    public static final String CHECKING_IN = "CHECKING_IN";
 }

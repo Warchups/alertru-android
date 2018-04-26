@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -29,28 +28,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/walkway_black"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:text="@string/titleDataUser"
                 android:textColor="@color/colorPrimary"
                 android:textSize="26sp" />
-
-            <EditText
-                android:id="@+id/txtNameRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Nombre"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:text="patata@patata.com"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
 
             <EditText
                 android:id="@+id/txtSurnameRegistry"
@@ -66,13 +50,40 @@
                 android:textColorHint="@color/input_register_hint" />
 
             <EditText
-                android:id="@+id/txtDniUserRegistry"
+                android:id="@+id/txtNameRegistry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="#A6ACAF"
                 android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="DNI"
+                android:hint="Nombre"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
+
+
+            <EditText
+                android:id="@+id/txtUsernameRegistry"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="Usernme"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/input_register"
+                android:textColorHint="@color/input_register_hint" />
+
+            <EditText
+                android:id="@+id/txtEmailRegistry"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#A6ACAF"
+                android:fontFamily="@font/walkway_oblique_bold"
+                android:hint="Email"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/input_register"
@@ -89,7 +100,6 @@
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:text="j12345"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
 
@@ -141,13 +151,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"
-                    android:text="Login"
+                    android:text="Sign in"
                     android:textColor="@color/white" />
 
             </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/loggin_option"
+                android:id="@+id/login_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loggin_option"
@@ -163,11 +173,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="70dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -177,7 +187,7 @@
                 android:fontFamily="@font/walkway_black"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:text="@string/titleDataUser"
+                android:text="@string/titleDataUserLogin"
                 android:textColor="@color/colorPrimary"
                 android:textSize="26sp" />
 
@@ -225,15 +235,6 @@
                     android:textColor="@color/white" />
 
             </android.support.v7.widget.CardView>
-
-            <TextView
-                android:id="@+id/registry_option"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/registry_option"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:textColor="@drawable/text_registry"/>
         </LinearLayout>
 
         <!--Logout-->
@@ -242,11 +243,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="70dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/emailLogout"

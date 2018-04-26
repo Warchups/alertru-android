@@ -19,6 +19,15 @@ public class Doctor {
         this.province = province;
     }
 
+    public Doctor(String name, String surname, String username, String email, String id, String province) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.id = id;
+        this.province = province;
+    }
+
     public Doctor() {
     }
 

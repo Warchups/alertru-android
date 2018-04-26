@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initTitle();
 
         initFragments();
-
-        FirebaseMessaging.getInstance().subscribeToTopic("Madrid");
-        FirebaseMessaging.getInstance().subscribeToTopic("Barcelona");
     }
 
     private void initFragments() {

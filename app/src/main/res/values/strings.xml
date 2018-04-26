@@ -24,7 +24,7 @@
     <string name="numberMobilePhone">675 215 026</string>
     <string name="emailInfo">info@gnommostudios.com</string>
     <string name="emailSupport">soporte@gnommostudios.com</string>
-    <string name="titleDataUser">Rellene los campos</string>
+    <string name="titleDataUser">Registrate</string>
     <string name="province_prompt">- ninguna -</string>
 
     <string-array name="province_arrays">
@@ -48,5 +48,6 @@
     <string name="alerta">ALERTA NUEVA</string>
     <string name="registry_option">¿No te has registrado? Hazlo ahora</string>
     <string name="loggin_option">¿Ya estas registrado? Inicia sesión aqui</string>
+    <string name="titleDataUserLogin">Iniciar Sesión</string>
 
 </resources>
