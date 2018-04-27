@@ -11,161 +11,18 @@
         android:layout_height="fill_parent"
         android:background="@color/background"
         android:orientation="vertical"
+        android:layout_marginTop="70dp"
         android:padding="10dp">
 
-        <!--Registry-->
-        <LinearLayout
-            android:id="@+id/layout_registry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <!--Loading-->
+        <com.victor.loading.rotate.RotateLoading
+            android:id="@+id/newton_cradle_loading"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
             android:layout_gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/walkway_black"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:text="@string/titleDataUser"
-                android:textColor="@color/colorPrimary"
-                android:textSize="26sp" />
-
-            <EditText
-                android:id="@+id/txtSurnameRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Apellidos"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
-            <EditText
-                android:id="@+id/txtNameRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Nombre"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
-
-            <EditText
-                android:id="@+id/txtUsernameRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Usernme"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
-            <EditText
-                android:id="@+id/txtEmailRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Email"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
-            <EditText
-                android:id="@+id/txtPasswordRegistry"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
-
-            <!-- Borde del primer spinner -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center|left"
-                    android:text="@string/textProvince"
-                    android:textSize="12dp" />
-
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:entries="@array/province_arrays"
-                    android:prompt="@string/province_prompt"
-                    android:textAlignment="center" />
-
-            </LinearLayout>
-            <!-- Borde del segundo spinner -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dip"
-                app:cardCornerRadius="2dp">
-
-                <Button
-                    android:id="@+id/btnRegister"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_button"
-                    android:text="Sign in"
-                    android:textColor="@color/white" />
-
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:id="@+id/login_option"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loggin_option"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:textColor="@drawable/text_registry"/>
-
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
         <!--Login-->
         <LinearLayout
@@ -173,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="70dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -243,11 +99,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="70dp"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/emailLogout"

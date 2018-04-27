@@ -25,7 +25,7 @@
             android:gravity="center"
             android:textSize="30dp"
             android:layout_weight="0.3"
-            android:text="@string/messaje_login"/>
+            android:text="@string/error_connection"/>
 
     </LinearLayout>
 

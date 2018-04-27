@@ -4,21 +4,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
 import com.gnommostudios.alertru.alertru_android.model.Alert;
+import com.gnommostudios.alertru.alertru_android.util.AuthenticationDialog;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,16 +35,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
-public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+
+    private int TIMEOUT = 15000;
 
     private ArrayList<Alert> alertArrayList;
+
+    private ConstraintLayout containerList;
+    private LinearLayout layoutDisconnected;
 
     private SharedPreferences prefs;
 
     private ListView alertList;
     private SwipeRefreshLayout refresh;
+
+    private AVLoadingIndicatorView loader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +73,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
         prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
+        containerList = (ConstraintLayout) view.findViewById(R.id.container_list);
+        layoutDisconnected = (LinearLayout) view.findViewById(R.id.layout_disconnected);
+        layoutDisconnected.setOnClickListener(this);
+
+        loader = (AVLoadingIndicatorView) view.findViewById(R.id.avi);
+        //loader.hide();
+
         alertList = (ListView) view.findViewById(R.id.alert_list);
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refesh_layout);
         refresh.setOnRefreshListener(this);
@@ -63,26 +89,46 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         return view;
     }
 
-    private void initList() {
+    public void initList() {
         alertArrayList = new ArrayList<>();
 
         if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED)) {
-            //alertArrayList.add(new Alert("¡Hola!", "00-00-0000", true));
-            //alertArrayList.add(new Alert("¡Adios!", "00-00-0000", false));
+            containerList.setVisibility(View.VISIBLE);
+            layoutDisconnected.setVisibility(View.GONE);
             AlertListAsyncTask alat = new AlertListAsyncTask();
             alat.execute();
+        }else {
+            containerList.setVisibility(View.GONE);
+            layoutDisconnected.setVisibility(View.VISIBLE);
         }
+    }
 
+    public void setAdapter() {
         alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
     }
 
     @Override
     public void onRefresh() {
         initList();
-        refresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.layout_disconnected:
+                initList();
+                break;
+        }
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (!refresh.isRefreshing())
+                loader.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -98,7 +144,9 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept", "application/json");
 
+                connection.setConnectTimeout(TIMEOUT);
                 connection.connect();
+
 
                 int respuesta = connection.getResponseCode();
 
@@ -117,15 +165,22 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         result.append(line);
                     }
 
-                    JSONObject jsonObject = new JSONObject(result.toString());
+                    //JSONObject jsonObject = new JSONObject(result.toString());
+                    JSONArray alerts = new JSONArray(result.toString());
 
-                    Log.i("OBJECT", jsonObject.toString());
+                    for (int i = 0 ; i < alerts.length() ; i++) {
+                        Log.i("ALERT", alerts.get(i).toString());
+                        JSONObject alert = (JSONObject) alerts.get(i);
 
-                    //JSONArray jsonArray = new JSONArray("[" + result.toString().substring(1,result.toString().length()-2) + "]");
+                        String id  = alert.getString("id");
+                        String affair = alert.getString("subject");
+                        Date d = new Date(Long.parseLong(alert.getString("date")));
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                        String date = sdf.format(d);
+                        boolean assigned = alert.getBoolean("assigned");
 
-                    //JSONArray jsonArray = new JSONArray(result.toString());
-
-                    //Log.i("ARRAY", jsonArray.toString());
+                        alertArrayList.add(new Alert(id, affair, date, assigned));
+                    }
 
                     return true;
                 }
@@ -145,10 +200,14 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPostExecute(Boolean correct) {
             super.onPostExecute(correct);
 
+            loader.setVisibility(View.GONE);
+            refresh.setRefreshing(false);
+
             if (correct) {
-                Toast.makeText(getActivity(), "Correcto.", Toast.LENGTH_SHORT).show();
+                setAdapter();
             } else {
-                Toast.makeText(getActivity(), "Incorrecto", Toast.LENGTH_SHORT).show();
+                AuthenticationDialog dialog = new AuthenticationDialog();
+                dialog.show(getFragmentManager(), "CONNECTION_ERROR");
             }
         }
     }

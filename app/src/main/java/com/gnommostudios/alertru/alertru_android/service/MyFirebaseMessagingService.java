@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
+import com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.gnommostudios.alertru.alertru_android.model.Doctor;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.victor.loading.newton.NewtonCradleLoading;
+import com.victor.loading.rotate.RotateLoading;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +58,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences prefs;
     private String stateLog;
 
+    private RotateLoading loader;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +72,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_data_user, container, false);
 
         prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        loader = (RotateLoading) view.findViewById(R.id.newton_cradle_loading);
 
         layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
         layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
@@ -143,6 +150,15 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     }
 
     class LoginAsyncTask extends AsyncTask<String, Integer, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            layoutLogin.setVisibility(View.GONE);
+            loader.setVisibility(View.VISIBLE);
+            loader.start();
+
+        }
 
         @Override
         protected Integer doInBackground(String... strings) {
@@ -265,9 +281,12 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(Integer integer) {
+            loader.stop();
+            loader.setVisibility(View.GONE);
             switch (integer) {
                 case 0:
                     Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
+                    layoutLogin.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
@@ -276,6 +295,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     break;
                 case 2:
                     Toast.makeText(getActivity(), "Error Desconocido", Toast.LENGTH_SHORT).show();
+                    layoutLogin.setVisibility(View.VISIBLE);
                     break;
             }
         }

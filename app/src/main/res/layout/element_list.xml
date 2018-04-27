@@ -38,8 +38,8 @@
 
                     <ImageView
                         android:id="@+id/imagePadlock"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:srcCompat="@drawable/candado_cerrado4"/>
@@ -70,7 +70,8 @@
                         android:layout_marginStart="8dp"
                         android:text="Asunto:"
                         app:layout_constraintBottom_toTopOf="@+id/textView2"
-                        app:layout_constraintStart_toEndOf="@+id/imagePadlock" />
+                        app:layout_constraintStart_toEndOf="@+id/imagePadlock"
+                        app:layout_constraintTop_toBottomOf="@+id/dateTxt" />
 
                     <TextView
                         android:id="@+id/assignedTxt"

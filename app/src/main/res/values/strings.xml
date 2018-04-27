@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">alertru-android</string>
+    <string name="app_name">Alertru</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
@@ -49,5 +49,6 @@
     <string name="registry_option">¿No te has registrado? Hazlo ahora</string>
     <string name="loggin_option">¿Ya estas registrado? Inicia sesión aqui</string>
     <string name="titleDataUserLogin">Iniciar Sesión</string>
+    <string name="error_connection">Problemas de conexión</string>
 
 </resources>

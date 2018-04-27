@@ -1,25 +1,77 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context="com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refesh_layout"
+    <!--Disconnected-->
+    <LinearLayout
+        android:id="@+id/layout_disconnected"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp">
+        android:visibility="gone">
 
-        <ListView
-            android:id="@+id/alert_list"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="5dp"
-            android:scrollbars="none"/>
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@drawable/aviso" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/messaje_login"
+            android:textSize="30dp" />
+
+    </LinearLayout>
+
+    <!--Connected-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/container_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#44cad6db"
+            android:elevation="10dp"
+            android:padding="150dp"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refesh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ListView
+                android:id="@+id/alert_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+                android:scrollbars="none" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
 
 </FrameLayout>
