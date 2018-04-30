@@ -176,6 +176,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                 Log.i("URL", connection.getURL().toString());
                 Log.i("REQUEST", connection.getRequestMethod() + " " + connection.getRequestProperties().toString());
+                connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
 
@@ -219,6 +220,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     conSelect.setRequestProperty("User-Agent", "Mozilla/5.0" +
                             " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
 
+                    conSelect.setConnectTimeout(Urls.TIMEOUT);
                     conSelect.connect();
 
                     int respuestaSelect = conSelect.getResponseCode();
@@ -304,6 +306,15 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     class LogoutAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            layoutLogout.setVisibility(View.GONE);
+            loader.setVisibility(View.VISIBLE);
+            loader.start();
+
+        }
+
+        @Override
         protected Boolean doInBackground(String... strings) {
             try {
                 URL url = new URL(Urls.LOGOUT + prefs.getString("access_token", ""));
@@ -315,6 +326,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 connection.setUseCaches(false);
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept", "application/json");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
 
                 connection.connect();
 
@@ -336,8 +349,10 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(Boolean correct) {
             super.onPostExecute(correct);
+            loader.stop();
+            loader.setVisibility(View.GONE);
 
-            if (correct) {
+            //if (correct) {
                 Toast.makeText(getActivity(), "Hasta luego.", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = prefs.edit();
 
@@ -347,9 +362,10 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(prefs.getString("province", ""));
                 changeState(StatesLog.DISCONNECTED);
-            } else {
+            /*} else {
                 Toast.makeText(getActivity(), "Hay algun problema, no te puedes desloguear.", Toast.LENGTH_SHORT).show();
-            }
+                layoutLogout.setVisibility(View.VISIBLE);
+            }*/
         }
     }
 

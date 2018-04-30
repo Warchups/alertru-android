@@ -46,8 +46,6 @@ import java.util.concurrent.TimeoutException;
 
 public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    private int TIMEOUT = 15000;
-
     private ArrayList<Alert> alertArrayList;
 
     private ConstraintLayout containerList;
@@ -144,7 +142,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept", "application/json");
 
-                connection.setConnectTimeout(TIMEOUT);
+                connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
 
@@ -208,6 +206,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             } else {
                 AuthenticationDialog dialog = new AuthenticationDialog();
                 dialog.show(getFragmentManager(), "CONNECTION_ERROR");
+                setAdapter();
             }
         }
     }

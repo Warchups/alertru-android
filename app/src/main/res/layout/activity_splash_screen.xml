@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/colorWhite">
@@ -11,5 +12,13 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/alertru_azul500" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_splash"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        app:indicatorName="TriangleSkewSpinIndicator"
+        app:indicatorColor="@color/colorPrimary"/>
 
 </LinearLayout>

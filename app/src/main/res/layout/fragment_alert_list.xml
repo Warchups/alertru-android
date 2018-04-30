@@ -44,6 +44,7 @@
             android:elevation="10dp"
             android:padding="150dp"
             android:visibility="gone"
+            app:indicatorName="LineScalePulseOutIndicator"
             app:indicatorColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

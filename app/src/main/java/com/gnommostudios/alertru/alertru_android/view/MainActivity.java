@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Deshabilitamos el scroll de las paginas del ViewPager desde la clase CustomViewPager
         viewPager.disableScroll(true);
 
-        //Ponemos el ViewPager en la tercera pagina, así inicia en la pagina que contiene la lista
-        viewPager.setCurrentItem(2);
+        //Ponemos el ViewPager en la pagina que recogemos desde els SplashScreen dependiendo de las comprobaciones del token
+        viewPager.setCurrentItem(getIntent().getExtras().getInt("PAGE"));
     }
 
     private void initTitle() {
@@ -64,10 +64,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Deshabilitamos el titulo del ToolBar
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //Llamamos al método changeTitle(int) pasándole un -1 para que vaya al default
-        changeTitle(-1);
-        //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el homa
-        changeIcons(R.id.button_home);
+        if (getIntent().getExtras().getInt("PAGE") == 2) {
+            //Llamamos al método changeTitle(int) pasándole un -1 para que vaya al default
+            changeTitle(-1);
+            //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el home
+            changeIcons(R.id.button_home);
+        }
+
+        if (getIntent().getExtras().getInt("PAGE") == 1) {
+            //Llamamos al método changeTitle(int) pasándole la ide de R.id.button_user para que muestre el titulo de user
+            changeTitle(R.id.button_user);
+            //Llamamos el método changeIcons(int) pasándole la id de R.id.button_user para que muestre seleccionado el user
+            changeIcons(R.id.button_user);
+        }
     }
 
     private void initCustomTab() {
