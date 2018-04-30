@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.gnommostudios.alertru.alertru_android.model.Doctor;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.victor.loading.newton.NewtonCradleLoading;
 import com.victor.loading.rotate.RotateLoading;
 
 import org.json.JSONException;
@@ -47,6 +45,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     private Button buttonLogin;
     private Button buttonLogout;
 
+    private TextView nameLogged;
     private TextView emailLogged;
     private TextView provinceLogged;
 
@@ -78,6 +77,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
         layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
 
+        nameLogged = (TextView) view.findViewById(R.id.nameLogout);
         emailLogged = (TextView) view.findViewById(R.id.emailLogout);
         provinceLogged = (TextView) view.findViewById(R.id.provinceLogout);
 
@@ -101,6 +101,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             case StatesLog.LOGGED:
                 layoutLogout.setVisibility(View.VISIBLE);
                 layoutLogin.setVisibility(View.GONE);
+
+                nameLogged.setText(prefs.getString("surname", "") + ", " + prefs.getString("name", ""));
                 emailLogged.setText(prefs.getString("email", ""));
                 provinceLogged.setText(prefs.getString("province", ""));
                 break;
@@ -287,16 +289,16 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             loader.setVisibility(View.GONE);
             switch (integer) {
                 case 0:
-                    Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
                     layoutLogin.setVisibility(View.VISIBLE);
                     break;
                 case 1:
-                    Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
                     FirebaseMessaging.getInstance().subscribeToTopic(prefs.getString("province", ""));
                     changeStateVisibility();
                     break;
                 case 2:
-                    Toast.makeText(getActivity(), "Error Desconocido", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Error Desconocido", Toast.LENGTH_SHORT).show();
                     layoutLogin.setVisibility(View.VISIBLE);
                     break;
             }
@@ -353,7 +355,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             loader.setVisibility(View.GONE);
 
             //if (correct) {
-                Toast.makeText(getActivity(), "Hasta luego.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Hasta luego.", Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = prefs.edit();
 
                 editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);

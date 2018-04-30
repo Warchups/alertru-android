@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
 import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             changeIcons(R.id.button_home);
         }
 
-        if (getIntent().getExtras().getInt("PAGE") == 1) {
+        if (getIntent().getExtras().getInt("PAGE") == 0) {
             //Llamamos al método changeTitle(int) pasándole la ide de R.id.button_user para que muestre el titulo de user
             changeTitle(R.id.button_user);
             //Llamamos el método changeIcons(int) pasándole la id de R.id.button_user para que muestre seleccionado el user
@@ -104,10 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Switch para navegar por las paginas con los botones del TabLayout hecho a mano
         switch (v.getId()) {
             case R.id.button_search:
-                viewPager.setCurrentItem(0);
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.button_user:
-                viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.button_home:
                 viewPager.setCurrentItem(2);
@@ -257,5 +256,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 titleToolbar.setText(R.string.alertru);
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 1) {
+            LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
+            LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
+
+            if (searchList.getVisibility() == View.VISIBLE) {
+                searchList.setVisibility(View.GONE);
+                searchForm.setVisibility(View.VISIBLE);
+            }else {
+                super.onBackPressed();
+            }
+
+        }else {
+            super.onBackPressed();
+        }
+
     }
 }

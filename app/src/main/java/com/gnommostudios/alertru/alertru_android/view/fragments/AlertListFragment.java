@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,7 +21,6 @@ import com.gnommostudios.alertru.alertru_android.model.Alert;
 import com.gnommostudios.alertru.alertru_android.util.AuthenticationDialog;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -38,11 +36,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeoutException;
 
 public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -85,6 +78,12 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         initList();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
     }
 
     public void initList() {

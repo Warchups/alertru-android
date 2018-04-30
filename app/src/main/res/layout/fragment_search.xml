@@ -6,13 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
+    <!--Search Form-->
     <LinearLayout
+        android:id="@+id/search_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="7dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,35 +118,12 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.7"
-                app:cardCornerRadius="2dp">
-
-                <Button
-                    android:id="@+id/searchButtonAll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_button"
-                    android:text="@string/searchButtonAll"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="10dp"
-                    android:textStyle="italic|bold" />
-
-            </android.support.v7.widget.CardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 app:cardCornerRadius="2dp">
 
                 <Button
-                    android:id="@+id/searchButtonByDate"
+                    android:id="@+id/searchButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"
@@ -155,4 +135,35 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </LinearLayout>
+
+    <!--Search list-->
+    <LinearLayout
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/search_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/walkway_black"
+            android:padding="2dp"
+            android:text="Titulo Busqueda"
+            android:textSize="24dp" />
+
+        <ListView
+            android:id="@+id/search_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:scrollbars="none" />
+
+    </LinearLayout>
+
 </RelativeLayout>

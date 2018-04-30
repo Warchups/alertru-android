@@ -43,8 +43,8 @@ public class AdapterAlertList extends ArrayAdapter<Alert>{
         affairTxt.setText(elements.get(position).getAffair());
         dateTxt.setText(elements.get(position).getDate());
 
-        if (position == 0)
-            convertView.setPadding(0, 20, 0, 35);
+        //if (position == 0)
+        //    convertView.setPadding(48, 20, 48, 35);
 
         if (elements.get(position).isAssigned()) {
             assignedTxt.setText(R.string.assigned);

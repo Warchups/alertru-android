@@ -44,7 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
 
-            long[] vibrate = {0, 100, 200, 300};
+            long [] vibrate = {0, 100, 200, 300};
 
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 
@@ -66,12 +66,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             mNotificationManager.notify(0, mBuilder.build());
 
-            long delayInMilliseconds = remoteMessage.getTtl();
+            /*long delayInMilliseconds = remoteMessage.getTtl();
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     mNotificationManager.cancelAll();
                 }
-            }, delayInMilliseconds);
+            }, delayInMilliseconds);*/
         }
     }
 }

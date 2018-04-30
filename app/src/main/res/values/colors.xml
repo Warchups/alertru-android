@@ -7,9 +7,9 @@
         
     <color name="bg_main">#428bca</color>
         
-    <color name="colorPrimary">#7777bf</color>
+    <color name="colorPrimary">#047CCC</color>
         
-    <color name="colorPrimaryDark">#008</color>
+    <color name="colorPrimaryDark">#047CC4</color>
         
     <color name="colorAccent">#303F9F</color>
         <!--<color name="colorAccent">#FF4081</color>-->
@@ -24,7 +24,7 @@
         
     <color name="green">#008000</color>
         
-    <color name="background">#cad6db</color>
+    <color name="background">#EEEFEF</color>
         
     <color name="white">#ffffff</color>
         
@@ -46,7 +46,8 @@
         
     <color name="btn_logut_bg">#ff6861</color>
 
-    <color name="colorTabLayout">#6D84D8</color>
-    <color name="colorCenterTab">#8FA6FA</color>
-    <color name="colorCenterTab_dark">#7E95E9</color>
+    <color name="colorTabLayout">#2B93D3</color>
+    <color name="colorCenterTab">#37AFFF</color>
+    <color name="colorCenterTab_dark">#047CCC</color>
+    <color name="colorCenterTabNotification">#329932</color>
 </resources>

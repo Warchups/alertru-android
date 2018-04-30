@@ -23,10 +23,10 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                f = new SearchFragment();
+                f = new DataUserFragment();
                 break;
             case 1:
-                f = new DataUserFragment();
+                f = new SearchFragment();
                 break;
             case 2:
                 f = new AlertListFragment();

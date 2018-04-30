@@ -8,17 +8,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.model.Doctor;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
@@ -26,12 +20,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -41,7 +32,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
-    private ImageView imageSplash;
     private SharedPreferences prefs;
     private String stateLog;
 
@@ -55,12 +45,7 @@ public class SplashScreen extends AppCompatActivity {
         prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
         stateLog = prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
 
-        imageSplash = (ImageView) findViewById(R.id.splashscreen_image);
         loader = (AVLoadingIndicatorView) findViewById(R.id.loading_splash);
-
-        /*ScaleAnimation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, 0f, 0f);
-        scaleAnimation.setDuration(SPLASH_DISPLAY_LENGTH);
-        imageSplash.startAnimation(scaleAnimation);*/
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -70,7 +55,7 @@ public class SplashScreen extends AppCompatActivity {
                     lat.execute();
                 }else {
                     Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
-                    mainIntent.putExtra("PAGE", 1);
+                    mainIntent.putExtra("PAGE", 0);
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
                 }
@@ -167,15 +152,13 @@ public class SplashScreen extends AppCompatActivity {
 
             switch (integer) {
                 case 0:
-                    //Toast.makeText(getApplicationContext(), "Login Fallido", Toast.LENGTH_SHORT).show();
-                    mainIntent.putExtra("PAGE", 1);
+                    mainIntent.putExtra("PAGE", 0);
                     break;
                 case 1:
                     mainIntent.putExtra("PAGE", 2);
                     break;
                 case 2:
-                    //Toast.makeText(getApplicationContext(), "Error Desconocido", Toast.LENGTH_SHORT).show();
-                    mainIntent.putExtra("PAGE", 1);
+                    mainIntent.putExtra("PAGE", 0);
                     break;
                 case 3:
                     mainIntent.putExtra("PAGE", 2);

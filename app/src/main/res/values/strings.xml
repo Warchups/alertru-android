@@ -16,7 +16,7 @@
     <string name="searchRadio2">Buscar cerradas</string>
     <string name="searchCheckBox">Buscar abiertas y cerradas</string>
     <string name="searchButtonAll">BUSCAR TODAS</string>
-    <string name="searchButtonByDate">BUSCAR POR FECHA</string>
+    <string name="searchButtonByDate">BUSCAR</string>
     <string name="menu">Menú</string>
     <string name="textProvince">Seleccione una provincia:</string>
     <string name="webPage">www.gnommostudios.com</string>
