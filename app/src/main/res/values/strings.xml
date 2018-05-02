@@ -50,5 +50,6 @@
     <string name="loggin_option">¿Ya estas registrado? Inicia sesión aqui</string>
     <string name="titleDataUserLogin">Iniciar Sesión</string>
     <string name="error_connection">Problemas de conexión</string>
+    <string name="without_results">Sin Resultados</string>
 
 </resources>

@@ -42,9 +42,9 @@ import java.util.Date;
 
 public class SearchFragment extends Fragment implements View.OnClickListener {
 
-    private LinearLayout searchForm, searchList;
+    private LinearLayout searchForm, searchList, searchLoading;
 
-    private TextView titleSearch;
+    private TextView titleSearch, withoutResults;
 
     private TextView dateEnter, dateExit;
     private RadioButton searchOpen, searchClose;
@@ -71,14 +71,20 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         titleSearch = (TextView) view.findViewById(R.id.search_title);
+        withoutResults = (TextView) view.findViewById(R.id.without_results);
+        withoutResults.setVisibility(View.GONE);
 
         alertList = (ListView) view.findViewById(R.id.search_list_view);
+        alertList.setVisibility(View.GONE);
 
         searchForm = (LinearLayout) view.findViewById(R.id.search_form);
         searchForm.setVisibility(View.VISIBLE);
 
         searchList = (LinearLayout) view.findViewById(R.id.search_list);
         searchList.setVisibility(View.GONE);
+
+        searchLoading = (LinearLayout) view.findViewById(R.id.search_loading);
+        searchLoading.setVisibility(View.GONE);
 
         dateEnter = view.findViewById(R.id.txtDateEnter);
         dateExit = view.findViewById(R.id.txtDateExit);
@@ -197,15 +203,37 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     }
 
     private void searchAlerts() {
-        if (dateEnter.getText().toString().length() == 0 || dateExit.getText().toString().length() == 0) {
+        String dEnter = dateEnter.getText().toString();
+        String dExit = dateExit.getText().toString();
+
+        boolean searchOpenAndClosed = checkBoxSearch.isChecked();
+        boolean searchOpen = this.searchOpen.isChecked();
+        boolean searchClosed = this.searchClose.isChecked();
+
+        if (dEnter.toString().length() == 0 || dExit.length() == 0) {
             Toast.makeText(getActivity(), "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show();
         } else {
             alertArrayList = new ArrayList<>();
 
-            titleSearch.setText("Busqueda de " + dateEnter.getText().toString() + " a " + dateExit.getText().toString() + ":");
-
             AlertListAsyncTask alat = new AlertListAsyncTask();
-            alat.execute();
+
+            if (!searchOpenAndClosed && !searchOpen && !searchClosed) {
+                titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
+                alat.execute(0);
+            } else if (searchOpenAndClosed) {
+                titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
+                alat.execute(0);
+            } else {
+                if (searchOpen) {
+                    titleSearch.setText("Sin asignar\nde " + dEnter + " a " + dExit + ":");
+                    alat.execute(1);
+                }
+                if (searchClosed) {
+                    titleSearch.setText("Asignadas\nde " + dEnter + " a " + dExit + ":");
+                    alat.execute(2);
+                }
+            }
+
         }
     }
 
@@ -230,7 +258,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         dateExit.setMonth(monthExit);
         dateExit.setYear(yearExit);
 
-        String [] alertDate = d.split("-");
+        String[] alertDate = d.split("-");
         int day = Integer.parseInt(alertDate[0]);
         int month = Integer.parseInt(alertDate[1]);
         int year = Integer.parseInt(alertDate[2]);
@@ -247,21 +275,102 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime())
             alertArrayList.add(alert);
-        else
-            Toast.makeText(getActivity(), "EE", Toast.LENGTH_SHORT).show();
 
     }
 
-    class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
+    private void createAlertsArrayOpen(Alert alert, String d) {
+        String[] enter = dEnter.split("-");
+        int dayEnter = Integer.parseInt(enter[0]);
+        int monthEnter = Integer.parseInt(enter[1]);
+        int yearEnter = Integer.parseInt(enter[2]);
+
+        Date dateEnter = new Date();
+        dateEnter.setDate(dayEnter);
+        dateEnter.setMonth(monthEnter);
+        dateEnter.setYear(yearEnter);
+
+        String[] exit = dExit.split("-");
+        int dayExit = Integer.parseInt(exit[0]);
+        int monthExit = Integer.parseInt(exit[1]);
+        int yearExit = Integer.parseInt(exit[2]);
+
+        Date dateExit = new Date();
+        dateExit.setDate(dayExit);
+        dateExit.setMonth(monthExit);
+        dateExit.setYear(yearExit);
+
+        String[] alertDate = d.split("-");
+        int day = Integer.parseInt(alertDate[0]);
+        int month = Integer.parseInt(alertDate[1]);
+        int year = Integer.parseInt(alertDate[2]);
+
+        Date date = new Date();
+        date.setDate(day);
+        date.setMonth(month);
+        date.setYear(year);
+
+
+        Log.i("DATE", date.getTime() + "");
+        Log.i("ENTER", dateEnter.getTime() + "");
+        Log.i("EXIT", dateExit.getTime() + "");
+
+        if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime() && !alert.isAssigned())
+            alertArrayList.add(alert);
+
+    }
+
+    private void createAlertsArrayClosed(Alert alert, String d) {
+        String[] enter = dEnter.split("-");
+        int dayEnter = Integer.parseInt(enter[0]);
+        int monthEnter = Integer.parseInt(enter[1]);
+        int yearEnter = Integer.parseInt(enter[2]);
+
+        Date dateEnter = new Date();
+        dateEnter.setDate(dayEnter);
+        dateEnter.setMonth(monthEnter);
+        dateEnter.setYear(yearEnter);
+
+        String[] exit = dExit.split("-");
+        int dayExit = Integer.parseInt(exit[0]);
+        int monthExit = Integer.parseInt(exit[1]);
+        int yearExit = Integer.parseInt(exit[2]);
+
+        Date dateExit = new Date();
+        dateExit.setDate(dayExit);
+        dateExit.setMonth(monthExit);
+        dateExit.setYear(yearExit);
+
+        String[] alertDate = d.split("-");
+        int day = Integer.parseInt(alertDate[0]);
+        int month = Integer.parseInt(alertDate[1]);
+        int year = Integer.parseInt(alertDate[2]);
+
+        Date date = new Date();
+        date.setDate(day);
+        date.setMonth(month);
+        date.setYear(year);
+
+
+        Log.i("DATE", date.getTime() + "");
+        Log.i("ENTER", dateEnter.getTime() + "");
+        Log.i("EXIT", dateExit.getTime() + "");
+
+        if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime() && alert.isAssigned())
+            alertArrayList.add(alert);
+
+    }
+
+    class AlertListAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             searchForm.setVisibility(View.GONE);
+            searchLoading.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Boolean doInBackground(String... strings) {
+        protected Boolean doInBackground(Integer... op) {
             try {
                 URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("province", "") +
                         "?access_token=" + prefs.getString("access_token", ""));
@@ -309,7 +418,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
 
-                        createAlertsArray(new Alert(id, affair, date, assigned), date);
+                        if (op[0] == 0)
+                            createAlertsArray(new Alert(id, affair, date, assigned), date);
+
+                        if (op[0] == 1)
+                            createAlertsArrayOpen(new Alert(id, affair, date, assigned), date);
+
+                        if (op[0] == 2)
+                            createAlertsArrayClosed(new Alert(id, affair, date, assigned), date);
                     }
 
                     return true;
@@ -329,11 +445,18 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(Boolean correct) {
             super.onPostExecute(correct);
-
+            searchLoading.setVisibility(View.GONE);
 
             if (correct) {
                 setAdapter();
                 searchList.setVisibility(View.VISIBLE);
+                if (alertArrayList.size() == 0) {
+                    withoutResults.setVisibility(View.VISIBLE);
+                    alertList.setVisibility(View.GONE);
+                } else {
+                    withoutResults.setVisibility(View.GONE);
+                    alertList.setVisibility(View.VISIBLE);
+                }
             } else {
                 AuthenticationDialog dialog = new AuthenticationDialog();
                 dialog.show(getFragmentManager(), "CONNECTION_ERROR");

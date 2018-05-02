@@ -144,7 +144,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/search_title"
@@ -154,6 +154,7 @@
             android:fontFamily="@font/walkway_black"
             android:padding="2dp"
             android:text="Titulo Busqueda"
+            android:textAlignment="center"
             android:textSize="24dp" />
 
         <ListView
@@ -162,7 +163,34 @@
             android:layout_height="match_parent"
             android:divider="@android:color/transparent"
             android:dividerHeight="5dp"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/without_results"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:text="@string/without_results"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!--Search loading-->
+    <LinearLayout
+        android:id="@+id/search_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loading_search_indicator"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallScaleRippleMultipleIndicator" />
 
     </LinearLayout>
 
