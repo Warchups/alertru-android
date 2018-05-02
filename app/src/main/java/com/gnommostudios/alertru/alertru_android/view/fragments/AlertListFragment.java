@@ -1,19 +1,21 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
@@ -37,7 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener {
 
     private ArrayList<Alert> alertArrayList;
 
@@ -94,7 +96,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             layoutDisconnected.setVisibility(View.GONE);
             AlertListAsyncTask alat = new AlertListAsyncTask();
             alat.execute();
-        }else {
+        } else {
             containerList.setVisibility(View.GONE);
             layoutDisconnected.setVisibility(View.VISIBLE);
         }
@@ -102,6 +104,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     public void setAdapter() {
         alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
+        alertList.setOnItemClickListener(this);
     }
 
     @Override
@@ -116,6 +119,53 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 initList();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+        showAssingDialog(alertArrayList.get(pos));
+    }
+
+    private void showAssingDialog(final Alert alert) {
+        AlertDialog.Builder alerta =
+                new AlertDialog.Builder(getContext());
+        if (!alert.isAssigned()) {
+            alerta.setMessage("Asunto: " + alert.getAffair() + "\nFecha: " + alert.getDate())
+                    .setTitle(R.string.titleAssign)
+                    .setPositiveButton(R.string.assign, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            AssignAlertAsyncTask aaat = new AssignAlertAsyncTask();
+                            aaat.execute(alert);
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+        } else {
+            if (alert.getIdDoctor().equals(prefs.getString("id", ""))) {
+                alerta.setMessage("Asunto: " + alert.getAffair() + "\nFecha: " + alert.getDate())
+                        .setTitle(R.string.titleAssignedYou)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }
+                        );
+            } else {
+                alerta.setMessage("Asunto: " + alert.getAffair() + "\nFecha: " + alert.getDate())
+                        .setTitle(R.string.titleAssigned)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                }
+                        );
+            }
+        }
+        alerta.show();
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -165,18 +215,24 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                     //JSONObject jsonObject = new JSONObject(result.toString());
                     JSONArray alerts = new JSONArray(result.toString());
 
-                    for (int i = 0 ; i < alerts.length() ; i++) {
+                    for (int i = 0; i < alerts.length(); i++) {
                         Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
 
-                        String id  = alert.getString("id");
+                        String id = alert.getString("id");
                         String affair = alert.getString("subject");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
 
-                        alertArrayList.add(new Alert(id, affair, date, assigned));
+                        if (!assigned) {
+                            alertArrayList.add(new Alert(id, affair, date, assigned));
+                        } else {
+                            String idDoctor = alert.getString("owner");
+                            alertArrayList.add(new Alert(id, affair, date, idDoctor, assigned));
+                        }
+
                     }
 
                     return true;
@@ -209,4 +265,51 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             }
         }
     }
+
+    class AssignAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Alert... alertsParams) {
+            try {
+                URL url = new URL(Urls.ASSIGN_ALERT + prefs.getString("id", "") + "/assign-alert/" +
+                        alertsParams[0].getId() + "?access_token=" + prefs.getString("access_token", ""));
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.connect();
+
+
+                int respuesta = connection.getResponseCode();
+
+                if (respuesta == HttpURLConnection.HTTP_OK) {
+                    return true;
+                }
+
+                return false;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean updated) {
+            super.onPostExecute(updated);
+
+            if (updated) {
+                initList();
+            }
+        }
+    }
 }
+

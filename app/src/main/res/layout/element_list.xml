@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -26,8 +27,8 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:background="#fefafe">
+                    android:background="#fefafe"
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/dateTxt"
@@ -43,7 +44,7 @@
                         android:layout_height="40dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:srcCompat="@drawable/candado_cerrado4"/>
+                        app:srcCompat="@drawable/candado_cerrado4" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -82,6 +83,15 @@
                         android:text="assigned"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
                         app:layout_constraintStart_toEndOf="@+id/textView2" />
+
+                    <ImageView
+                        android:id="@+id/ownerImage"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/userclaro"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:visibility="gone"/>
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

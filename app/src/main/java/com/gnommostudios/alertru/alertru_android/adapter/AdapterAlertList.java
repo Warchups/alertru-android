@@ -1,6 +1,8 @@
 package com.gnommostudios.alertru.alertru_android.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,15 +19,17 @@ import com.gnommostudios.alertru.alertru_android.model.Alert;
 
 import java.util.ArrayList;
 
-public class AdapterAlertList extends ArrayAdapter<Alert>{
+public class AdapterAlertList extends ArrayAdapter<Alert> {
 
     Activity context;
     ArrayList<Alert> elements;
+    SharedPreferences prefs;
 
     public AdapterAlertList(@NonNull Fragment context, ArrayList<Alert> elements) {
         super(context.getActivity(), R.layout.element_list, elements);
         this.context = context.getActivity();
         this.elements = elements;
+        prefs = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -39,6 +43,7 @@ public class AdapterAlertList extends ArrayAdapter<Alert>{
         TextView affairTxt = (TextView) convertView.findViewById(R.id.affairTxt);
         TextView assignedTxt = (TextView) convertView.findViewById(R.id.assignedTxt);
         TextView dateTxt = (TextView) convertView.findViewById(R.id.dateTxt);
+        ImageView ownerImage = (ImageView) convertView.findViewById(R.id.ownerImage);
 
         affairTxt.setText(elements.get(position).getAffair());
         dateTxt.setText(elements.get(position).getDate());
@@ -50,7 +55,13 @@ public class AdapterAlertList extends ArrayAdapter<Alert>{
             assignedTxt.setText(R.string.assigned);
             imagePadlock.setImageResource(R.drawable.icono_candado4);
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_assigned));
-        }else {
+
+            if (elements.get(position).getIdDoctor().equals(prefs.getString("id", ""))) {
+                ownerImage.setVisibility(View.VISIBLE);
+            } else {
+                ownerImage.setVisibility(View.GONE);
+            }
+        } else {
             assignedTxt.setText(R.string.unassigned);
             imagePadlock.setImageResource(R.drawable.candado_cerrado4);
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_unassigned));

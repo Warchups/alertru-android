@@ -34,6 +34,14 @@ public class Alert implements Serializable {
     public Alert() {
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getAffair() {
         return affair;
     }

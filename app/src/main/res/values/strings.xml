@@ -51,5 +51,11 @@
     <string name="titleDataUserLogin">Iniciar Sesión</string>
     <string name="error_connection">Problemas de conexión</string>
     <string name="without_results">Sin Resultados</string>
+    <string name="titleAssign">¿Quieres asignarte esta alerta?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="assign">Assignar</string>
+    <string name="titleAssigned">La alerta ya esta asignada otro usuario</string>
+    <string name="titleAssignedYou">Ya tienes esta alerta asignada</string>
+    <string name="ok">Vale</string>
 
 </resources>

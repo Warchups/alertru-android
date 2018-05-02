@@ -21,7 +21,6 @@ public class AuthenticationDialog extends DialogFragment {
 
         builder.setView(context);
 
-
         return builder.create();
     }
 
