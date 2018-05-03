@@ -8,30 +8,81 @@ public class Alert implements Serializable {
     private String affair;
     private String date;
     private String idDoctor;
+    private String province;
     private boolean assigned;
+    private boolean finished;
+    private String notes;
 
-    public Alert(String affair, String date, boolean assigned) {
+    public Alert(String affair, String province, String date, boolean assigned) {
         this.affair = affair;
         this.date = date;
         this.assigned = assigned;
+        this.province = province;
     }
 
-    public Alert(String id, String affair, String date, boolean assigned) {
+    public Alert(String id, String affair, String province, String date, boolean assigned) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.assigned = assigned;
+        this.province = province;
     }
 
-    public Alert(String id, String affair, String date, String idDoctor, boolean assigned) {
+    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.idDoctor = idDoctor;
         this.assigned = assigned;
+        this.province = province;
+    }
+
+    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned, boolean finished) {
+        this.id = id;
+        this.affair = affair;
+        this.date = date;
+        this.idDoctor = idDoctor;
+        this.assigned = assigned;
+        this.finished = finished;
+        this.province = province;
+    }
+
+    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned, boolean finished, String notes) {
+        this.id = id;
+        this.affair = affair;
+        this.date = date;
+        this.idDoctor = idDoctor;
+        this.assigned = assigned;
+        this.finished = finished;
+        this.notes = notes;
+        this.province = province;
     }
 
     public Alert() {
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getId() {

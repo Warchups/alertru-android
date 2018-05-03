@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/walkway_black"
-                android:text="Doctor:"
+                android:text="Técnico:"
                 android:textSize="24dp" />
 
             <TextView

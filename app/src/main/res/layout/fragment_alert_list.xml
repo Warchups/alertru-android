@@ -34,7 +34,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/container_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avi"
@@ -73,5 +74,99 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <!--Details-->
+    <LinearLayout
+        android:id="@+id/layout_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <!--Assigned-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container_assigned"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/date_detail_assigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="00-00-000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/owner_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Técnico: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned" />
+
+            <TextView
+                android:id="@+id/province_detail_assigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Provincia: "
+                app:layout_constraintStart_toStartOf="@+id/owner_detail"
+                app:layout_constraintTop_toBottomOf="@+id/owner_detail" />
+
+            <TextView
+                android:id="@+id/title_detail_assigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Título Alerta:"
+                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned" />
+        </android.support.constraint.ConstraintLayout>
+
+        <!--Unassigned-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container_unassigned"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+
+            <TextView
+                android:id="@+id/date_detail_unassigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="00-00-000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/province_detail_unassigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Provincia: "
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_unassigned" />
+
+            <TextView
+                android:id="@+id/title_detail_unassigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Título Alerta:"
+                app:layout_constraintStart_toStartOf="@+id/province_detail_unassigned"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_unassigned" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
 
 </FrameLayout>

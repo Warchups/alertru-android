@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
-import com.gnommostudios.alertru.alertru_android.model.Doctor;
+import com.gnommostudios.alertru.alertru_android.model.Technician;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -250,21 +250,21 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                         String id = respuestaJSONSelect.getString("id");
                         String province = respuestaJSONSelect.getString("province");
 
-                        Doctor doctor = new Doctor(name, surname, username, email, id, province);
+                        Technician technician = new Technician(name, surname, username, email, id, province);
 
                         SharedPreferences.Editor editor = prefs.edit();
 
                         editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
-                        editor.putString("name", doctor.getName());
-                        editor.putString("surname", doctor.getSurname());
-                        editor.putString("email", doctor.getEmail());
-                        editor.putString("id", doctor.getId());
-                        editor.putString("province", doctor.getProvince());
+                        editor.putString("name", technician.getName());
+                        editor.putString("surname", technician.getSurname());
+                        editor.putString("email", technician.getEmail());
+                        editor.putString("id", technician.getId());
+                        editor.putString("province", technician.getProvince());
                         editor.putString("access_token", access_token);
 
                         editor.commit();
 
-                        Log.i("DOCTOR", doctor.toString());
+                        Log.i("DOCTOR", technician.toString());
 
                         return 1;
                     }

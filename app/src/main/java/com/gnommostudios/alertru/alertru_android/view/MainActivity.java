@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,17 +14,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
-import com.gnommostudios.alertru.alertru_android.service.MyBroadcastReceiver;
 import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    // public static final String ACTION = "com.gnommostudios.alertru.mystaticevent";
-    public static final String ACTION = "android.intent.action.MAIN";
 
     private ImageView homeButton;
     private ImageView searchButton;
@@ -288,6 +284,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 searchList.setVisibility(View.GONE);
                 searchForm.setVisibility(View.VISIBLE);
             } else {
+                super.onBackPressed();
+            }
+
+        } else if (viewPager.getCurrentItem() == 2) {
+            ConstraintLayout containerList = (ConstraintLayout) findViewById(R.id.container_list);
+            LinearLayout layoutDetails = (LinearLayout) findViewById(R.id.layout_detail);
+
+            if (layoutDetails.getVisibility() == View.VISIBLE) {
+                containerList.setVisibility(View.VISIBLE);
+                layoutDetails.setVisibility(View.GONE);
+            }else {
                 super.onBackPressed();
             }
 

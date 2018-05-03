@@ -1,6 +1,6 @@
 package com.gnommostudios.alertru.alertru_android.model;
 
-public class Doctor {
+public class Technician {
     private String name;
     private String surname;
     private String username;
@@ -9,7 +9,7 @@ public class Doctor {
     private String id;
     private String province;
 
-    public Doctor(String name, String surname, String username, String email, boolean emailVerified, String id, String province) {
+    public Technician(String name, String surname, String username, String email, boolean emailVerified, String id, String province) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -19,7 +19,7 @@ public class Doctor {
         this.province = province;
     }
 
-    public Doctor(String name, String surname, String username, String email, String id, String province) {
+    public Technician(String name, String surname, String username, String email, String id, String province) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -28,7 +28,7 @@ public class Doctor {
         this.province = province;
     }
 
-    public Doctor() {
+    public Technician() {
     }
 
     public String getName() {
@@ -89,7 +89,7 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return "Doctor{" +
+        return "Technician{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +

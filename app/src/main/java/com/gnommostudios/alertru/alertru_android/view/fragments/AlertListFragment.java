@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
@@ -40,7 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener {
+public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private ArrayList<Alert> alertArrayList;
 
@@ -53,6 +54,23 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private SwipeRefreshLayout refresh;
 
     private AVLoadingIndicatorView loader;
+
+    //Details
+    private LinearLayout layoutDetail;
+
+    private ConstraintLayout containerAssigned;
+    private ConstraintLayout containerUnassigned;
+
+    //Assigned
+    private TextView dateDetailAssigned;
+    private TextView ownerDetail;
+    private TextView provinceDetailAssigned;
+    private TextView titleDetailAssigned;
+
+    //Unassigned
+    private TextView dateDetailUnassigned;
+    private TextView provinceDetailUnassigned;
+    private TextView titleDetailUnassigned;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +86,33 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         prefs = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         containerList = (ConstraintLayout) view.findViewById(R.id.container_list);
+        containerList.setVisibility(View.VISIBLE);
+
+        /*****************************Details*****************************/
+        layoutDetail = (LinearLayout) view.findViewById(R.id.layout_detail);
+        layoutDetail.setVisibility(View.GONE);
+
+        containerAssigned = (ConstraintLayout) view.findViewById(R.id.container_assigned);
+        containerAssigned.setVisibility(View.GONE);
+
+        containerUnassigned = (ConstraintLayout) view.findViewById(R.id.container_unassigned);
+        containerUnassigned.setVisibility(View.GONE);
+
+        /******Assigned*****/
+        dateDetailAssigned = (TextView) view.findViewById(R.id.date_detail_assigned);
+        ownerDetail = (TextView) view.findViewById(R.id.owner_detail);
+        provinceDetailAssigned = (TextView) view.findViewById(R.id.province_detail_assigned);
+        titleDetailAssigned = (TextView) view.findViewById(R.id.title_detail_assigned);
+
+        /*****Unassigned****/
+        dateDetailUnassigned = (TextView) view.findViewById(R.id.date_detail_unassigned);
+        provinceDetailUnassigned = (TextView) view.findViewById(R.id.province_detail_unassigned);
+        titleDetailUnassigned = (TextView) view.findViewById(R.id.title_detail_unassigned);
+
+        /***************************************************************/
+
         layoutDisconnected = (LinearLayout) view.findViewById(R.id.layout_disconnected);
+        layoutDisconnected.setVisibility(View.GONE);
         layoutDisconnected.setOnClickListener(this);
 
         loader = (AVLoadingIndicatorView) view.findViewById(R.id.avi);
@@ -111,6 +155,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     public void setAdapter() {
         alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
         alertList.setOnItemClickListener(this);
+        alertList.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -129,7 +174,37 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+        showAssingDetails(alertArrayList.get(pos));
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
         showAssingDialog(alertArrayList.get(pos));
+        return true;
+    }
+
+    private void showAssingDetails(Alert alert) {
+        if (alert.isAssigned()) {
+            dateDetailAssigned.setText(alert.getDate());
+            ownerDetail.setText(ownerDetail.getText().toString() + " " + alert.getIdDoctor());
+            provinceDetailAssigned.setText(provinceDetailAssigned.getText().toString() + " " + alert.getProvince());
+            titleDetailAssigned.setText(titleDetailAssigned.getText().toString() + " " + alert.getAffair());
+
+            layoutDetail.setVisibility(View.VISIBLE);
+            containerAssigned.setVisibility(View.VISIBLE);
+            containerList.setVisibility(View.GONE);
+            containerUnassigned.setVisibility(View.GONE);
+        }else {
+            dateDetailUnassigned.setText(alert.getDate());
+            provinceDetailUnassigned.setText(provinceDetailUnassigned.getText().toString() + " " + alert.getProvince());
+            titleDetailUnassigned.setText(titleDetailUnassigned.getText().toString() + " " + alert.getAffair());
+
+            layoutDetail.setVisibility(View.VISIBLE);
+            containerAssigned.setVisibility(View.GONE);
+            containerList.setVisibility(View.GONE);
+            containerUnassigned.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void showAssingDialog(final Alert alert) {
@@ -186,7 +261,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("province", "") +
+                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("province", "").toLowerCase() +
                         "?access_token=" + prefs.getString("access_token", ""));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -227,16 +302,17 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                         String id = alert.getString("id");
                         String affair = alert.getString("title");
+                        String province = alert.getString("province");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
 
                         if (!assigned) {
-                            alertArrayList.add(new Alert(id, affair, date, assigned));
+                            alertArrayList.add(new Alert(id, affair, province, date, assigned));
                         } else {
                             String idDoctor = alert.getString("owner");
-                            alertArrayList.add(new Alert(id, affair, date, idDoctor, assigned));
+                            alertArrayList.add(new Alert(id, affair, province, date, idDoctor, assigned));
                         }
 
                     }
