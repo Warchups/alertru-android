@@ -294,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (layoutDetails.getVisibility() == View.VISIBLE) {
                 containerList.setVisibility(View.VISIBLE);
                 layoutDetails.setVisibility(View.GONE);
+                titleToolbar.setText(R.string.incidents);
             }else {
                 super.onBackPressed();
             }
@@ -309,11 +310,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
             Log.i("BROADCAST", "Hola");
-            notification = intent.getExtras().getBoolean("NOTIFICATION");
-            if (notification)
-                homeButton.setImageResource(R.drawable.icon_tab_center_notification);
-            else
-                homeButton.setImageResource(R.drawable.icon_tab_center_black);
+
+            if (!intent.getExtras().getBoolean("CHANGE_TITLE")) {
+                notification = intent.getExtras().getBoolean("NOTIFICATION");
+                if (notification)
+                    homeButton.setImageResource(R.drawable.icon_tab_center_notification);
+                else
+                    homeButton.setImageResource(R.drawable.icon_tab_center_black);
+            } else {
+                titleToolbar.setText(intent.getExtras().getString("TITLE"));
+            }
         }
     };
 

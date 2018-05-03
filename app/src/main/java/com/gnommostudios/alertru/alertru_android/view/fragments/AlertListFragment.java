@@ -160,6 +160,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", false);
+        intent.putExtra("CHANGE_TITLE", false);
         //send broadcast
         getActivity().sendBroadcast(intent);
 
@@ -212,6 +213,12 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void showAssingDetails(Alert alert) {
+        Intent intent = new Intent("MainActivity");
+        intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("TITLE", "Detalles");
+        //send broadcast
+        getActivity().sendBroadcast(intent);
+
         alertDetail = alert;
 
         SpannableStringBuilder builder;

@@ -79,6 +79,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //Intent intent = new Intent("com.gnommostudios.alertru.mybroadcastreceiver");
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", true);
+        intent.putExtra("CHANGE_TITLE", false);
         //send broadcast
         getApplicationContext().sendBroadcast(intent);
     }
