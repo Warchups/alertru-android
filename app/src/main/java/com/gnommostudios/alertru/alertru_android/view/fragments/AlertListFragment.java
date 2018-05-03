@@ -4,12 +4,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
 import com.gnommostudios.alertru.alertru_android.model.Alert;
@@ -41,7 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, FABProgressListener {
 
     private ArrayList<Alert> alertArrayList;
 
@@ -61,6 +72,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private ConstraintLayout containerAssigned;
     private ConstraintLayout containerUnassigned;
 
+    private Alert alertDetail;
+
     //Assigned
     private TextView dateDetailAssigned;
     private TextView ownerDetail;
@@ -71,6 +84,9 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private TextView dateDetailUnassigned;
     private TextView provinceDetailUnassigned;
     private TextView titleDetailUnassigned;
+
+    private FloatingActionButton assingFAB;
+    private FABProgressCircle fabProgressCircle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +125,12 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         provinceDetailUnassigned = (TextView) view.findViewById(R.id.province_detail_unassigned);
         titleDetailUnassigned = (TextView) view.findViewById(R.id.title_detail_unassigned);
 
+        assingFAB = (FloatingActionButton) view.findViewById(R.id.assign_fab);
+        assingFAB.setOnClickListener(this);
+
+        fabProgressCircle = (FABProgressCircle) view.findViewById(R.id.fabProgressCircle);
+        fabProgressCircle.attachListener(this);
+
         /***************************************************************/
 
         layoutDisconnected = (LinearLayout) view.findViewById(R.id.layout_disconnected);
@@ -141,6 +163,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         //send broadcast
         getActivity().sendBroadcast(intent);
 
+        layoutDetail.setVisibility(View.GONE);
+
         if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED)) {
             containerList.setVisibility(View.VISIBLE);
             layoutDisconnected.setVisibility(View.GONE);
@@ -169,6 +193,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             case R.id.layout_disconnected:
                 initList();
                 break;
+            case R.id.assign_fab:
+                AssignDetailsAlertAsyncTask adaat = new AssignDetailsAlertAsyncTask();
+                adaat.execute(alertDetail);
+                break;
         }
     }
 
@@ -184,11 +212,63 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void showAssingDetails(Alert alert) {
+        alertDetail = alert;
+
+        SpannableStringBuilder builder;
+
+        String cabecera;
+        SpannableString cabeceraSpannable;
+
+        String contenido;
+        SpannableString contenidoSpannable;
+
         if (alert.isAssigned()) {
             dateDetailAssigned.setText(alert.getDate());
-            ownerDetail.setText(ownerDetail.getText().toString() + " " + alert.getIdDoctor());
-            provinceDetailAssigned.setText(provinceDetailAssigned.getText().toString() + " " + alert.getProvince());
-            titleDetailAssigned.setText(titleDetailAssigned.getText().toString() + " " + alert.getAffair());
+
+            /*****Technician*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Técnico: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = alert.getIdDoctor();
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+
+            /*****Province*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Provincia: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = Character.toUpperCase(alert.getProvince().charAt(0))+ "" + alert.getProvince().subSequence(1, alert.getProvince().length());
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            provinceDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+
+            /*****Title*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Asunto Alerta: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = alert.getAffair();
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
 
             layoutDetail.setVisibility(View.VISIBLE);
             containerAssigned.setVisibility(View.VISIBLE);
@@ -196,8 +276,36 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             containerUnassigned.setVisibility(View.GONE);
         }else {
             dateDetailUnassigned.setText(alert.getDate());
-            provinceDetailUnassigned.setText(provinceDetailUnassigned.getText().toString() + " " + alert.getProvince());
-            titleDetailUnassigned.setText(titleDetailUnassigned.getText().toString() + " " + alert.getAffair());
+
+            /*****Province*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Provincia: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = Character.toUpperCase(alert.getProvince().charAt(0))+ "" + alert.getProvince().subSequence(1, alert.getProvince().length());
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            provinceDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+
+            /*****Title*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Asunto Alerta: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = alert.getAffair();
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            titleDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
 
             layoutDetail.setVisibility(View.VISIBLE);
             containerAssigned.setVisibility(View.GONE);
@@ -247,6 +355,15 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             }
         }
         alerta.show();
+    }
+
+    @Override
+    public void onFABProgressAnimationEnd() {
+        Snackbar.make(fabProgressCircle, "Alerta Asignada", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
+        initList();
+        fabProgressCircle.hide();
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -390,6 +507,60 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
             if (updated) {
                 initList();
+            }
+        }
+    }
+
+    class AssignDetailsAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            fabProgressCircle.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Alert... alertsParams) {
+            try {
+                URL url = new URL(Urls.ASSIGN_ALERT + prefs.getString("id", "") + "/assign-alert/" +
+                        alertsParams[0].getId() + "?access_token=" + prefs.getString("access_token", ""));
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.connect();
+
+
+                int respuesta = connection.getResponseCode();
+
+                if (respuesta == HttpURLConnection.HTTP_OK) {
+                    return true;
+                }
+
+                return false;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean updated) {
+            super.onPostExecute(updated);
+
+            if (updated) {
+                fabProgressCircle.beginFinalAnimation();
+                //initList();
             }
         }
     }

@@ -133,8 +133,8 @@
             android:id="@+id/container_unassigned"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
-
+            android:padding="8dp"
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/date_detail_unassigned"
@@ -148,9 +148,8 @@
 
             <TextView
                 android:id="@+id/province_detail_unassigned"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Provincia: "
                 app:layout_constraintStart_toStartOf="parent"
@@ -158,12 +157,35 @@
 
             <TextView
                 android:id="@+id/title_detail_unassigned"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Título Alerta:"
                 app:layout_constraintStart_toStartOf="@+id/province_detail_unassigned"
                 app:layout_constraintTop_toBottomOf="@+id/province_detail_unassigned" />
+
+            <com.github.jorgecastilloprz.FABProgressCircle
+                android:id="@+id/fabProgressCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:arcColor="@color/green"
+                app:arcWidth="4dp"
+                app:finalIcon="@drawable/tick_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:reusable="true">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/assign_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/link_white"
+                    app:backgroundTint="@color/colorPrimary" />
+
+            </com.github.jorgecastilloprz.FABProgressCircle>
+
         </android.support.constraint.ConstraintLayout>
 
 
