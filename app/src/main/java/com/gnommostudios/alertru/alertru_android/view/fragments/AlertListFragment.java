@@ -366,11 +366,20 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onFABProgressAnimationEnd() {
-        Snackbar.make(fabProgressCircle, "Alerta Asignada", Snackbar.LENGTH_LONG)
+        fabProgressCircle.hide();
+
+        Snackbar.make(fabProgressCircle, "Alerta Asignada", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null)
                 .show();
+
+
+        Intent intent = new Intent("MainActivity");
+        intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("TITLE", "Incidencias");
+        //send broadcast
+        getActivity().sendBroadcast(intent);
+
         initList();
-        fabProgressCircle.hide();
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
