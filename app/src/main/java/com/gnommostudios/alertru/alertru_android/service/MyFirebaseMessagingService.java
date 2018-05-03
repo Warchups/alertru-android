@@ -2,6 +2,7 @@ package com.gnommostudios.alertru.alertru_android.service;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
+import com.gnommostudios.alertru.alertru_android.view.MainActivity;
 import com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -59,8 +61,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
 
-            Log.i("PRUEBA", remoteMessage.getData().get("priority"));
-            Log.i("TIME", remoteMessage.getTtl() + "");
+            //Log.i("PRUEBA", remoteMessage.getData().get("priority"));
+            //Log.i("TIME", remoteMessage.getTtl() + "");
 
             final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -73,5 +75,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
             }, delayInMilliseconds);*/
         }
+
+        //Intent intent = new Intent("com.gnommostudios.alertru.mybroadcastreceiver");
+        Intent intent = new Intent("MainActivity");
+        intent.putExtra("NOTIFICATION", true);
+        //send broadcast
+        getApplicationContext().sendBroadcast(intent);
     }
 }

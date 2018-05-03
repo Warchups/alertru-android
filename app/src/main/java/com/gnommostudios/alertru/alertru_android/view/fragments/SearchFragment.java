@@ -399,7 +399,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     connection.disconnect();
 
                     while ((line = br.readLine()) != null) {
-                        Log.i("Line", line);
+                        //Log.i("Line", line);
                         result.append(line);
                     }
 
@@ -407,24 +407,36 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     JSONArray alerts = new JSONArray(result.toString());
 
                     for (int i = 0; i < alerts.length(); i++) {
-                        Log.i("ALERT", alerts.get(i).toString());
+                        //Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
 
                         String id = alert.getString("id");
-                        String affair = alert.getString("subject");
+                        String affair = alert.getString("title");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
 
-                        if (op[0] == 0)
-                            createAlertsArray(new Alert(id, affair, date, assigned), date);
+                        if (!assigned) {
+                            if (op[0] == 0)
+                                createAlertsArray(new Alert(id, affair, date, assigned), date);
 
-                        if (op[0] == 1)
-                            createAlertsArrayOpen(new Alert(id, affair, date, assigned), date);
+                            if (op[0] == 1)
+                                createAlertsArrayOpen(new Alert(id, affair, date, assigned), date);
 
-                        if (op[0] == 2)
-                            createAlertsArrayClosed(new Alert(id, affair, date, assigned), date);
+                            if (op[0] == 2)
+                                createAlertsArrayClosed(new Alert(id, affair, date, assigned), date);
+                        } else {
+                            String idDoctor = alert.getString("owner");
+                            if (op[0] == 0)
+                                createAlertsArray(new Alert(id, affair, date, idDoctor, assigned), date);
+
+                            if (op[0] == 1)
+                                createAlertsArrayOpen(new Alert(id, affair, date, idDoctor, assigned), date);
+
+                            if (op[0] == 2)
+                                createAlertsArrayClosed(new Alert(id, affair, date, idDoctor, assigned), date);
+                        }
                     }
 
                     return true;

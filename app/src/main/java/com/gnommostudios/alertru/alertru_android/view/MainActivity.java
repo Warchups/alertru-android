@@ -1,19 +1,29 @@
 package com.gnommostudios.alertru.alertru_android.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
+import com.gnommostudios.alertru.alertru_android.service.MyBroadcastReceiver;
 import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // public static final String ACTION = "com.gnommostudios.alertru.mystaticevent";
+    public static final String ACTION = "android.intent.action.MAIN";
 
     private ImageView homeButton;
     private ImageView searchButton;
@@ -31,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppBarLayout appBar;
     private CustomViewPager viewPager;
 
+    private boolean notification = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initTitle();
 
         initFragments();
+
+        //MyBroadcastReceiver mMessageReceiver = new MyBroadcastReceiver(homeButton);
+        registerReceiver(mMessageReceiver, new IntentFilter("MainActivity"));
     }
 
     private void initFragments() {
@@ -137,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
             subUser.setVisibility(View.INVISIBLE);
 
-            homeButton.setImageResource(R.drawable.icon_tab_center_white);
+            if (!notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -158,7 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
             subUser.setVisibility(View.VISIBLE);
 
-            homeButton.setImageResource(R.drawable.icon_tab_center_white);
+            if (!notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -179,7 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
             subUser.setVisibility(View.INVISIBLE);
 
-            homeButton.setImageResource(R.drawable.icon_tab_center_black);
+            if (!notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_black);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -200,7 +218,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
             subUser.setVisibility(View.INVISIBLE);
 
-            homeButton.setImageResource(R.drawable.icon_tab_center_white);
+            if (!notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             //settingsButton.setImageResource(R.drawable.config_black);
             settingsButton.setBackground(getResources().getDrawable(R.drawable.degraded_tab_item));
@@ -221,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
             subUser.setVisibility(View.INVISIBLE);
 
-            homeButton.setImageResource(R.drawable.icon_tab_center_white);
+            if (!notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_white);
 
             settingsButton.setImageResource(R.drawable.config_white);
             settingsButton.setBackgroundColor(getResources().getColor(R.color.colorTabLayout));
@@ -267,13 +287,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (searchList.getVisibility() == View.VISIBLE) {
                 searchList.setVisibility(View.GONE);
                 searchForm.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 super.onBackPressed();
             }
 
-        }else {
+        } else {
             super.onBackPressed();
         }
 
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+            Log.i("BROADCAST", "Hola");
+            notification = intent.getExtras().getBoolean("NOTIFICATION");
+            if (notification)
+                homeButton.setImageResource(R.drawable.icon_tab_center_notification);
+            else
+                homeButton.setImageResource(R.drawable.icon_tab_center_black);
+        }
+    };
+
 }

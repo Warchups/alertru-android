@@ -2,6 +2,7 @@ package com.gnommostudios.alertru.alertru_android.view.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -90,6 +91,11 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     public void initList() {
         alertArrayList = new ArrayList<>();
+
+        Intent intent = new Intent("MainActivity");
+        intent.putExtra("NOTIFICATION", false);
+        //send broadcast
+        getActivity().sendBroadcast(intent);
 
         if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED)) {
             containerList.setVisibility(View.VISIBLE);
@@ -191,7 +197,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept", "application/json");
 
-                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.setConnectTimeout(Urls.TIMEOUT_LONG);
                 connection.connect();
 
 
@@ -208,7 +214,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                     connection.disconnect();
 
                     while ((line = br.readLine()) != null) {
-                        Log.i("Line", line);
+                        //Log.i("Line", line);
                         result.append(line);
                     }
 
@@ -216,11 +222,11 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                     JSONArray alerts = new JSONArray(result.toString());
 
                     for (int i = 0; i < alerts.length(); i++) {
-                        Log.i("ALERT", alerts.get(i).toString());
+                        //Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
 
                         String id = alert.getString("id");
-                        String affair = alert.getString("subject");
+                        String affair = alert.getString("title");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
