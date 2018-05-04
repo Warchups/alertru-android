@@ -366,23 +366,32 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 containerList.setVisibility(View.GONE);
                 containerUnassigned.setVisibility(View.GONE);
                 containerAssignedOwner.setVisibility(View.VISIBLE);
+                partTextView.setVisibility(View.GONE);
+                editTextPart.setText("");
+                editTextPart.setVisibility(View.GONE);
+                closeAlert.setVisibility(View.GONE);
 
 
-                ///////////////if (finalized == true) tambien mostrar o no
-                /*****Part*****/
-                builder = new SpannableStringBuilder();
+                if (alert.getState().equals("finished")) {
+                    /*****Part*****/
+                    builder = new SpannableStringBuilder();
 
-                cabecera = "Parte de la incidencia: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
+                    cabecera = "Parte de la incidencia: ";
+                    cabeceraSpannable = new SpannableString(cabecera);
+                    cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                    builder.append(cabeceraSpannable);
 
-                contenido = "";
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
+                    contenido = "";
+                    contenidoSpannable = new SpannableString(contenido);
+                    contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                    builder.append(contenidoSpannable);
 
-                partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+                    partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+
+                    partTextView.setVisibility(View.VISIBLE);
+                    editTextPart.setVisibility(View.VISIBLE);
+                    closeAlert.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             dateDetailUnassigned.setText(alert.getDate());
@@ -498,8 +507,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("province", "").toLowerCase() +
-                        "?access_token=" + prefs.getString("access_token", ""));
+                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("id", "") +
+                        "/get-alerts-by-owner-province?access_token=" + prefs.getString("access_token", ""));
+
+                Log.i("CONSULTA_ALERTAS", url.toString());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 connection.setRequestMethod("POST");
@@ -523,12 +534,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-                    connection.disconnect();
+                    //connection.disconnect();
 
-                    while ((line = br.readLine()) != null) {
+                    /*while ((line = br.readLine()) != null) {
                         //Log.i("Line", line);
                         result.append(line);
-                    }
+                    }*/
+                    result.append(br.readLine());
 
                     //JSONObject jsonObject = new JSONObject(result.toString());
                     JSONArray alerts = new JSONArray(result.toString());
@@ -544,12 +556,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
+                        String state = alert.getString("state");
 
                         if (!assigned) {
-                            alertArrayList.add(new Alert(id, affair, province, date, assigned));
+                            alertArrayList.add(new Alert(id, affair, province, date, assigned, state));
                         } else {
                             String idTechnician = alert.getString("owner");
-                            alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned));
+                            alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned, state));
                         }
 
                     }
@@ -632,6 +645,60 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     class AssignDetailsAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            fabProgressCircle.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Alert... alertsParams) {
+            try {
+                URL url = new URL(Urls.ASSIGN_ALERT + prefs.getString("id", "") + "/assign-alert/" +
+                        alertsParams[0].getId() + "?access_token=" + prefs.getString("access_token", ""));
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.connect();
+
+
+                int respuesta = connection.getResponseCode();
+
+                if (respuesta == HttpURLConnection.HTTP_OK) {
+                    return true;
+                }
+
+                return false;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean updated) {
+            super.onPostExecute(updated);
+
+            if (updated) {
+                fabProgressCircle.beginFinalAnimation();
+                //initList();
+            }
+        }
+    }
+
+    class CloseAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
         protected void onPreExecute() {

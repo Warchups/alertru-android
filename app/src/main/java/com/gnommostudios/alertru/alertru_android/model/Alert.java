@@ -10,50 +10,35 @@ public class Alert implements Serializable {
     private String idTechnician;
     private String province;
     private boolean assigned;
-    private boolean finished;
+    private String state;
     private String notes;
 
-    public Alert(String affair, String province, String date, boolean assigned) {
-        this.affair = affair;
-        this.date = date;
-        this.assigned = assigned;
-        this.province = province;
-    }
-
-    public Alert(String id, String affair, String province, String date, boolean assigned) {
+    public Alert(String id, String affair, String province, String date, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.assigned = assigned;
+        this.state = state;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned) {
+    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.idTechnician = idTechnician;
         this.assigned = assigned;
+        this.state = state;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, boolean finished) {
+    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, String state, String notes) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.idTechnician = idTechnician;
         this.assigned = assigned;
-        this.finished = finished;
-        this.province = province;
-    }
-
-    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, boolean finished, String notes) {
-        this.id = id;
-        this.affair = affair;
-        this.date = date;
-        this.idTechnician = idTechnician;
-        this.assigned = assigned;
-        this.finished = finished;
+        this.state = state;
         this.notes = notes;
         this.province = province;
     }
@@ -69,12 +54,12 @@ public class Alert implements Serializable {
         this.province = province;
     }
 
-    public boolean isFinished() {
-        return finished;
+    public String getState() {
+        return state;
     }
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getNotes() {

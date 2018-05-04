@@ -58,5 +58,6 @@
     <string name="titleAssignedYou">Ya tienes esta alerta asignada</string>
     <string name="ok">Vale</string>
     <string name="close_alert">Cerrar Incidencia</string>
+    <string name="searchFinalized">Ver Cerradas</string>
 
 </resources>

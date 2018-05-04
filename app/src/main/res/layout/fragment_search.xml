@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:padding="7dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="8dp">
 
             <android.support.v7.widget.CardView
@@ -128,6 +128,25 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_button"
                     android:text="@string/searchButtonByDate"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10dp"
+                    android:textStyle="italic|bold" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                app:cardCornerRadius="2dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/searchFinalized"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button"
+                    android:text="@string/searchFinalized"
                     android:textColor="@color/colorWhite"
                     android:textSize="10dp"
                     android:textStyle="italic|bold" />

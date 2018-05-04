@@ -113,7 +113,7 @@
                 android:id="@+id/province_detail_assigned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Provincia: "
                 app:layout_constraintStart_toStartOf="@+id/owner_detail"
                 app:layout_constraintTop_toBottomOf="@+id/owner_detail" />
@@ -122,7 +122,7 @@
                 android:id="@+id/title_detail_assigned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Título Alerta:"
                 app:layout_constraintStart_toStartOf="@+id/province_detail_assigned"
                 app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned" />
@@ -159,7 +159,7 @@
                 android:id="@+id/title_detail_unassigned"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Título Alerta:"
                 app:layout_constraintStart_toStartOf="@+id/province_detail_unassigned"
                 app:layout_constraintTop_toBottomOf="@+id/province_detail_unassigned" />
@@ -193,7 +193,7 @@
             android:id="@+id/container_assigned_owner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/date_detail_assigned_owner"
@@ -220,7 +220,7 @@
                 android:id="@+id/province_detail_assigned_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Provincia: "
                 app:layout_constraintStart_toStartOf="@+id/owner_detail_owner"
                 app:layout_constraintTop_toBottomOf="@+id/owner_detail_owner" />
@@ -229,7 +229,7 @@
                 android:id="@+id/title_detail_assigned_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Título Alerta:"
                 app:layout_constraintStart_toStartOf="@+id/province_detail_assigned_owner"
                 app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned_owner" />
@@ -238,7 +238,7 @@
                 android:id="@+id/partTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="Parte de la incidencia:"
                 app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner"
                 app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_owner" />

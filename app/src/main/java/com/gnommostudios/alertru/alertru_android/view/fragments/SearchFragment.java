@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -48,7 +49,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private TextView dateEnter, dateExit;
     private RadioButton searchOpen, searchClose;
     private CheckBox checkBoxSearch;
-    private Button btnSearch;
+    private Button btnSearch, seeClosed;
     private String dEnter, dExit;
 
     private SharedPreferences prefs;
@@ -85,16 +86,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         searchLoading = (LinearLayout) view.findViewById(R.id.search_loading);
         searchLoading.setVisibility(View.GONE);
 
-        dateEnter = view.findViewById(R.id.txtDateEnter);
-        dateExit = view.findViewById(R.id.txtDateExit);
+        dateEnter = (TextView) view.findViewById(R.id.txtDateEnter);
+        dateExit = (TextView) view.findViewById(R.id.txtDateExit);
 
-        searchOpen = view.findViewById(R.id.radioOpenSearch);
-        searchClose = view.findViewById(R.id.radioCloseSearch);
+        searchOpen = (RadioButton) view.findViewById(R.id.radioOpenSearch);
+        searchClose = (RadioButton) view.findViewById(R.id.radioCloseSearch);
 
-        checkBoxSearch = view.findViewById(R.id.checkSearchOpenAndExit);
+        checkBoxSearch = (CheckBox) view.findViewById(R.id.checkSearchOpenAndExit);
 
-        btnSearch = view.findViewById(R.id.searchButton);
+        btnSearch = (Button) view.findViewById(R.id.searchButton);
         btnSearch.setOnClickListener(this);
+
+        seeClosed = (Button) view.findViewById(R.id.searchFinalized) ;
+        seeClosed.setOnClickListener(this);
 
         dateEnter.setOnClickListener(new View.OnClickListener() {
 
@@ -417,26 +421,27 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                         String date = sdf.format(d);
                         boolean assigned = alert.getBoolean("assigned");
+                        String state = alert.getString("state");
 
                         if (!assigned) {
                             if (op[0] == 0)
-                                createAlertsArray(new Alert(id, affair, province, date, assigned), date);
+                                createAlertsArray(new Alert(id, affair, province, date, assigned, state), date);
 
                             if (op[0] == 1)
-                                createAlertsArrayOpen(new Alert(id, affair, province, date, assigned), date);
+                                createAlertsArrayOpen(new Alert(id, affair, province, date, assigned, state), date);
 
                             if (op[0] == 2)
-                                createAlertsArrayClosed(new Alert(id, affair, province, date, assigned), date);
+                                createAlertsArrayClosed(new Alert(id, affair, province, date, assigned, state), date);
                         } else {
                             String idDoctor = alert.getString("owner");
                             if (op[0] == 0)
-                                createAlertsArray(new Alert(id, affair, province, date, idDoctor, assigned), date);
+                                createAlertsArray(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
 
                             if (op[0] == 1)
-                                createAlertsArrayOpen(new Alert(id, affair, province, date, idDoctor, assigned), date);
+                                createAlertsArrayOpen(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
 
                             if (op[0] == 2)
-                                createAlertsArrayClosed(new Alert(id, affair, province, date, idDoctor, assigned), date);
+                                createAlertsArrayClosed(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
                         }
                     }
 
