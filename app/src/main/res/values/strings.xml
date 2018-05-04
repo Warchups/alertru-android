@@ -57,5 +57,6 @@
     <string name="titleAssigned">La alerta ya esta asignada otro usuario</string>
     <string name="titleAssignedYou">Ya tienes esta alerta asignada</string>
     <string name="ok">Vale</string>
+    <string name="close_alert">Cerrar Incidencia</string>
 
 </resources>

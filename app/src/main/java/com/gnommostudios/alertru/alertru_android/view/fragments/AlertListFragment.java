@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -24,6 +25,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +74,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private ConstraintLayout containerAssigned;
     private ConstraintLayout containerUnassigned;
+    private ConstraintLayout containerAssignedOwner;
 
     private Alert alertDetail;
 
@@ -84,6 +88,16 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private TextView dateDetailUnassigned;
     private TextView provinceDetailUnassigned;
     private TextView titleDetailUnassigned;
+
+    //Assigned owner
+    private TextView dateDetailAssignedOwner;
+    private TextView ownerDetailOwner;
+    private TextView provinceDetailAssignedOwner;
+    private TextView titleDetailAssignedOwner;
+    private TextView partTextView;
+    private EditText editTextPart;
+    private CardView cardCloseAlert;
+    private Button closeAlert;
 
     private FloatingActionButton assingFAB;
     private FABProgressCircle fabProgressCircle;
@@ -114,6 +128,9 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         containerUnassigned = (ConstraintLayout) view.findViewById(R.id.container_unassigned);
         containerUnassigned.setVisibility(View.GONE);
 
+        containerAssignedOwner = (ConstraintLayout) view.findViewById(R.id.container_assigned_owner);
+        containerAssignedOwner.setVisibility(View.GONE);
+
         /******Assigned*****/
         dateDetailAssigned = (TextView) view.findViewById(R.id.date_detail_assigned);
         ownerDetail = (TextView) view.findViewById(R.id.owner_detail);
@@ -124,6 +141,19 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         dateDetailUnassigned = (TextView) view.findViewById(R.id.date_detail_unassigned);
         provinceDetailUnassigned = (TextView) view.findViewById(R.id.province_detail_unassigned);
         titleDetailUnassigned = (TextView) view.findViewById(R.id.title_detail_unassigned);
+
+        /******Assigned Owner*****/
+        dateDetailAssignedOwner = (TextView) view.findViewById(R.id.date_detail_assigned_owner);
+        ownerDetailOwner = (TextView) view.findViewById(R.id.owner_detail_owner);
+        provinceDetailAssignedOwner = (TextView) view.findViewById(R.id.province_detail_assigned_owner);
+        titleDetailAssignedOwner = (TextView) view.findViewById(R.id.title_detail_assigned_owner);
+
+        /**Finalized**/
+        partTextView = (TextView) view.findViewById(R.id.partTextView);
+        editTextPart = (EditText) view.findViewById(R.id.editText_part);
+
+        cardCloseAlert = (CardView) view.findViewById(R.id.card_close_alert);
+        closeAlert = (Button) view.findViewById(R.id.close_alert);
 
         assingFAB = (FloatingActionButton) view.findViewById(R.id.assign_fab);
         assingFAB.setOnClickListener(this);
@@ -230,58 +260,131 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         SpannableString contenidoSpannable;
 
         if (alert.isAssigned()) {
-            dateDetailAssigned.setText(alert.getDate());
+            if (!alert.getIdDoctor().equals(prefs.getString("id", ""))) {
+                dateDetailAssigned.setText(alert.getDate());
 
-            /*****Technician*****/
-            builder = new SpannableStringBuilder();
+                /*****Technician*****/
+                builder = new SpannableStringBuilder();
 
-            cabecera = "Técnico: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
+                cabecera = "Técnico: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
 
-            contenido = alert.getIdDoctor();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
+                contenido = alert.getIdDoctor();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
 
-            ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+                ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
 
-            /*****Province*****/
-            builder = new SpannableStringBuilder();
+                /*****Province*****/
+                builder = new SpannableStringBuilder();
 
-            cabecera = "Provincia: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
+                cabecera = "Provincia: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
 
-            contenido = Character.toUpperCase(alert.getProvince().charAt(0))+ "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
+                contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
 
-            provinceDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                provinceDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
 
-            /*****Title*****/
-            builder = new SpannableStringBuilder();
+                /*****Title*****/
+                builder = new SpannableStringBuilder();
 
-            cabecera = "Asunto Alerta: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
+                cabecera = "Asunto Alerta: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
 
-            contenido = alert.getAffair();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
+                contenido = alert.getAffair();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
 
-            titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
 
-            layoutDetail.setVisibility(View.VISIBLE);
-            containerAssigned.setVisibility(View.VISIBLE);
-            containerList.setVisibility(View.GONE);
-            containerUnassigned.setVisibility(View.GONE);
-        }else {
+                layoutDetail.setVisibility(View.VISIBLE);
+                containerAssigned.setVisibility(View.VISIBLE);
+                containerList.setVisibility(View.GONE);
+                containerUnassigned.setVisibility(View.GONE);
+                containerAssignedOwner.setVisibility(View.GONE);
+            } else {
+                dateDetailAssignedOwner.setText(alert.getDate());
+
+                /*****Technician*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Técnico: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = alert.getIdDoctor();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                ownerDetailOwner.setText(builder, TextView.BufferType.SPANNABLE);
+
+                /*****Province*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Provincia: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                provinceDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+
+                /*****Title*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Asunto Alerta: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = alert.getAffair();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                titleDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+
+                layoutDetail.setVisibility(View.VISIBLE);
+                containerAssigned.setVisibility(View.GONE);
+                containerList.setVisibility(View.GONE);
+                containerUnassigned.setVisibility(View.GONE);
+                containerAssignedOwner.setVisibility(View.VISIBLE);
+
+
+                ///////////////if (finalized == true) tambien mostrar o no
+                /*****Part*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Parte de la incidencia: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = "";
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+            }
+        } else {
             dateDetailUnassigned.setText(alert.getDate());
 
             /*****Province*****/
@@ -292,7 +395,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
             builder.append(cabeceraSpannable);
 
-            contenido = Character.toUpperCase(alert.getProvince().charAt(0))+ "" + alert.getProvince().subSequence(1, alert.getProvince().length());
+            contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
             contenidoSpannable = new SpannableString(contenido);
             contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
             builder.append(contenidoSpannable);
@@ -318,6 +421,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             containerAssigned.setVisibility(View.GONE);
             containerList.setVisibility(View.GONE);
             containerUnassigned.setVisibility(View.VISIBLE);
+            containerAssignedOwner.setVisibility(View.GONE);
         }
 
     }
