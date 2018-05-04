@@ -7,7 +7,7 @@ public class Alert implements Serializable {
     private String id;
     private String affair;
     private String date;
-    private String idDoctor;
+    private String idTechnician;
     private String province;
     private boolean assigned;
     private boolean finished;
@@ -28,30 +28,30 @@ public class Alert implements Serializable {
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned) {
+    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned) {
         this.id = id;
         this.affair = affair;
         this.date = date;
-        this.idDoctor = idDoctor;
+        this.idTechnician = idTechnician;
         this.assigned = assigned;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned, boolean finished) {
+    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, boolean finished) {
         this.id = id;
         this.affair = affair;
         this.date = date;
-        this.idDoctor = idDoctor;
+        this.idTechnician = idTechnician;
         this.assigned = assigned;
         this.finished = finished;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idDoctor, boolean assigned, boolean finished, String notes) {
+    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, boolean finished, String notes) {
         this.id = id;
         this.affair = affair;
         this.date = date;
-        this.idDoctor = idDoctor;
+        this.idTechnician = idTechnician;
         this.assigned = assigned;
         this.finished = finished;
         this.notes = notes;
@@ -117,12 +117,12 @@ public class Alert implements Serializable {
         this.assigned = assigned;
     }
 
-    public String getIdDoctor() {
-        return idDoctor;
+    public String getIdTechnician() {
+        return idTechnician;
     }
 
-    public void setIdDoctor(String idDoctor) {
-        this.idDoctor = idDoctor;
+    public void setIdTechnician(String idTechnician) {
+        this.idTechnician = idTechnician;
     }
 
     @Override
@@ -130,7 +130,7 @@ public class Alert implements Serializable {
         return "Alert{" +
                 "affair='" + affair + '\'' +
                 ", date='" + date + '\'' +
-                ", idDoctor='" + idDoctor + '\'' +
+                ", idTechnician='" + idTechnician + '\'' +
                 ", assigned=" + assigned +
                 '}';
     }

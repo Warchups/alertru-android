@@ -260,7 +260,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         SpannableString contenidoSpannable;
 
         if (alert.isAssigned()) {
-            if (!alert.getIdDoctor().equals(prefs.getString("id", ""))) {
+            if (!alert.getIdTechnician().equals(prefs.getString("id", ""))) {
                 dateDetailAssigned.setText(alert.getDate());
 
                 /*****Technician*****/
@@ -271,7 +271,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
                 builder.append(cabeceraSpannable);
 
-                contenido = alert.getIdDoctor();
+                contenido = alert.getIdTechnician();
                 contenidoSpannable = new SpannableString(contenido);
                 contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
                 builder.append(contenidoSpannable);
@@ -324,7 +324,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
                 builder.append(cabeceraSpannable);
 
-                contenido = alert.getIdDoctor();
+                contenido = alert.getIdTechnician();
                 contenidoSpannable = new SpannableString(contenido);
                 contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
                 builder.append(contenidoSpannable);
@@ -445,7 +445,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         }
                     });
         } else {
-            if (alert.getIdDoctor().equals(prefs.getString("id", ""))) {
+            if (alert.getIdTechnician().equals(prefs.getString("id", ""))) {
                 alerta.setMessage("Asunto: " + alert.getAffair() + "\nFecha: " + alert.getDate())
                         .setTitle(R.string.titleAssignedYou)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -548,8 +548,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         if (!assigned) {
                             alertArrayList.add(new Alert(id, affair, province, date, assigned));
                         } else {
-                            String idDoctor = alert.getString("owner");
-                            alertArrayList.add(new Alert(id, affair, province, date, idDoctor, assigned));
+                            String idTechnician = alert.getString("owner");
+                            alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned));
                         }
 
                     }

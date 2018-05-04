@@ -56,7 +56,7 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
             imagePadlock.setImageResource(R.drawable.icono_candado4);
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_assigned));
 
-            if (elements.get(position).getIdDoctor().equals(prefs.getString("id", ""))) {
+            if (elements.get(position).getIdTechnician().equals(prefs.getString("id", ""))) {
                 ownerImage.setVisibility(View.VISIBLE);
             } else {
                 ownerImage.setVisibility(View.GONE);

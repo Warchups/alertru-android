@@ -12,9 +12,9 @@
     <string name="alertru">Alertru</string>
     <string name="searchTitle">BUSCADOR DE ALERTAS</string>
     <string name="searchAction">Acciones</string>
-    <string name="searchRadio1">Buscar abiertas</string>
-    <string name="searchRadio2">Buscar cerradas</string>
-    <string name="searchCheckBox">Buscar abiertas y cerradas</string>
+    <string name="searchRadio1">Buscar sin asignar</string>
+    <string name="searchRadio2">Buscar asignadas</string>
+    <string name="searchCheckBox">Buscar asignadas y sin asignar</string>
     <string name="searchButtonAll">BUSCAR TODAS</string>
     <string name="searchButtonByDate">BUSCAR</string>
     <string name="menu">Menú</string>
