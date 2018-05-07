@@ -30,7 +30,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.github.jorgecastilloprz.FABProgressCircle;
 import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.gnommostudios.alertru.alertru_android.R;
@@ -66,6 +68,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private ListView alertList;
     private SwipeRefreshLayout refresh;
+    private TextView withoutAlerts;
 
     private AVLoadingIndicatorView loader;
 
@@ -98,6 +101,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private EditText editTextPart;
     private CardView cardCloseAlert;
     private Button closeAlert;
+
+    private ShimmerFrameLayout shimmerCloseAlert;
 
     private FloatingActionButton assingFAB;
     private FABProgressCircle fabProgressCircle;
@@ -153,7 +158,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         editTextPart = (EditText) view.findViewById(R.id.editText_part);
 
         cardCloseAlert = (CardView) view.findViewById(R.id.card_close_alert);
+        shimmerCloseAlert = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_close_alert);
+
         closeAlert = (Button) view.findViewById(R.id.close_alert);
+        closeAlert.setOnClickListener(this);
 
         assingFAB = (FloatingActionButton) view.findViewById(R.id.assign_fab);
         assingFAB.setOnClickListener(this);
@@ -171,6 +179,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         //loader.hide();
 
         alertList = (ListView) view.findViewById(R.id.alert_list);
+        withoutAlerts = (TextView) view.findViewById(R.id.without_alerts);
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refesh_layout);
         refresh.setOnRefreshListener(this);
 
@@ -208,7 +217,15 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void setAdapter() {
-        alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
+        if (alertArrayList.size() > 0) {
+            withoutAlerts.setVisibility(View.GONE);
+            alertList.setVisibility(View.VISIBLE);
+            alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
+        } else {
+            withoutAlerts.setVisibility(View.VISIBLE);
+            alertList.setVisibility(View.GONE);
+        }
+
         alertList.setOnItemClickListener(this);
         alertList.setOnItemLongClickListener(this);
     }
@@ -227,6 +244,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             case R.id.assign_fab:
                 AssignDetailsAlertAsyncTask adaat = new AssignDetailsAlertAsyncTask();
                 adaat.execute(alertDetail);
+                break;
+            case R.id.close_alert:
+                CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
+                caat.execute(alertDetail);
                 break;
         }
     }
@@ -369,7 +390,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 partTextView.setVisibility(View.GONE);
                 editTextPart.setText("");
                 editTextPart.setVisibility(View.GONE);
-                closeAlert.setVisibility(View.GONE);
+                shimmerCloseAlert.setVisibility(View.GONE);
 
 
                 if (alert.getState().equals("finished")) {
@@ -390,7 +411,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     partTextView.setVisibility(View.VISIBLE);
                     editTextPart.setVisibility(View.VISIBLE);
-                    closeAlert.setVisibility(View.VISIBLE);
+                    shimmerCloseAlert.setVisibility(View.VISIBLE);
                 }
             }
         } else {
@@ -485,7 +506,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 .setAction("Action", null)
                 .show();
 
+        fromDetailsToList();
+    }
 
+    private void fromDetailsToList() {
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
         intent.putExtra("TITLE", "Incidencias");
@@ -493,6 +517,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         getActivity().sendBroadcast(intent);
 
         initList();
+
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -558,11 +583,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         boolean assigned = alert.getBoolean("assigned");
                         String state = alert.getString("state");
 
-                        if (!assigned) {
-                            alertArrayList.add(new Alert(id, affair, province, date, assigned, state));
-                        } else {
-                            String idTechnician = alert.getString("owner");
-                            alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned, state));
+                        if (!state.equals("closed")) {
+                            if (!assigned) {
+                                alertArrayList.add(new Alert(id, affair, province, date, assigned, state));
+                            } else {
+                                String idTechnician = alert.getString("owner");
+                                alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned, state));
+                            }
                         }
 
                     }
@@ -704,14 +731,14 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPreExecute() {
             super.onPreExecute();
 
-            fabProgressCircle.show();
+            shimmerCloseAlert.startShimmerAnimation();
         }
 
         @Override
         protected Boolean doInBackground(Alert... alertsParams) {
             try {
-                URL url = new URL(Urls.ASSIGN_ALERT + prefs.getString("id", "") + "/assign-alert/" +
-                        alertsParams[0].getId() + "?access_token=" + prefs.getString("access_token", ""));
+                URL url = new URL(Urls.CLOSE_ALERTS + alertsParams[0].getId() + "/close-alert"
+                        + "?access_token=" + prefs.getString("access_token", ""));
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -745,9 +772,12 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPostExecute(Boolean updated) {
             super.onPostExecute(updated);
 
+            shimmerCloseAlert.stopShimmerAnimation();
+
             if (updated) {
-                fabProgressCircle.beginFinalAnimation();
-                //initList();
+                fromDetailsToList();
+            } else {
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         }
     }

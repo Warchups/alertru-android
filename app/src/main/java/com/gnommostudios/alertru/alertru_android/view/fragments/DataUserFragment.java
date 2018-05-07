@@ -264,7 +264,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                         editor.commit();
 
-                        Log.i("DOCTOR", technician.toString());
+                        Log.i("TECHNICIAN", technician.toString());
+                        Log.i("TOKEN", access_token);
 
                         return 1;
                     }

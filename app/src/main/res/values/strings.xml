@@ -59,5 +59,6 @@
     <string name="ok">Vale</string>
     <string name="close_alert">Cerrar Incidencia</string>
     <string name="searchFinalized">Ver Cerradas</string>
+    <string name="without_alerts">No hay alertas activas.</string>
 
 </resources>
