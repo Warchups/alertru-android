@@ -1,8 +1,10 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -197,6 +199,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         refresh.setOnRefreshListener(this);
 
         initList();
+
+        getActivity().registerReceiver(mMessageReceiver, new IntentFilter("AlertListFragment"));
 
         return view;
     }
@@ -580,7 +584,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if (firstVisibleItem > 0) {
             refresh.setEnabled(false);
-        }else {
+        } else {
             refresh.setEnabled(true);
         }
     }
@@ -931,10 +935,21 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 builder.append(contenidoSpannable);
 
                 ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
-            }else {
+            } else {
                 Toast.makeText(getContext(), "Error: No se puede ver el tecnico de la alerta", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Extract data included in the Intent
+
+            if (intent.getExtras().getBoolean("REFRESH")) {
+                initList();
+            }
+        }
+    };
 }
 

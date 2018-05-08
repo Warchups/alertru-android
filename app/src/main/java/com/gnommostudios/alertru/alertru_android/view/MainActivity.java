@@ -318,10 +318,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (!intent.getExtras().getBoolean("CHANGE_TITLE")) {
                 notification = intent.getExtras().getBoolean("NOTIFICATION");
-                if (notification)
+                if (notification) {
                     homeButton.setImageResource(R.drawable.icon_tab_center_notification);
-                else
+                    homeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent("AlertListFragment");
+                            intent.putExtra("REFRESH", true);
+                            //send broadcast
+                            getApplicationContext().sendBroadcast(intent);
+                        }
+                    });
+                } else {
                     homeButton.setImageResource(R.drawable.icon_tab_center_black);
+                    homeButton.setOnClickListener(MainActivity.this);
+                }
             } else {
                 titleToolbar.setText(intent.getExtras().getString("TITLE"));
             }
