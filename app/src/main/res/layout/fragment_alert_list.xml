@@ -121,29 +121,40 @@
                 android:id="@+id/owner_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Técnico: "
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned" />
+                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned" />
 
             <TextView
                 android:id="@+id/province_detail_assigned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Provincia: "
-                app:layout_constraintStart_toStartOf="@+id/owner_detail"
-                app:layout_constraintTop_toBottomOf="@+id/owner_detail" />
+                app:layout_constraintStart_toStartOf="@+id/description_detail_assigned"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_assigned" />
 
             <TextView
                 android:id="@+id/title_detail_assigned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="Título Alerta:"
-                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned"
-                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned" />
+
+            <TextView
+                android:id="@+id/description_detail_assigned"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned" />
+
         </android.support.constraint.ConstraintLayout>
 
         <!--Unassigned-->
@@ -170,17 +181,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Provincia: "
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_detail_unassigned" />
+                app:layout_constraintStart_toStartOf="@+id/description_detail_unassigned"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_unassigned" />
 
             <TextView
                 android:id="@+id/title_detail_unassigned"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Título Alerta:"
-                app:layout_constraintStart_toStartOf="@+id/province_detail_unassigned"
-                app:layout_constraintTop_toBottomOf="@+id/province_detail_unassigned" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_unassigned" />
+
+            <TextView
+                android:id="@+id/description_detail_unassigned"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_unassigned"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_unassigned" />
 
             <com.github.jorgecastilloprz.FABProgressCircle
                 android:id="@+id/fabProgressCircle"
@@ -214,6 +235,16 @@
             android:padding="8dp"
             android:visibility="gone">
 
+            <ImageView
+                android:id="@+id/image_detail_assigned_owner"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/userclaro"
+                app:layout_constraintBottom_toBottomOf="@+id/date_detail_assigned_owner"
+                app:layout_constraintEnd_toStartOf="@+id/date_detail_assigned_owner"
+                app:layout_constraintTop_toTopOf="@+id/date_detail_assigned_owner" />
+
             <TextView
                 android:id="@+id/date_detail_assigned_owner"
                 android:layout_width="wrap_content"
@@ -228,39 +259,39 @@
             <TextView
                 android:id="@+id/owner_detail_owner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:text="Técnico: "
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned_owner" />
+                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned_owner"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned_owner" />
 
             <TextView
                 android:id="@+id/province_detail_assigned_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Provincia: "
-                app:layout_constraintStart_toStartOf="@+id/owner_detail_owner"
-                app:layout_constraintTop_toBottomOf="@+id/owner_detail_owner" />
+                app:layout_constraintStart_toStartOf="@+id/description_detail_assigned_owner"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_assigned_owner" />
 
             <TextView
                 android:id="@+id/title_detail_assigned_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text="Título Alerta:"
-                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned_owner"
-                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned_owner" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned_owner" />
 
             <TextView
                 android:id="@+id/partTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Parte de la incidencia:"
-                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner"
-                app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_owner" />
+                app:layout_constraintStart_toStartOf="@+id/owner_detail_owner"
+                app:layout_constraintTop_toBottomOf="@+id/owner_detail_owner" />
 
             <EditText
                 android:id="@+id/editText_part"
@@ -315,6 +346,16 @@
                 </android.support.v7.widget.CardView>
 
             </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/description_detail_assigned_owner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_owner" />
 
 
         </android.support.constraint.ConstraintLayout>

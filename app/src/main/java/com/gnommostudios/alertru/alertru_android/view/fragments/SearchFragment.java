@@ -198,46 +198,64 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        searchAlerts(v.getId());
+        /*switch (v.getId()) {
             case R.id.searchButton:
                 searchAlerts();
                 break;
-        }
+        }*/
     }
 
-    private void searchAlerts() {
-        String dEnter = dateEnter.getText().toString();
-        String dExit = dateExit.getText().toString();
+    private void searchAlerts(int id) {
+        // Options //
+        // 0 - Assigned and unassigned with a date
+        // 1 - Unassigned with a date
+        // 2 - Assigned with a date
+        // 3 - Closed from technician
 
-        boolean searchOpenAndClosed = checkBoxSearch.isChecked();
-        boolean searchOpen = this.searchOpen.isChecked();
-        boolean searchClosed = this.searchClose.isChecked();
+        if (id == R.id.searchButton) {
+            String dEnter = dateEnter.getText().toString();
+            String dExit = dateExit.getText().toString();
 
-        if (dEnter.toString().length() == 0 || dExit.length() == 0) {
-            Toast.makeText(getActivity(), "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show();
-        } else {
+            boolean searchOpenAndClosed = checkBoxSearch.isChecked();
+            boolean searchOpen = this.searchOpen.isChecked();
+            boolean searchClosed = this.searchClose.isChecked();
+
+            if (dEnter.toString().length() == 0 || dExit.length() == 0) {
+                Toast.makeText(getActivity(), "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show();
+            } else {
+                alertArrayList = new ArrayList<>();
+
+                AlertListAsyncTask alat = new AlertListAsyncTask();
+
+                if (!searchOpenAndClosed && !searchOpen && !searchClosed) {
+                    titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
+                    alat.execute(0);
+                } else if (searchOpenAndClosed) {
+                    titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
+                    alat.execute(0);
+                } else {
+                    if (searchOpen) {
+                        titleSearch.setText("Sin asignar\nde " + dEnter + " a " + dExit + ":");
+                        alat.execute(1);
+                    }
+                    if (searchClosed) {
+                        titleSearch.setText("Asignadas\nde " + dEnter + " a " + dExit + ":");
+                        alat.execute(2);
+                    }
+                }
+
+            }
+        }
+
+        if (id == R.id.searchFinalized) {
             alertArrayList = new ArrayList<>();
 
+            titleSearch.setText("Tus alertas cerradas:");
             AlertListAsyncTask alat = new AlertListAsyncTask();
-
-            if (!searchOpenAndClosed && !searchOpen && !searchClosed) {
-                titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
-                alat.execute(0);
-            } else if (searchOpenAndClosed) {
-                titleSearch.setText("Asignadas y sin asignar\nde " + dEnter + " a " + dExit + ":");
-                alat.execute(0);
-            } else {
-                if (searchOpen) {
-                    titleSearch.setText("Sin asignar\nde " + dEnter + " a " + dExit + ":");
-                    alat.execute(1);
-                }
-                if (searchClosed) {
-                    titleSearch.setText("Asignadas\nde " + dEnter + " a " + dExit + ":");
-                    alat.execute(2);
-                }
-            }
-
+            alat.execute(3);
         }
+
     }
 
     private void createAlertsArray(Alert alert, String d) {
@@ -375,8 +393,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         @Override
         protected Boolean doInBackground(Integer... op) {
             try {
-                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("province", "").toLowerCase() +
-                        "?access_token=" + prefs.getString("access_token", ""));
+                URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("id", "") +
+                        "/get-alerts-by-owner-province?access_token=" + prefs.getString("access_token", ""));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 connection.setRequestMethod("POST");
@@ -416,6 +434,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
                         String id = alert.getString("id");
                         String affair = alert.getString("title");
+                        String description = alert.getString("description");
                         String province = alert.getString("province");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -423,25 +442,34 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                         boolean assigned = alert.getBoolean("assigned");
                         String state = alert.getString("state");
 
-                        if (!assigned) {
-                            if (op[0] == 0)
-                                createAlertsArray(new Alert(id, affair, province, date, assigned, state), date);
+                        if (op[0] != 3) {
+                            if (!assigned) {
+                                if (op[0] == 0)
+                                    createAlertsArray(new Alert(id, affair, description, province, date, assigned, state), date);
 
-                            if (op[0] == 1)
-                                createAlertsArrayOpen(new Alert(id, affair, province, date, assigned, state), date);
+                                if (op[0] == 1)
+                                    createAlertsArrayOpen(new Alert(id, affair, description, province, date, assigned, state), date);
 
-                            if (op[0] == 2)
-                                createAlertsArrayClosed(new Alert(id, affair, province, date, assigned, state), date);
+                                if (op[0] == 2)
+                                    createAlertsArrayClosed(new Alert(id, affair, description, province, date, assigned, state), date);
+                            } else {
+                                String idTechnician = alert.getString("owner");
+                                if (op[0] == 0)
+                                    createAlertsArray(new Alert(id, affair, description, province, date, idTechnician, assigned, state), date);
+
+                                if (op[0] == 1)
+                                    createAlertsArrayOpen(new Alert(id, affair, description, province, date, idTechnician, assigned, state), date);
+
+                                if (op[0] == 2)
+                                    createAlertsArrayClosed(new Alert(id, affair, description, province, date, idTechnician, assigned, state), date);
+                            }
                         } else {
-                            String idDoctor = alert.getString("owner");
-                            if (op[0] == 0)
-                                createAlertsArray(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
-
-                            if (op[0] == 1)
-                                createAlertsArrayOpen(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
-
-                            if (op[0] == 2)
-                                createAlertsArrayClosed(new Alert(id, affair, province, date, idDoctor, assigned, state), date);
+                            if (assigned) {
+                                String idTechnician = alert.getString("owner");
+                                if (state.equals("closed") && idTechnician.equals(prefs.getString("id", ""))) {
+                                    alertArrayList.add(new Alert(id, affair, description, province, date, idTechnician, assigned, state));
+                                }
+                            }
                         }
                     }
 

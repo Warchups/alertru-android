@@ -60,5 +60,6 @@
     <string name="close_alert">Cerrar Incidencia</string>
     <string name="searchFinalized">Ver Cerradas</string>
     <string name="without_alerts">No hay alertas activas.</string>
+    <string name="writeNotes">Por favor, escriba el parte de la incidencia.</string>
 
 </resources>

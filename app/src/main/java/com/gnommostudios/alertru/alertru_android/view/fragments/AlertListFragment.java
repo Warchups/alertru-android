@@ -47,9 +47,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -86,17 +91,20 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private TextView ownerDetail;
     private TextView provinceDetailAssigned;
     private TextView titleDetailAssigned;
+    private TextView descriptionDetailAssigned;
 
     //Unassigned
     private TextView dateDetailUnassigned;
     private TextView provinceDetailUnassigned;
     private TextView titleDetailUnassigned;
+    private TextView descriptionDetailUnassigned;
 
     //Assigned owner
     private TextView dateDetailAssignedOwner;
     private TextView ownerDetailOwner;
     private TextView provinceDetailAssignedOwner;
     private TextView titleDetailAssignedOwner;
+    private TextView descriptionDetailAssignedOwner;
     private TextView partTextView;
     private EditText editTextPart;
     private CardView cardCloseAlert;
@@ -141,17 +149,20 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         ownerDetail = (TextView) view.findViewById(R.id.owner_detail);
         provinceDetailAssigned = (TextView) view.findViewById(R.id.province_detail_assigned);
         titleDetailAssigned = (TextView) view.findViewById(R.id.title_detail_assigned);
+        descriptionDetailAssigned = (TextView) view.findViewById(R.id.description_detail_assigned);
 
         /*****Unassigned****/
         dateDetailUnassigned = (TextView) view.findViewById(R.id.date_detail_unassigned);
         provinceDetailUnassigned = (TextView) view.findViewById(R.id.province_detail_unassigned);
         titleDetailUnassigned = (TextView) view.findViewById(R.id.title_detail_unassigned);
+        descriptionDetailUnassigned = (TextView) view.findViewById(R.id.description_detail_unassigned);
 
         /******Assigned Owner*****/
         dateDetailAssignedOwner = (TextView) view.findViewById(R.id.date_detail_assigned_owner);
         ownerDetailOwner = (TextView) view.findViewById(R.id.owner_detail_owner);
         provinceDetailAssignedOwner = (TextView) view.findViewById(R.id.province_detail_assigned_owner);
         titleDetailAssignedOwner = (TextView) view.findViewById(R.id.title_detail_assigned_owner);
+        descriptionDetailAssignedOwner = (TextView) view.findViewById(R.id.description_detail_assigned_owner);
 
         /**Finalized**/
         partTextView = (TextView) view.findViewById(R.id.partTextView);
@@ -246,8 +257,15 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 adaat.execute(alertDetail);
                 break;
             case R.id.close_alert:
-                CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
-                caat.execute(alertDetail);
+                Alert alertToClose = alertDetail;
+
+                if (editTextPart.getText().toString().length() > 0) {
+                    alertToClose.setNotes(editTextPart.getText().toString());
+                    CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
+                    caat.execute(alertToClose);
+                } else {
+                    Toast.makeText(getContext(), R.string.writeNotes, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -285,19 +303,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 dateDetailAssigned.setText(alert.getDate());
 
                 /*****Technician*****/
-                builder = new SpannableStringBuilder();
-
-                cabecera = "Técnico: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
-                contenido = alert.getIdTechnician();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
-
-                ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+                SelectTechnicianIDAsyncTask stidat = new SelectTechnicianIDAsyncTask();
+                stidat.execute(alert.getIdTechnician());
 
                 /*****Province*****/
                 builder = new SpannableStringBuilder();
@@ -329,6 +336,21 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                 titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
 
+                /*****Description*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Descripción: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = alert.getDescription();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                descriptionDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.VISIBLE);
                 containerList.setVisibility(View.GONE);
@@ -345,7 +367,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
                 builder.append(cabeceraSpannable);
 
-                contenido = alert.getIdTechnician();
+                contenido = prefs.getString("surname", "") + ", " + prefs.getString("name", "");
                 contenidoSpannable = new SpannableString(contenido);
                 contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
                 builder.append(contenidoSpannable);
@@ -381,6 +403,21 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 builder.append(contenidoSpannable);
 
                 titleDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+
+                /*****Description*****/
+                builder = new SpannableStringBuilder();
+
+                cabecera = "Descripción: ";
+                cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                contenido = alert.getDescription();
+                contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                descriptionDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
 
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.GONE);
@@ -446,6 +483,21 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             builder.append(contenidoSpannable);
 
             titleDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+
+            /*****Description*****/
+            builder = new SpannableStringBuilder();
+
+            cabecera = "Descripción: ";
+            cabeceraSpannable = new SpannableString(cabecera);
+            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+            builder.append(cabeceraSpannable);
+
+            contenido = alert.getDescription();
+            contenidoSpannable = new SpannableString(contenido);
+            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+            builder.append(contenidoSpannable);
+
+            descriptionDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
 
             layoutDetail.setVisibility(View.VISIBLE);
             containerAssigned.setVisibility(View.GONE);
@@ -576,6 +628,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                         String id = alert.getString("id");
                         String affair = alert.getString("title");
+                        String description = alert.getString("description");
                         String province = alert.getString("province");
                         Date d = new Date(Long.parseLong(alert.getString("date")));
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -585,10 +638,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                         if (!state.equals("closed")) {
                             if (!assigned) {
-                                alertArrayList.add(new Alert(id, affair, province, date, assigned, state));
+                                alertArrayList.add(new Alert(id, affair, description, province, date, assigned, state));
                             } else {
-                                String idTechnician = alert.getString("owner");
-                                alertArrayList.add(new Alert(id, affair, province, date, idTechnician, assigned, state));
+                                String idDoctor = alert.getString("owner");
+                                alertArrayList.add(new Alert(id, affair, description, province, date, idDoctor, assigned, state));
                             }
                         }
 
@@ -752,6 +805,18 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("note", alertsParams[0].getNotes());
+
+                Log.i("JSON", jsonParam.toString());
+
+                OutputStream os = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write(jsonParam.toString());
+
+                writer.flush();
+                writer.close();
 
                 int respuesta = connection.getResponseCode();
 
@@ -762,6 +827,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 return false;
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -778,6 +845,84 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 fromDetailsToList();
             } else {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class SelectTechnicianIDAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... ids) {
+            try {
+                URL url = new URL(Urls.SELECT_ID + ids[0] + "?access_token=" + prefs.getString("access_token", ""));
+                Log.i("URL", url.toString());
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
+                        " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.connect();
+
+                int respuesta = connection.getResponseCode();
+
+                StringBuilder resultSelect = new StringBuilder();
+
+                Log.i("EE", "ee");
+                if (respuesta == HttpURLConnection.HTTP_OK) {
+                    Log.i("OO", "oo");
+                    InputStream in = new BufferedInputStream(connection.getInputStream());
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+                    String lineSelect;
+
+                    while ((lineSelect = reader.readLine()) != null) {
+                        resultSelect.append(lineSelect);
+                    }
+
+                    JSONObject respuestaJSONSelect = new JSONObject(resultSelect.toString());
+
+                    String name = respuestaJSONSelect.getString("name");
+                    String surname = respuestaJSONSelect.getString("surname");
+
+
+                    return surname + ", " + name;
+                }
+
+                return "";
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String name) {
+            super.onPostExecute(name);
+
+            if (!name.equals("")) {
+                Toast.makeText(getContext(), "EEE", Toast.LENGTH_SHORT).show();
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+
+                String cabecera = "Técnico: ";
+                SpannableString cabeceraSpannable = new SpannableString(cabecera);
+                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+                builder.append(cabeceraSpannable);
+
+                String contenido = name;
+                SpannableString contenidoSpannable = new SpannableString(contenido);
+                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+                builder.append(contenidoSpannable);
+
+                ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+            }else {
+                Toast.makeText(getContext(), "OOO", Toast.LENGTH_SHORT).show();
             }
         }
     }

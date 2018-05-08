@@ -46,7 +46,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
 
-            long [] vibrate = {0, 100, 200, 300};
+            long [] vibrate = new long[1000];
+
+            for (int i = 0 ; i < vibrate.length ; i++)
+                vibrate[i] = 2000;
 
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 

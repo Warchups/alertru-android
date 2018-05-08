@@ -6,6 +6,7 @@ public class Alert implements Serializable {
 
     private String id;
     private String affair;
+    private String description;
     private String date;
     private String idTechnician;
     private String province;
@@ -13,30 +14,33 @@ public class Alert implements Serializable {
     private String state;
     private String notes;
 
-    public Alert(String id, String affair, String province, String date, boolean assigned, String state) {
+    public Alert(String id, String affair, String description ,String province, String date, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
+        this.description = description;
         this.assigned = assigned;
         this.state = state;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, String state) {
+    public Alert(String id, String affair, String description ,String province, String date, String idTechnician, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.idTechnician = idTechnician;
+        this.description = description;
         this.assigned = assigned;
         this.state = state;
         this.province = province;
     }
 
-    public Alert(String id, String affair, String province, String date, String idTechnician, boolean assigned, String state, String notes) {
+    public Alert(String id, String affair, String description ,String province, String date, String idTechnician, boolean assigned, String state, String notes) {
         this.id = id;
         this.affair = affair;
         this.date = date;
         this.idTechnician = idTechnician;
+        this.description = description;
         this.assigned = assigned;
         this.state = state;
         this.notes = notes;
@@ -44,6 +48,14 @@ public class Alert implements Serializable {
     }
 
     public Alert() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getProvince() {
