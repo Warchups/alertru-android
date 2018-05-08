@@ -65,7 +65,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notification.flags = Notification.FLAG_INSISTENT;
 
             mNotificationManager.notify(0, notification);
-
         }
 
         Intent intent = new Intent("MainActivity");
@@ -74,4 +73,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //send broadcast
         getApplicationContext().sendBroadcast(intent);
     }
+
 }
