@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,9 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -656,8 +653,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                             if (!assigned) {
                                 alertArrayList.add(new Alert(id, affair, description, province, date, assigned, state));
                             } else {
-                                String idDoctor = alert.getString("owner");
-                                alertArrayList.add(new Alert(id, affair, description, province, date, idDoctor, assigned, state));
+                                String idTechnician = alert.getString("owner");
+                                alertArrayList.add(new Alert(id, affair, description, province, date, idTechnician, assigned, state));
                             }
                         }
 

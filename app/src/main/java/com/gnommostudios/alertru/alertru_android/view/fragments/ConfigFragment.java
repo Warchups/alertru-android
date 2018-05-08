@@ -108,8 +108,6 @@ public class ConfigFragment extends Fragment {
                     editor.putBoolean("activateAlert", (boolean) newValue);
                     editor.commit();
 
-                    //choiceRingote(ringote.getValue());
-
                     return true;
                 }
             });

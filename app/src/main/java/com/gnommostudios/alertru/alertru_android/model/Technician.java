@@ -94,7 +94,6 @@ public class Technician {
                 ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", emailVerified=" + emailVerified +
                 ", id='" + id + '\'' +
                 ", province='" + province + '\'' +
                 '}';

@@ -50,9 +50,6 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
         dateTxt.setText(elements.get(position).getDate());
         descriptionTxt.setText(elements.get(position).getDescription());
 
-        //if (position == 0)
-        //    convertView.setPadding(48, 20, 48, 35);
-
         if (elements.get(position).isAssigned()) {
             imagePadlock.setImageResource(R.drawable.icono_candado4);
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_assigned));

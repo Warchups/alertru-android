@@ -11,6 +11,7 @@ import com.gnommostudios.alertru.alertru_android.view.fragments.MoreFragment;
 import com.gnommostudios.alertru.alertru_android.view.fragments.SearchFragment;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+
     final int PAGE_COUNT = 5;
 
     public MyFragmentPagerAdapter(FragmentManager fm) {

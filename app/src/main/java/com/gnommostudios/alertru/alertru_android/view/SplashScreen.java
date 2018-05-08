@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.model.Technician;
@@ -53,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
                 if (stateLog.equals(StatesLog.LOGGED)) {
                     LoginAsyncTask lat = new LoginAsyncTask();
                     lat.execute();
-                }else {
+                } else {
                     Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
                     mainIntent.putExtra("PAGE", 0);
                     SplashScreen.this.startActivity(mainIntent);
@@ -82,7 +82,7 @@ public class SplashScreen extends AppCompatActivity {
                 conSelect.connect();
 
                 int respuestaSelect = conSelect.getResponseCode();
-                Log.i("EE", conSelect.getResponseCode() + "");
+
                 StringBuilder resultSelect = new StringBuilder();
 
                 if (respuestaSelect == HttpURLConnection.HTTP_OK) {
@@ -134,14 +134,10 @@ public class SplashScreen extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (SocketTimeoutException e) {
-                return 3;
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            //SharedPreferences.Editor editor = prefs.edit();
-            //editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
-            //editor.commit();
 
             return 2;
         }
@@ -157,16 +153,16 @@ public class SplashScreen extends AppCompatActivity {
                 case 1:
                     mainIntent.putExtra("PAGE", 2);
                     break;
-                case 2:
-                    mainIntent.putExtra("PAGE", 0);
-                    break;
-                case 3:
-                    mainIntent.putExtra("PAGE", 2);
-                    break;
             }
 
-            SplashScreen.this.startActivity(mainIntent);
-            SplashScreen.this.finish();
+            if (integer != 2) {
+                SplashScreen.this.startActivity(mainIntent);
+                SplashScreen.this.finish();
+            } else {
+                Toast.makeText(SplashScreen.this, "ERROR DE CONEXIÓN", Toast.LENGTH_LONG).show();
+                SplashScreen.this.finish();
+            }
         }
     }
+
 }
