@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,7 +63,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, FABProgressListener {
+public class AlertListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, FABProgressListener, AbsListView.OnScrollListener {
 
     private ArrayList<Alert> alertArrayList;
 
@@ -199,12 +200,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
-    }
-
     public void initList() {
         alertArrayList = new ArrayList<>();
 
@@ -239,6 +234,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
         alertList.setOnItemClickListener(this);
         alertList.setOnItemLongClickListener(this);
+        alertList.setOnScrollListener(this);
     }
 
     @Override
@@ -570,6 +566,20 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
         initList();
 
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (firstVisibleItem > 0) {
+            refresh.setEnabled(false);
+        }else {
+            refresh.setEnabled(true);
+        }
     }
 
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
