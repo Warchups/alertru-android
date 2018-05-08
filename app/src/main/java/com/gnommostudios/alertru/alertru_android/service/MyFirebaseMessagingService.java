@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -16,14 +17,31 @@ import com.gnommostudios.alertru.alertru_android.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private SharedPreferences prefs;
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.i("FIREBASE", remoteMessage.getNotification().getBody());
+    public void handleIntent(Intent intent) {
+        Log.i("HANDLE-INTENT", intent.getAction());
 
+        if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
+            Bundle bundle = intent.getExtras();
+
+            showNotification(bundle.getString("gcm.notification.title"), bundle.getString("gcm.notification.body"));
+        } else {
+            super.handleIntent(intent);
+        }
+    }
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+    }
+
+    private void showNotification(String title, String body) {
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         boolean activateAlert = prefs.getBoolean("activateAlert", true);
@@ -33,7 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri sound;
 
             if (ringote.equals("a1")) {
-               sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm1);
+                sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm1);
             } else if (ringote.equals("a2")) {
                 sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm2);
             } else if (ringote.equals("be")) {
@@ -52,10 +70,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.icon_alarma)
                             .setLargeIcon(image)
-                            .setPriority(Integer.parseInt(remoteMessage.getData().get("priority")))
-                            .setContentTitle(remoteMessage.getNotification().getTitle())
-                            .setContentText(remoteMessage.getNotification().getBody())
+                            .setContentTitle(title)
+                            .setContentText(body)
                             .setVibrate(vibrate)
+                            .setVisibility(VISIBILITY_PUBLIC)
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
 
