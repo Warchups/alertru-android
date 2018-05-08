@@ -28,6 +28,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -106,6 +107,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private TextView provinceDetailAssignedOwner;
     private TextView titleDetailAssignedOwner;
     private TextView descriptionDetailAssignedOwner;
+
+    private ImageView writeDetails;
     private TextView partTextView;
     private EditText editTextPart;
     private CardView cardCloseAlert;
@@ -168,6 +171,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         /**Finalized**/
         partTextView = (TextView) view.findViewById(R.id.partTextView);
         editTextPart = (EditText) view.findViewById(R.id.editText_part);
+        writeDetails = (ImageView) view.findViewById(R.id.write_detail_assigned_owner);
 
         cardCloseAlert = (CardView) view.findViewById(R.id.card_close_alert);
         shimmerCloseAlert = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_close_alert);
@@ -420,6 +424,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 containerList.setVisibility(View.GONE);
                 containerUnassigned.setVisibility(View.GONE);
                 containerAssignedOwner.setVisibility(View.VISIBLE);
+                writeDetails.setVisibility(View.GONE);
                 partTextView.setVisibility(View.GONE);
                 editTextPart.setText("");
                 editTextPart.setVisibility(View.GONE);
@@ -442,6 +447,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     partTextView.setText(builder, TextView.BufferType.SPANNABLE);
 
+                    writeDetails.setVisibility(View.VISIBLE);
                     partTextView.setVisibility(View.VISIBLE);
                     editTextPart.setVisibility(View.VISIBLE);
                     shimmerCloseAlert.setVisibility(View.VISIBLE);
@@ -879,9 +885,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                 StringBuilder resultSelect = new StringBuilder();
 
-                Log.i("EE", "ee");
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    Log.i("OO", "oo");
                     InputStream in = new BufferedInputStream(connection.getInputStream());
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -917,7 +921,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             super.onPostExecute(name);
 
             if (!name.equals("")) {
-                Toast.makeText(getContext(), "EEE", Toast.LENGTH_SHORT).show();
                 SpannableStringBuilder builder = new SpannableStringBuilder();
 
                 String cabecera = "Técnico: ";
@@ -932,7 +935,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                 ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
             }else {
-                Toast.makeText(getContext(), "OOO", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error: No se puede ver el tecnico de la alerta", Toast.LENGTH_SHORT).show();
             }
         }
     }

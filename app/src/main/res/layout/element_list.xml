@@ -85,19 +85,28 @@
                         android:layout_marginStart="8dp"
                         android:text="description"
                         app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                        app:layout_constraintEnd_toStartOf="@+id/ownerImage"
+                        app:layout_constraintEnd_toStartOf="@+id/finishedImage"
                         app:layout_constraintHorizontal_bias="0.071"
                         app:layout_constraintStart_toEndOf="@+id/textView2"
                         app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                    <ImageView
+                        android:id="@+id/finishedImage"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/lapiz_escribiendo_claro"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@+id/ownerImage"
+                        app:layout_constraintEnd_toStartOf="@+id/ownerImage" />
 
                     <ImageView
                         android:id="@+id/ownerImage"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/userclaro"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:visibility="gone"/>
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

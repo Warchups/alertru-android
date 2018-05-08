@@ -279,10 +279,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (viewPager.getCurrentItem() == 1) {
             LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
             LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
+            LinearLayout searchDetails = (LinearLayout) findViewById(R.id.details_search);
 
             if (searchList.getVisibility() == View.VISIBLE) {
                 searchList.setVisibility(View.GONE);
                 searchForm.setVisibility(View.VISIBLE);
+            } else if (searchDetails.getVisibility() == View.VISIBLE) {
+                searchDetails.setVisibility(View.GONE);
+                searchList.setVisibility(View.VISIBLE);
+                titleToolbar.setText("Búsqueda");
             } else {
                 super.onBackPressed();
             }
@@ -295,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 containerList.setVisibility(View.VISIBLE);
                 layoutDetails.setVisibility(View.GONE);
                 titleToolbar.setText(R.string.incidents);
-            }else {
+            } else {
                 super.onBackPressed();
             }
 

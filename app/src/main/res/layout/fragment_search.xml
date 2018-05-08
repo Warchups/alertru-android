@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:padding="7dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,9 +137,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_weight="0.7"
-                app:cardCornerRadius="2dp"
-                android:layout_marginTop="8dp">
+                app:cardCornerRadius="2dp">
 
                 <Button
                     android:id="@+id/searchFinalized"
@@ -183,7 +183,7 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="5dp"
             android:scrollbars="none"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/without_results"
@@ -192,7 +192,7 @@
             android:layout_gravity="center"
             android:layout_margin="30dp"
             android:text="@string/without_results"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -210,6 +210,295 @@
             android:layout_height="100dp"
             app:indicatorColor="@color/colorPrimary"
             app:indicatorName="BallScaleRippleMultipleIndicator" />
+
+    </LinearLayout>
+
+    <!--Search detail-->
+    <LinearLayout
+        android:id="@+id/details_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <!--Assigned-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/search_assigned"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/date_detail_assigned_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="00-00-000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/owner_detail_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned_search"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned_search" />
+
+            <TextView
+                android:id="@+id/province_detail_assigned_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Provincia: "
+                app:layout_constraintStart_toStartOf="@+id/description_detail_assigned_search"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_assigned_search" />
+
+            <TextView
+                android:id="@+id/title_detail_assigned_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Título Alerta:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned_search" />
+
+            <TextView
+                android:id="@+id/description_detail_assigned_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_search"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_search" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--Unassigned-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/search_unassigned"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/date_detail_unassigned_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="00-00-000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/province_detail_unassigned_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Provincia: "
+                app:layout_constraintStart_toStartOf="@+id/description_detail_unassigned_search"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_unassigned_search" />
+
+            <TextView
+                android:id="@+id/title_detail_unassigned_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Título Alerta:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_unassigned_search" />
+
+            <TextView
+                android:id="@+id/description_detail_unassigned_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_unassigned_search"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_unassigned_search" />
+
+            <com.github.jorgecastilloprz.FABProgressCircle
+                android:id="@+id/fabProgressCircle_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:arcColor="@color/green"
+                app:arcWidth="4dp"
+                app:finalIcon="@drawable/tick_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:reusable="true">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/assign_fab_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/link_white"
+                    app:backgroundTint="@color/colorPrimary" />
+
+            </com.github.jorgecastilloprz.FABProgressCircle>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--Assigned Owner-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/search_assigned_owner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/closed_detail_assigned_owner_search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/closed_state"
+                app:layout_constraintBottom_toBottomOf="@+id/date_detail_assigned_owner_search"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner_search"
+                app:layout_constraintTop_toTopOf="@+id/date_detail_assigned_owner_search" />
+
+            <ImageView
+                android:id="@+id/image_detail_assigned_owner_search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/userclaro"
+                app:layout_constraintBottom_toBottomOf="@+id/date_detail_assigned_owner_search"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner_search"
+                app:layout_constraintTop_toTopOf="@+id/date_detail_assigned_owner_search" />
+
+            <ImageView
+                android:id="@+id/write_detail_assigned_owner_search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/lapiz_escribiendo_claro"
+                app:layout_constraintBottom_toBottomOf="@+id/image_detail_assigned_owner_search"
+                app:layout_constraintStart_toEndOf="@+id/image_detail_assigned_owner_search"
+                app:layout_constraintTop_toTopOf="@+id/image_detail_assigned_owner_search" />
+
+            <TextView
+                android:id="@+id/date_detail_assigned_owner_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="00-00-000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/owner_detail_owner_search"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:text="Técnico: "
+                app:layout_constraintStart_toStartOf="@+id/province_detail_assigned_owner_search"
+                app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned_owner_search" />
+
+            <TextView
+                android:id="@+id/province_detail_assigned_owner_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Provincia: "
+                app:layout_constraintStart_toStartOf="@+id/description_detail_assigned_owner_search"
+                app:layout_constraintTop_toBottomOf="@+id/description_detail_assigned_owner_search" />
+
+            <TextView
+                android:id="@+id/title_detail_assigned_owner_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Título Alerta:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_detail_assigned_owner_search" />
+
+            <TextView
+                android:id="@+id/partTextView_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Parte de la incidencia:"
+                app:layout_constraintStart_toStartOf="@+id/owner_detail_owner_search"
+                app:layout_constraintTop_toBottomOf="@+id/owner_detail_owner_search" />
+
+            <EditText
+                android:id="@+id/editText_part_search"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:padding="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/partTextView_search"
+                app:layout_constraintTop_toBottomOf="@+id/partTextView_search" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="300dp" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_close_alert_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_close_alert_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="2dp">
+
+                    <Button
+                        android:id="@+id/close_alert_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button"
+                        android:padding="8dp"
+                        android:text="@string/close_alert"
+                        android:textColor="@color/white" />
+
+                </android.support.v7.widget.CardView>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <TextView
+                android:id="@+id/description_detail_assigned_owner_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner_search"
+                app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_owner_search" />
+
+
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

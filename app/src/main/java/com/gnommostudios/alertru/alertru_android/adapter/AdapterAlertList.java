@@ -44,6 +44,7 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
         TextView descriptionTxt = (TextView) convertView.findViewById(R.id.descriptionTxt);
         TextView dateTxt = (TextView) convertView.findViewById(R.id.dateTxt);
         ImageView ownerImage = (ImageView) convertView.findViewById(R.id.ownerImage);
+        ImageView finishedImage = (ImageView) convertView.findViewById(R.id.finishedImage);
 
         affairTxt.setText(elements.get(position).getAffair());
         dateTxt.setText(elements.get(position).getDate());
@@ -58,6 +59,9 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
 
             if (elements.get(position).getIdTechnician().equals(prefs.getString("id", ""))) {
                 ownerImage.setVisibility(View.VISIBLE);
+                if (elements.get(position).getState().equals("finished")) {
+                    finishedImage.setVisibility(View.VISIBLE);
+                }
             } else {
                 ownerImage.setVisibility(View.GONE);
             }

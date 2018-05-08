@@ -9,12 +9,13 @@ public class Alert implements Serializable {
     private String description;
     private String date;
     private String idTechnician;
+    private String creator;
     private String province;
     private boolean assigned;
     private String state;
     private String notes;
 
-    public Alert(String id, String affair, String description ,String province, String date, boolean assigned, String state) {
+    public Alert(String id, String affair, String description, String province, String date, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
@@ -24,7 +25,7 @@ public class Alert implements Serializable {
         this.province = province;
     }
 
-    public Alert(String id, String affair, String description ,String province, String date, String idTechnician, boolean assigned, String state) {
+    public Alert(String id, String affair, String description, String province, String date, String idTechnician, boolean assigned, String state) {
         this.id = id;
         this.affair = affair;
         this.date = date;
@@ -35,7 +36,7 @@ public class Alert implements Serializable {
         this.province = province;
     }
 
-    public Alert(String id, String affair, String description ,String province, String date, String idTechnician, boolean assigned, String state, String notes) {
+    public Alert(String id, String affair, String description, String province, String date, String idTechnician, boolean assigned, String state, String notes) {
         this.id = id;
         this.affair = affair;
         this.date = date;
@@ -48,6 +49,14 @@ public class Alert implements Serializable {
     }
 
     public Alert() {
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public String getDescription() {

@@ -122,7 +122,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Técnico: "
                 app:layout_constraintStart_toStartOf="@+id/province_detail_assigned"
                 app:layout_constraintTop_toBottomOf="@+id/province_detail_assigned" />
 
@@ -233,16 +232,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:visibility="gone">
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/write_detail_assigned_owner"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/lapiz_escribiendo_claro"
+                app:layout_constraintBottom_toBottomOf="@+id/image_detail_assigned_owner"
+                app:layout_constraintStart_toEndOf="@+id/image_detail_assigned_owner"
+                app:layout_constraintTop_toTopOf="@+id/image_detail_assigned_owner" />
 
             <ImageView
                 android:id="@+id/image_detail_assigned_owner"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="8dp"
                 android:src="@drawable/userclaro"
                 app:layout_constraintBottom_toBottomOf="@+id/date_detail_assigned_owner"
-                app:layout_constraintEnd_toStartOf="@+id/date_detail_assigned_owner"
+                app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner"
                 app:layout_constraintTop_toTopOf="@+id/date_detail_assigned_owner" />
 
             <TextView
