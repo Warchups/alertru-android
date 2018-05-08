@@ -1,5 +1,6 @@
 package com.gnommostudios.alertru.alertru_android.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
-import com.gnommostudios.alertru.alertru_android.view.MainActivity;
-import com.gnommostudios.alertru.alertru_android.view.fragments.AlertListFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -35,21 +33,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri sound;
 
             if (ringote.equals("a1")) {
-                sound = RingtoneManager.getDefaultUri(R.raw.alarm1);
+               sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm1);
             } else if (ringote.equals("a2")) {
-                sound = RingtoneManager.getDefaultUri(R.raw.alarm2);
+                sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm2);
             } else if (ringote.equals("be")) {
-                sound = RingtoneManager.getDefaultUri(R.raw.beep);
+                sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep);
             } else if (ringote.equals("nu")) {
-                sound = RingtoneManager.getDefaultUri(R.raw.nuclear);
+                sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nuclear);
             } else {
                 sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
 
-            long [] vibrate = new long[1000];
-
-            for (int i = 0 ; i < vibrate.length ; i++)
-                vibrate[i] = 2000;
+            long [] vibrate = {0, 1000, 2000, 3000};
 
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 
@@ -64,22 +59,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
 
-            //Log.i("PRUEBA", remoteMessage.getData().get("priority"));
-            //Log.i("TIME", remoteMessage.getTtl() + "");
-
             final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            mNotificationManager.notify(0, mBuilder.build());
+            Notification notification = mBuilder.build();
+            notification.flags = Notification.FLAG_INSISTENT;
 
-            /*long delayInMilliseconds = remoteMessage.getTtl();
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    mNotificationManager.cancelAll();
-                }
-            }, delayInMilliseconds);*/
+            mNotificationManager.notify(0, notification);
+
         }
 
-        //Intent intent = new Intent("com.gnommostudios.alertru.mybroadcastreceiver");
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", true);
         intent.putExtra("CHANGE_TITLE", false);
