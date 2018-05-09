@@ -42,25 +42,6 @@ public class ConfigFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_config, container, false);
     }
 
-    public void choiceRingote(String option) {
-        switch (option) {
-            case "nu":
-                Toast.makeText(getActivity(), "Nuclear", Toast.LENGTH_SHORT).show();
-                break;
-            case "be":
-                Toast.makeText(getActivity(), "Beep", Toast.LENGTH_SHORT).show();
-                break;
-            case "a1":
-                Toast.makeText(getActivity(), "Alarm1", Toast.LENGTH_SHORT).show();
-                break;
-            case "a2":
-                Toast.makeText(getActivity(), "Alarm2", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                Toast.makeText(getActivity(), "Default", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static class MyPreferenceFragment extends PreferenceFragment {
 
         static ListPreference ringote;
