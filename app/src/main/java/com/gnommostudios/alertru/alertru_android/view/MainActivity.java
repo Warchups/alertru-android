@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -311,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            Log.i("BROADCAST", "Hola");
+            //Log.i("BROADCAST", "Hola");
 
             if (!intent.getExtras().getBoolean("CHANGE_TITLE")) {
                 notification = intent.getExtras().getBoolean("NOTIFICATION");

@@ -15,7 +15,6 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -671,9 +670,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setYear(year);
 
 
-        Log.i("DATE", date.getTime() + "");
-        Log.i("ENTER", dateEnter.getTime() + "");
-        Log.i("EXIT", dateExit.getTime() + "");
+        //Log.i("DATE", date.getTime() + "");
+        //Log.i("ENTER", dateEnter.getTime() + "");
+        //Log.i("EXIT", dateExit.getTime() + "");
 
         if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime())
             alertArrayList.add(alert);
@@ -712,9 +711,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setYear(year);
 
 
-        Log.i("DATE", date.getTime() + "");
-        Log.i("ENTER", dateEnter.getTime() + "");
-        Log.i("EXIT", dateExit.getTime() + "");
+        //Log.i("DATE", date.getTime() + "");
+        //Log.i("ENTER", dateEnter.getTime() + "");
+        //Log.i("EXIT", dateExit.getTime() + "");
 
         if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime() && !alert.isAssigned())
             alertArrayList.add(alert);
@@ -753,9 +752,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setYear(year);
 
 
-        Log.i("DATE", date.getTime() + "");
-        Log.i("ENTER", dateEnter.getTime() + "");
-        Log.i("EXIT", dateExit.getTime() + "");
+        //Log.i("DATE", date.getTime() + "");
+        //Log.i("ENTER", dateEnter.getTime() + "");
+        //Log.i("EXIT", dateExit.getTime() + "");
 
         if (date.getTime() >= dateEnter.getTime() && date.getTime() <= dateExit.getTime() && alert.isAssigned())
             alertArrayList.add(alert);
@@ -796,21 +795,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
                 int respuesta = connection.getResponseCode();
 
-                Log.i("EEE", "Llego aqui");
+                //Log.i("EEE", "Llego aqui");
                 StringBuilder result = new StringBuilder();
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    String line;
-
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                    //connection.disconnect();
-
-                    /*while ((line = br.readLine()) != null) {
-                        //Log.i("Line", line);
-                        result.append(line);
-                    }*/
-
                     result.append(br.readLine());
 
                     //JSONObject jsonObject = new JSONObject(result.toString());
@@ -897,7 +886,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 AuthenticationDialog dialog = new AuthenticationDialog();
                 dialog.show(getFragmentManager(), "CONNECTION_ERROR");
                 searchForm.setVisibility(View.VISIBLE);
-                //setAdapter();
             }
         }
     }
@@ -986,7 +974,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("note", alertsParams[0].getNotes());
 
-                Log.i("JSON", jsonParam.toString());
+                //Log.i("JSON", jsonParam.toString());
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -1033,7 +1021,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         protected String doInBackground(String... ids) {
             try {
                 URL url = new URL(Urls.SELECT_ID + ids[0] + "?access_token=" + prefs.getString("access_token", ""));
-                Log.i("URL", url.toString());
+                //Log.i("URL", url.toString());
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -1062,7 +1050,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
                     String name = respuestaJSONSelect.getString("name");
                     String surname = respuestaJSONSelect.getString("surname");
-
 
                     return surname + ", " + name;
                 }

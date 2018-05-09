@@ -11,7 +11,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -25,7 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void handleIntent(Intent intent) {
-        Log.i("HANDLE-INTENT", intent.getAction());
+        //Log.i("HANDLE-INTENT", intent.getAction());
 
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();

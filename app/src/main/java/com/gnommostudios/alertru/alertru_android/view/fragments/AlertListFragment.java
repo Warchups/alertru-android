@@ -19,7 +19,6 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -604,7 +603,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("id", "") +
                         "/get-alerts-by-owner-province?access_token=" + prefs.getString("access_token", ""));
 
-                Log.i("CONSULTA_ALERTAS", url.toString());
+                //Log.i("CONSULTA_ALERTAS", url.toString());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 connection.setRequestMethod("POST");
@@ -617,26 +616,15 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setConnectTimeout(Urls.TIMEOUT_LONG);
                 connection.connect();
 
-
                 int respuesta = connection.getResponseCode();
 
-                Log.i("EEE", "Llego aqui");
+                //Log.i("EEE", "Llego aqui");
                 StringBuilder result = new StringBuilder();
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    String line;
-
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-                    //connection.disconnect();
-
-                    /*while ((line = br.readLine()) != null) {
-                        //Log.i("Line", line);
-                        result.append(line);
-                    }*/
                     result.append(br.readLine());
 
-                    //JSONObject jsonObject = new JSONObject(result.toString());
                     JSONArray alerts = new JSONArray(result.toString());
 
                     for (int i = 0; i < alerts.length(); i++) {
@@ -715,7 +703,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
-
                 int respuesta = connection.getResponseCode();
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
@@ -768,7 +755,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
-
                 int respuesta = connection.getResponseCode();
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
@@ -790,7 +776,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
             if (updated) {
                 fabProgressCircle.beginFinalAnimation();
-                //initList();
             }
         }
     }
@@ -825,7 +810,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("note", alertsParams[0].getNotes());
 
-                Log.i("JSON", jsonParam.toString());
+                //Log.i("JSON", jsonParam.toString());
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -872,7 +857,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         protected String doInBackground(String... ids) {
             try {
                 URL url = new URL(Urls.SELECT_ID + ids[0] + "?access_token=" + prefs.getString("access_token", ""));
-                Log.i("URL", url.toString());
+                //Log.i("URL", url.toString());
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -901,7 +886,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     String name = respuestaJSONSelect.getString("name");
                     String surname = respuestaJSONSelect.getString("surname");
-
 
                     return surname + ", " + name;
                 }
@@ -945,7 +929,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-
             if (intent.getExtras().getBoolean("REFRESH")) {
                 initList();
             }

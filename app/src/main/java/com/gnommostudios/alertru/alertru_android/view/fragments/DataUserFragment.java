@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,8 +183,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept", "application/json");
 
-                Log.i("URL", connection.getURL().toString());
-                Log.i("REQUEST", connection.getRequestMethod() + " " + connection.getRequestProperties().toString());
+                //Log.i("URL", connection.getURL().toString());
+                //Log.i("REQUEST", connection.getRequestMethod() + " " + connection.getRequestProperties().toString());
                 connection.setConnectTimeout(Urls.TIMEOUT);
                 connection.connect();
 
@@ -194,7 +193,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 jsonParam.put(strings[2], strings[0]);
                 jsonParam.put("password", strings[1]);
 
-                Log.i("JSON", jsonParam.toString());
+                //Log.i("JSON", jsonParam.toString());
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -208,7 +207,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 StringBuilder result = new StringBuilder();
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    Log.i("RESPONSE", HttpURLConnection.HTTP_OK + "");
+                    //Log.i("RESPONSE", HttpURLConnection.HTTP_OK + "");
                     String line;
 
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -234,11 +233,11 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                     conSelect.connect();
 
                     int respuestaSelect = conSelect.getResponseCode();
-                    Log.i("EE", conSelect.getResponseCode() + "");
+                    //Log.i("EE", conSelect.getResponseCode() + "");
                     StringBuilder resultSelect = new StringBuilder();
 
                     if (respuestaSelect == HttpURLConnection.HTTP_OK) {
-                        Log.i("EE", "Llego aqui");
+                        //Log.i("EE", "Llego aqui");
                         InputStream in = new BufferedInputStream(conSelect.getInputStream());
 
                         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -273,8 +272,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                         editor.commit();
 
-                        Log.i("TECHNICIAN", technician.toString());
-                        Log.i("TOKEN", access_token);
+                        //Log.i("TECHNICIAN", technician.toString());
+                        //Log.i("TOKEN", access_token);
 
                         return 1;
                     }
