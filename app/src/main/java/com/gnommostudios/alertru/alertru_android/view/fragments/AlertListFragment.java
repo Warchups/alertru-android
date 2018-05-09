@@ -190,7 +190,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         layoutDisconnected.setOnClickListener(this);
 
         loader = (AVLoadingIndicatorView) view.findViewById(R.id.avi);
-        //loader.hide();
 
         alertList = (ListView) view.findViewById(R.id.alert_list);
         withoutAlerts = (TextView) view.findViewById(R.id.without_alerts);
