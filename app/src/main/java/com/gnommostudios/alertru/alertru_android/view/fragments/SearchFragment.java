@@ -37,6 +37,7 @@ import com.gnommostudios.alertru.alertru_android.adapter.AdapterAlertList;
 import com.gnommostudios.alertru.alertru_android.model.Alert;
 import com.gnommostudios.alertru.alertru_android.util.AuthenticationDialog;
 import com.gnommostudios.alertru.alertru_android.util.DatePicker;
+import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 
 import org.json.JSONArray;
@@ -183,7 +184,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 if (checkBoxSearch.isChecked()) {
                     searchOpen.setEnabled(false);
                     searchClose.setEnabled(false);
@@ -563,26 +563,30 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.searchFinalized:
-            case R.id.searchButton:
-                searchAlerts(v.getId());
-                break;
-            case R.id.close_alert_search:
-                Alert alertToClose = alertDetail;
+        if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED)) {
+            switch (v.getId()) {
+                case R.id.searchFinalized:
+                case R.id.searchButton:
+                    searchAlerts(v.getId());
+                    break;
+                case R.id.close_alert_search:
+                    Alert alertToClose = alertDetail;
 
-                if (editTextPart.getText().toString().length() > 0) {
-                    alertToClose.setNotes(editTextPart.getText().toString());
-                    CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
-                    caat.execute(alertToClose);
-                } else {
-                    Toast.makeText(getContext(), R.string.writeNotes, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.assign_fab_search:
-                AssignDetailsAlertAsyncTask adaat = new AssignDetailsAlertAsyncTask();
-                adaat.execute(alertDetail);
-                break;
+                    if (editTextPart.getText().toString().length() > 0) {
+                        alertToClose.setNotes(editTextPart.getText().toString());
+                        CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
+                        caat.execute(alertToClose);
+                    } else {
+                        Toast.makeText(getContext(), R.string.writeNotes, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case R.id.assign_fab_search:
+                    AssignDetailsAlertAsyncTask adaat = new AssignDetailsAlertAsyncTask();
+                    adaat.execute(alertDetail);
+                    break;
+            }
+        }else {
+            Toast.makeText(getActivity(), "No has iniciado sesión.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -638,6 +642,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
     }
 
+    //Cualquier alerta
     private void createAlertsArray(Alert alert, String d) {
         String[] enter = dEnter.split("-");
         int dayEnter = Integer.parseInt(enter[0]);
@@ -669,7 +674,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setMonth(month);
         date.setYear(year);
 
-
         //Log.i("DATE", date.getTime() + "");
         //Log.i("ENTER", dateEnter.getTime() + "");
         //Log.i("EXIT", dateExit.getTime() + "");
@@ -679,6 +683,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
     }
 
+    //Alertas sin asignar
     private void createAlertsArrayOpen(Alert alert, String d) {
         String[] enter = dEnter.split("-");
         int dayEnter = Integer.parseInt(enter[0]);
@@ -710,7 +715,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setMonth(month);
         date.setYear(year);
 
-
         //Log.i("DATE", date.getTime() + "");
         //Log.i("ENTER", dateEnter.getTime() + "");
         //Log.i("EXIT", dateExit.getTime() + "");
@@ -720,6 +724,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
     }
 
+    //Alertas asignadas
     private void createAlertsArrayClosed(Alert alert, String d) {
         String[] enter = dEnter.split("-");
         int dayEnter = Integer.parseInt(enter[0]);
@@ -750,7 +755,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         date.setDate(day);
         date.setMonth(month);
         date.setYear(year);
-
 
         //Log.i("DATE", date.getTime() + "");
         //Log.i("ENTER", dateEnter.getTime() + "");
@@ -802,7 +806,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     result.append(br.readLine());
 
-                    //JSONObject jsonObject = new JSONObject(result.toString());
                     JSONArray alerts = new JSONArray(result.toString());
 
                     for (int i = 0; i < alerts.length(); i++) {

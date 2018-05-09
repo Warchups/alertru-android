@@ -205,8 +205,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void initList() {
-        alertArrayList = new ArrayList<>();
-
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", false);
         intent.putExtra("CHANGE_TITLE", false);
@@ -627,6 +625,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     JSONArray alerts = new JSONArray(result.toString());
 
+                    alertArrayList = new ArrayList<>();
+
                     for (int i = 0; i < alerts.length(); i++) {
                         //Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
@@ -929,6 +929,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
+            //Si el intent es para refescar inicio la lista
             if (intent.getExtras().getBoolean("REFRESH")) {
                 initList();
             }

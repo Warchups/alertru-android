@@ -50,12 +50,17 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                //Si esta logeado en las preferencias compruebo el token
                 if (stateLog.equals(StatesLog.LOGGED)) {
                     LoginAsyncTask lat = new LoginAsyncTask();
                     lat.execute();
                 } else {
+                    //Si esta deslogeado inicio la aplicacion pasandole la pagina 0,
+                    //para que vaya al fragment donde esta el formulario para logearse,
+                    //ya que si no esta loqueado no tiene ninguna funcionalidad ni puede ver las alertas
                     Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
                     mainIntent.putExtra("PAGE", 0);
+
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
                 }
@@ -107,6 +112,8 @@ public class SplashScreen extends AppCompatActivity {
 
                     Technician technician = new Technician(name, surname, username, email, id, province);
 
+                    //Guardo las variables recogidas del JSON en el fichero de preferencias,
+                    //a parte me guardo el estado a logueado
                     SharedPreferences.Editor editor = prefs.edit();
 
                     editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
@@ -121,6 +128,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     return 1;
                 } else {
+                    //Si llega a aqui significa que el token no es valido, por lo tanto, me guardo en preferencias que esta deslogueado
                     SharedPreferences.Editor editor = prefs.edit();
 
                     editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
@@ -148,17 +156,21 @@ public class SplashScreen extends AppCompatActivity {
 
             switch (integer) {
                 case 0:
+                    //Si esta deslogeado paso el indice de la pagina del formulario para desloguearse
                     mainIntent.putExtra("PAGE", 0);
                     break;
                 case 1:
+                    //Si esta logueado paso el indice de la pagina donde esta la lista de las alertas activas
                     mainIntent.putExtra("PAGE", 2);
                     break;
             }
 
+            //Si no ha entrado a ninguna excepcion (no ha habido ningun fallo de conexion), inicio la aplicacion
             if (integer != 2) {
                 SplashScreen.this.startActivity(mainIntent);
                 SplashScreen.this.finish();
             } else {
+                //Si hay algun problema de conexion cierro la aplicacion, no tiene sentido que entre sin conexion
                 Toast.makeText(SplashScreen.this, "ERROR DE CONEXIÓN", Toast.LENGTH_LONG).show();
                 SplashScreen.this.finish();
             }

@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
+        //Si estoy en la pagina del search o de la lista juego con las visibilidades de los detalles y lista
         if (viewPager.getCurrentItem() == 1) {
             LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
             LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
@@ -312,10 +313,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Extract data included in the Intent
             //Log.i("BROADCAST", "Hola");
 
+            //Si el intent de broadcast que recive no es para cambiar de titulo (es para mostrar notificacion),
+            //compruebo el extra boolean de NOTIFICATION
             if (!intent.getExtras().getBoolean("CHANGE_TITLE")) {
                 notification = intent.getExtras().getBoolean("NOTIFICATION");
+                //Si es true cambio el icono de inicio a verde para que el usuario vea que hay una alerta nueva
                 if (notification) {
                     homeButton.setImageResource(R.drawable.icon_tab_center_notification);
+                    //Pongo un listener al icono para que mande un mensaje de broadcast para que se actualize la lista
                     homeButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -323,13 +328,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             intent.putExtra("REFRESH", true);
                             //send broadcast
                             getApplicationContext().sendBroadcast(intent);
+                            //Y pongo la pagina de la lista
+                            viewPager.setCurrentItem(2);
                         }
                     });
                 } else {
+                    //Si no es notificacion vuelvo a poner el listener en al que tiene en el main para poder navegar
+                    //y quito el icono verde
                     homeButton.setImageResource(R.drawable.icon_tab_center_black);
                     homeButton.setOnClickListener(MainActivity.this);
                 }
             } else {
+                //Si el intent es para cambiar el titulo lo recojo
                 titleToolbar.setText(intent.getExtras().getString("TITLE"));
             }
         }
