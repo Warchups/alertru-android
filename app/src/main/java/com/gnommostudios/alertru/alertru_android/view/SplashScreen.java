@@ -145,7 +145,7 @@ public class SplashScreen extends AppCompatActivity {
 
             switch (integer) {
                 case 0:
-                    //Si esta deslogeado paso el indice de la pagina del formulario para desloguearse
+                    //Si esta deslogueado paso el indice de la pagina del formulario para desloguearse
                     mainIntent.putExtra("PAGE", 0);
                     break;
                 case 1:
