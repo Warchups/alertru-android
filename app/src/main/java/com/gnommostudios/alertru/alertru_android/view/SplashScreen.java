@@ -7,11 +7,9 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
-import com.gnommostudios.alertru.alertru_android.model.Technician;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -26,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 
 public class SplashScreen extends AppCompatActivity {
@@ -79,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
                 String access_token = prefs.getString("access_token", "");
 
                 URL urlSelect = new URL(Urls.CHECK_TOKEN + userId + "/accessTokens/" + access_token + "?access_token=" + access_token);
-                Log.i("URL", urlSelect.toString());
+                //Log.i("URL", urlSelect.toString());
 
                 HttpURLConnection conSelect = (HttpURLConnection) urlSelect.openConnection();
                 conSelect.setRequestProperty("User-Agent", "Mozilla/5.0" +
@@ -90,7 +87,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 int respuestaSelect = conSelect.getResponseCode();
 
-                Log.i("CODE", respuestaSelect+"");
+                //Log.i("CODE", respuestaSelect+"");
 
                 StringBuilder resultSelect = new StringBuilder();
 
@@ -115,7 +112,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
 
-                    editor.putString("id", id);
+                    editor.putString("userId", id);
                     editor.putString("access_token", access_token);
 
                     editor.commit();

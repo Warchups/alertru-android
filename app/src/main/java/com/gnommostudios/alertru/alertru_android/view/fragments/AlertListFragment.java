@@ -19,7 +19,6 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -599,8 +598,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                alertArrayList = new ArrayList<>();
-
                 URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("id", "") +
                         "/get-alerts-by-owner-province?access_token=" + prefs.getString("access_token", ""));
 
@@ -628,8 +625,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     JSONArray alerts = new JSONArray(result.toString());
 
+                    alertArrayList = new ArrayList<>();
+
                     for (int i = 0; i < alerts.length(); i++) {
-                        Log.i("ALERT", alerts.get(i).toString());
+                        //Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
 
                         String id = alert.getString("id");
