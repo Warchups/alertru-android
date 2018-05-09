@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView titleToolbar;
     private Toolbar toolbar;
-    private AppBarLayout appBar;
     private CustomViewPager viewPager;
 
     private boolean notification = false;
@@ -68,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initTitle() {
         titleToolbar = (TextView) findViewById(R.id.titleToolbar);
-        appBar = (AppBarLayout) findViewById(R.id.appbarMain);
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         //Deshabilitamos el titulo del ToolBar

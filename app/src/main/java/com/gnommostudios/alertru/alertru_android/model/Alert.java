@@ -140,4 +140,5 @@ public class Alert implements Serializable {
                 ", assigned=" + assigned +
                 '}';
     }
+
 }

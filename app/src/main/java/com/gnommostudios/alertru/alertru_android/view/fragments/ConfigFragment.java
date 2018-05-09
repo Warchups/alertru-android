@@ -89,7 +89,7 @@ public class ConfigFragment extends Fragment {
                         editor.commit();
                     }
 
-                    choiceRingote((String) newValue);
+                    //choiceRingote((String) newValue);
 
                     return true;
                 }
@@ -133,4 +133,5 @@ public class ConfigFragment extends Fragment {
             }
         }
     }
+
 }

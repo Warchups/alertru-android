@@ -192,6 +192,7 @@
                     android:textColor="@color/white" />
 
             </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
     </LinearLayout>

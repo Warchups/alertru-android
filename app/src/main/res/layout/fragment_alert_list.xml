@@ -365,9 +365,7 @@
                 app:layout_constraintStart_toStartOf="@+id/title_detail_assigned_owner"
                 app:layout_constraintTop_toBottomOf="@+id/title_detail_assigned_owner" />
 
-
         </android.support.constraint.ConstraintLayout>
-
 
     </LinearLayout>
 

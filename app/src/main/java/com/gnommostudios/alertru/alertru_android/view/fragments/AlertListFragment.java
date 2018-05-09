@@ -951,5 +951,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             }
         }
     };
+
 }
 

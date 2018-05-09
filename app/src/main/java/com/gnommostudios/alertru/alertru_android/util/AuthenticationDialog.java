@@ -13,8 +13,6 @@ public class AuthenticationDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View context = inflater.inflate(R.layout.authentication_dialog, null);

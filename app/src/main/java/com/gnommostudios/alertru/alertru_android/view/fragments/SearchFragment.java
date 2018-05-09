@@ -1129,4 +1129,5 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
         alertList.setOnItemClickListener(this);
     }
+
 }

@@ -98,4 +98,5 @@ public class Technician {
                 ", province='" + province + '\'' +
                 '}';
     }
+
 }

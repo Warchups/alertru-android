@@ -34,7 +34,6 @@ public class DatePicker extends DialogFragment {
         return new DatePickerDialog(getActivity(), listener, year, month, day);
     }
 
-
 }
 
 

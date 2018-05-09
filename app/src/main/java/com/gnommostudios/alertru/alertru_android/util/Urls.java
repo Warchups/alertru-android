@@ -13,4 +13,5 @@ public class Urls {
     public static final String GET_ALERT_LIST = "http://192.168.1.25:3000/api/AppUsers/";
 
     public static final String CLOSE_ALERTS = "http://192.168.1.25:3000/api/Alerts/";
+
 }

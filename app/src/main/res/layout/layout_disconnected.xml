@@ -20,5 +20,4 @@
         android:text="@string/messaje_login"
         android:textSize="30dp" />
 
-
 </LinearLayout>
