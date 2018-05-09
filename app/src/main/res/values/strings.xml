@@ -11,7 +11,7 @@
     <string name="incidents">Incidencias</string>
     <string name="alertru">Alertru</string>
     <string name="searchTitle">BUSCADOR DE ALERTAS</string>
-    <string name="searchAction">Acciones</string>
+    <string name="searchAction">Filtros</string>
     <string name="searchRadio1">Buscar sin asignar</string>
     <string name="searchRadio2">Buscar asignadas</string>
     <string name="searchCheckBox">Buscar asignadas y sin asignar</string>
