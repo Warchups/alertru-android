@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
@@ -77,7 +78,8 @@ public class SplashScreen extends AppCompatActivity {
                 String userId = prefs.getString("id", "");
                 String access_token = prefs.getString("access_token", "");
 
-                URL urlSelect = new URL(Urls.SELECT_ID + userId + "?access_token=" + access_token);
+                URL urlSelect = new URL(Urls.CHECK_TOKEN + userId + "/accessTokens/" + access_token + "?access_token=" + access_token);
+                Log.i("URL", urlSelect.toString());
 
                 HttpURLConnection conSelect = (HttpURLConnection) urlSelect.openConnection();
                 conSelect.setRequestProperty("User-Agent", "Mozilla/5.0" +
@@ -87,6 +89,8 @@ public class SplashScreen extends AppCompatActivity {
                 conSelect.connect();
 
                 int respuestaSelect = conSelect.getResponseCode();
+
+                Log.i("CODE", respuestaSelect+"");
 
                 StringBuilder resultSelect = new StringBuilder();
 
@@ -103,25 +107,15 @@ public class SplashScreen extends AppCompatActivity {
 
                     JSONObject respuestaJSONSelect = new JSONObject(resultSelect.toString());
 
-                    String name = respuestaJSONSelect.getString("name");
-                    String surname = respuestaJSONSelect.getString("surname");
-                    String username = respuestaJSONSelect.getString("username");
-                    String email = respuestaJSONSelect.getString("email");
                     String id = respuestaJSONSelect.getString("id");
-                    String province = respuestaJSONSelect.getString("province");
-
-                    Technician technician = new Technician(name, surname, username, email, id, province);
 
                     //Guardo las variables recogidas del JSON en el fichero de preferencias,
                     //a parte me guardo el estado a logueado
                     SharedPreferences.Editor editor = prefs.edit();
 
                     editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
-                    editor.putString("name", technician.getName());
-                    editor.putString("surname", technician.getSurname());
-                    editor.putString("email", technician.getEmail());
-                    editor.putString("id", technician.getId());
-                    editor.putString("province", technician.getProvince());
+
+                    editor.putString("id", id);
                     editor.putString("access_token", access_token);
 
                     editor.commit();
@@ -139,11 +133,9 @@ public class SplashScreen extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (SocketTimeoutException e) {
-                e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 

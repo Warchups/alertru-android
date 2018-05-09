@@ -6,6 +6,9 @@ public class Urls {
 
     public static final String LOGIN = "http://192.168.1.25:3000/api/AppUsers/login";
     public static final String SELECT_ID = "http://192.168.1.25:3000/api/AppUsers/";
+
+    public static final String CHECK_TOKEN = "http://192.168.1.25:3000/api/AppUsers/";
+
     public static final String LOGOUT = "http://192.168.1.25:3000/api/AppUsers/logout?access_token=";
 
     public static final String ASSIGN_ALERT = "http://192.168.1.25:3000/api/AppUsers/";
