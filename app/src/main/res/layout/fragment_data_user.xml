@@ -55,7 +55,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="#A6ACAF"
                 android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Nombre"
+                android:hint="Usuario"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:text="patata@patata.com"
@@ -104,7 +104,7 @@
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -139,6 +139,24 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/walkway_bold"
                 android:text="email@email.com"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/walkway_black"
+                android:text="Nombre de usuario:"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/userNameLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/walkway_bold"
+                android:text="userName"
                 android:textSize="16dp" />
 
             <TextView

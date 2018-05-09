@@ -47,6 +47,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
     private TextView nameLogged;
     private TextView emailLogged;
+    private TextView userNameLogged;
     private TextView provinceLogged;
 
     private LinearLayout layoutLogin;
@@ -79,6 +80,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
         nameLogged = (TextView) view.findViewById(R.id.nameLogout);
         emailLogged = (TextView) view.findViewById(R.id.emailLogout);
+        userNameLogged = (TextView) view.findViewById(R.id.userNameLogout);
         provinceLogged = (TextView) view.findViewById(R.id.provinceLogout);
 
         txtEmail = (EditText) view.findViewById(R.id.txtEmail);
@@ -104,9 +106,12 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                 nameLogged.setText(prefs.getString("surname", "") + ", " + prefs.getString("name", ""));
                 emailLogged.setText(prefs.getString("email", ""));
+                userNameLogged.setText(prefs.getString("username", ""));
                 provinceLogged.setText(prefs.getString("province", ""));
                 break;
             case StatesLog.DISCONNECTED:
+                txtEmail.setText("");
+                txtPassword.setText("");
                 layoutLogout.setVisibility(View.GONE);
                 layoutLogin.setVisibility(View.VISIBLE);
                 break;
@@ -141,13 +146,16 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
     private void login() {
         if (txtEmail.getText().length() == 0 || txtPassword.getText().length() == 0) {
-            Toast.makeText(getActivity(), "Almenos hay que llenar el Nombre (con un correo) y la password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Indique el usuario y la contraseña.", Toast.LENGTH_SHORT).show();
         } else {
             email = txtEmail.getText().toString();
             password = txtPassword.getText().toString();
 
             LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
-            loginAsyncTask.execute(email, password);
+            if (email.contains("@"))
+                loginAsyncTask.execute(email, password, "email");
+            else
+                loginAsyncTask.execute(email, password, "username");
         }
     }
 
@@ -183,7 +191,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
 
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("email", strings[0]);
+                jsonParam.put(strings[2], strings[0]);
                 jsonParam.put("password", strings[1]);
 
                 Log.i("JSON", jsonParam.toString());
@@ -257,6 +265,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                         editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
                         editor.putString("name", technician.getName());
                         editor.putString("surname", technician.getSurname());
+                        editor.putString("username", technician.getUsername());
                         editor.putString("email", technician.getEmail());
                         editor.putString("id", technician.getId());
                         editor.putString("province", technician.getProvince());
@@ -290,7 +299,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             loader.setVisibility(View.GONE);
             switch (integer) {
                 case 0:
-                    //Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Usuario y/o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                     layoutLogin.setVisibility(View.VISIBLE);
                     break;
                 case 1:
@@ -355,20 +364,14 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             loader.stop();
             loader.setVisibility(View.GONE);
 
-            //if (correct) {
-                //Toast.makeText(getActivity(), "Hasta luego.", Toast.LENGTH_SHORT).show();
-                SharedPreferences.Editor editor = prefs.edit();
+            SharedPreferences.Editor editor = prefs.edit();
 
-                editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+            editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
 
-                editor.commit();
+            editor.commit();
 
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(prefs.getString("province", ""));
-                changeState(StatesLog.DISCONNECTED);
-            /*} else {
-                Toast.makeText(getActivity(), "Hay algun problema, no te puedes desloguear.", Toast.LENGTH_SHORT).show();
-                layoutLogout.setVisibility(View.VISIBLE);
-            }*/
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(prefs.getString("province", ""));
+            changeState(StatesLog.DISCONNECTED);
         }
     }
 
