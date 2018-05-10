@@ -35,7 +35,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();
 
-            showNotification(bundle.getString("gcm.notification.title"), bundle.getString("gcm.notification.body"));
+            //Log.i("BUNDLE", bundle.toString());
+
+            showNotification(bundle.getString("title"), bundle.getString("body"), bundle.get("alert").equals("true"));
         } else {
             super.handleIntent(intent);
         }
@@ -43,10 +45,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        showNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("alert").equals("true"));
     }
 
-    private void showNotification(String title, String body) {
+    private void showNotification(String title, String body, boolean alert) {
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         boolean activateAlert = prefs.getBoolean("activateAlert", true);
@@ -105,12 +107,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mNotificationManager.notify(0, notification);
         }
 
-        //Mando un mensaje de broadcast para que, desde el main, avise que hay una alerta nueva
-        Intent intent = new Intent("MainActivity");
-        intent.putExtra("NOTIFICATION", true);
-        intent.putExtra("CHANGE_TITLE", false);
-        //send broadcast
-        getApplicationContext().sendBroadcast(intent);
+        if (alert) {
+            //Mando un mensaje de broadcast para que, desde el main, avise que hay una alerta nueva
+            Intent intent = new Intent("MainActivity");
+            intent.putExtra("NOTIFICATION", true);
+            intent.putExtra("CHANGE_TITLE", false);
+            //send broadcast
+            getApplicationContext().sendBroadcast(intent);
+        }
     }
 
 }
