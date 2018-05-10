@@ -86,7 +86,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Le pongo las luces de la notificacion
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.icon_alarma)
+                            .setSmallIcon(R.drawable.imgcircle)
                             .setLargeIcon(image)
                             .setContentTitle(title)
                             .setContentText(body)
