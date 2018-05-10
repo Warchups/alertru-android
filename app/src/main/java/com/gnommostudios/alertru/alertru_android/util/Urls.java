@@ -1,9 +1,11 @@
 package com.gnommostudios.alertru.alertru_android.util;
 
 public class Urls {
+    //TimeOuts para las conexiones
     public static final int TIMEOUT = 15000;
     public static final int TIMEOUT_LONG = 30000;
 
+    //Urls para las conexiones
     public static final String LOGIN = "http://192.168.1.25:3000/api/AppUsers/login";
     public static final String SELECT_ID = "http://192.168.1.25:3000/api/AppUsers/";
 

@@ -9,16 +9,6 @@ public class Technician {
     private String id;
     private String province;
 
-    public Technician(String name, String surname, String username, String email, boolean emailVerified, String id, String province) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.email = email;
-        this.emailVerified = emailVerified;
-        this.id = id;
-        this.province = province;
-    }
-
     public Technician(String name, String surname, String username, String email, String id, String province) {
         this.name = name;
         this.surname = surname;

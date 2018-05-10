@@ -50,20 +50,28 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
         dateTxt.setText(elements.get(position).getDate());
         descriptionTxt.setText(elements.get(position).getDescription());
 
+        //Diferencio las alertas dependiendo de si estan assignadas o no, así les doy un estilo diferente
         if (elements.get(position).isAssigned()) {
+            //Les pongo el icono del candado cerado (el nombre de los ficheros esta del reves)
             imagePadlock.setImageResource(R.drawable.icono_candado4);
+            //Les pongo el fondo en rojo
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_assigned));
 
             if (elements.get(position).getIdTechnician().equals(prefs.getString("id", ""))) {
+                //Si el tecnico que tiene asignada la alerta es el que tiene la sesion iniciada pongo un indicativo en la alerta
                 ownerImage.setVisibility(View.VISIBLE);
                 if (elements.get(position).getState().equals("finished")) {
+                    //Si la alerta esta lista para pasarle un parte y cerrarla, le pongo otro indicativo
                     finishedImage.setVisibility(View.VISIBLE);
                 }
             } else {
+                //Si no es el propietario oculto el indicativo de propiedad
                 ownerImage.setVisibility(View.GONE);
             }
         } else {
+            //Si no esta asingnada le pongo el candado abierto (el nombre de los ficheros esta del reves)
             imagePadlock.setImageResource(R.drawable.candado_cerrado4);
+            //Pongo el fondo en verde
             background.setBackground(getContext().getResources().getDrawable(R.drawable.degraded_elements_unassigned));
         }
 

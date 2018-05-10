@@ -204,20 +204,26 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void initList() {
+        //Inicio la lista y mando un mensaje de broadcast para que en el MainActivity cambie el icono,
+        //para que ya no salga el aviso de alerta nueva, ya que ya se han cargado las alertas
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", false);
         intent.putExtra("CHANGE_TITLE", false);
         //send broadcast
         getActivity().sendBroadcast(intent);
 
+        //Pongo los detalles en GONE, por si estaban mostrandose
         layoutDetail.setVisibility(View.GONE);
 
+        //Si esta logueado llamo muestro el contenedor de la lista y
+        //llamo a la funcion asincrona que hace la consulta de las alertas
         if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED)) {
             containerList.setVisibility(View.VISIBLE);
             layoutDisconnected.setVisibility(View.GONE);
             AlertListAsyncTask alat = new AlertListAsyncTask();
             alat.execute();
         } else {
+            //Si no esta logueado oculto el contenedor de la lista y muestro el layout que te dice que no estas logueado
             containerList.setVisibility(View.GONE);
             layoutDisconnected.setVisibility(View.VISIBLE);
         }
@@ -225,14 +231,17 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     public void setAdapter() {
         if (alertArrayList.size() > 0) {
+            //Si hay alertas en el array, muestro la lista y pongo el adapter
             withoutAlerts.setVisibility(View.GONE);
             alertList.setVisibility(View.VISIBLE);
             alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
         } else {
+            //Si no hay alertas oculto la lista y muestro un textview que me avisa de que no hay alertas
             withoutAlerts.setVisibility(View.VISIBLE);
             alertList.setVisibility(View.GONE);
         }
 
+        //Pongo los listeners a la lista
         alertList.setOnItemClickListener(this);
         alertList.setOnItemLongClickListener(this);
         alertList.setOnScrollListener(this);
@@ -247,20 +256,28 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_disconnected:
+                //Si pulso encima del layout que me sale cuando estoy deslogeuado intenta volver a cargar la lista,
+                //si no estoy logueado volvera a aparecer este layout, y si ya me he logueado cargara la lista
                 initList();
                 break;
             case R.id.assign_fab:
+                //Si, desde los detalles de una alerta, pulso en el FAB para assignarme la alerta,
+                //llamo a la funcion asincrona que me asigna la alerta
                 AssignDetailsAlertAsyncTask adaat = new AssignDetailsAlertAsyncTask();
                 adaat.execute(alertDetail);
                 break;
             case R.id.close_alert:
                 Alert alertToClose = alertDetail;
 
+                //Si, desde los detalles de una alerta, pulso en el boton para cerrar la alerta,
+                //compruebo que el usuario haya introducido algo en el EditText del parte,
+                //si ha escrito un parte, se lo añado a un POJO de alerta y llamo a la asincrona
                 if (editTextPart.getText().toString().length() > 0) {
                     alertToClose.setNotes(editTextPart.getText().toString());
                     CloseAlertAsyncTask caat = new CloseAlertAsyncTask();
                     caat.execute(alertToClose);
                 } else {
+                    //Si no ha introducido nada, le aviso para que lo escriba
                     Toast.makeText(getContext(), R.string.writeNotes, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -269,7 +286,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-        showAssingDetails(alertArrayList.get(pos));
+        showAlertDetails(alertArrayList.get(pos));
     }
 
     @Override
@@ -278,22 +295,34 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         return true;
     }
 
-    private void showAssingDetails(Alert alert) {
+    private void writeDetails(String cabecera, String contenido, TextView textView) {
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        SpannableString cabeceraSpannable = new SpannableString(cabecera);
+        cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+        builder.append(cabeceraSpannable);
+
+        SpannableString contenidoSpannable = new SpannableString(contenido);
+        contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+        builder.append(contenidoSpannable);
+
+        textView.setText(builder, TextView.BufferType.SPANNABLE);
+    }
+
+    //Muestro los detalles de la alerta que le paso
+    private void showAlertDetails(Alert alert) {
+        //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
         intent.putExtra("TITLE", "Detalles");
         //send broadcast
         getActivity().sendBroadcast(intent);
 
+        //Me guardo la alerta en una variable global para despues si quero asignarmela o cerrarla, poder acceder
         alertDetail = alert;
 
-        SpannableStringBuilder builder;
-
         String cabecera;
-        SpannableString cabeceraSpannable;
-
         String contenido;
-        SpannableString contenidoSpannable;
 
         if (alert.isAssigned()) {
             if (!alert.getIdTechnician().equals(prefs.getString("id", ""))) {
@@ -304,49 +333,22 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 stidat.execute(alert.getIdTechnician());
 
                 /*****Province*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Provincia: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                provinceDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, provinceDetailAssigned);
 
                 /*****Title*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Asunto Alerta: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getAffair();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, titleDetailAssigned);
 
                 /*****Description*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Descripción: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getDescription();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                descriptionDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, descriptionDetailAssigned);
 
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.VISIBLE);
@@ -357,64 +359,28 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                 dateDetailAssignedOwner.setText(alert.getDate());
 
                 /*****Technician*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Técnico: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = prefs.getString("surname", "") + ", " + prefs.getString("name", "");
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                ownerDetailOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, ownerDetailOwner);
 
                 /*****Province*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Provincia: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                provinceDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, provinceDetailAssignedOwner);
 
                 /*****Title*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Asunto Alerta: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getAffair();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                titleDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, titleDetailAssignedOwner);
 
                 /*****Description*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Descripción: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getDescription();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                descriptionDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, descriptionDetailAssignedOwner);
 
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.GONE);
@@ -430,19 +396,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
                 if (alert.getState().equals("finished")) {
                     /*****Part*****/
-                    builder = new SpannableStringBuilder();
-
                     cabecera = "Parte de la incidencia: ";
-                    cabeceraSpannable = new SpannableString(cabecera);
-                    cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                    builder.append(cabeceraSpannable);
-
                     contenido = "";
-                    contenidoSpannable = new SpannableString(contenido);
-                    contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                    builder.append(contenidoSpannable);
 
-                    partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+                    writeDetails(cabecera, contenido, partTextView);
 
                     writeDetails.setVisibility(View.VISIBLE);
                     partTextView.setVisibility(View.VISIBLE);
@@ -454,49 +411,22 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             dateDetailUnassigned.setText(alert.getDate());
 
             /*****Province*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Provincia: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            provinceDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, provinceDetailUnassigned);
 
             /*****Title*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Asunto Alerta: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = alert.getAffair();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            titleDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, titleDetailUnassigned);
 
             /*****Description*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Descripción: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = alert.getDescription();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            descriptionDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, descriptionDetailUnassigned);
 
             layoutDetail.setVisibility(View.VISIBLE);
             containerAssigned.setVisibility(View.GONE);
@@ -507,6 +437,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     }
 
+    //Muestro un dialogo para asignarte la alerta que has mantenido
     private void showAssingDialog(final Alert alert) {
         AlertDialog.Builder alerta =
                 new AlertDialog.Builder(getContext());
@@ -585,6 +516,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    //AsyncTask para cargar la lista de las alertas
     class AlertListAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -622,10 +554,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                     BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     result.append(br.readLine());
 
+                    //Recojo el array de alertas que me devuelve la consulta
                     JSONArray alerts = new JSONArray(result.toString());
 
+                    //Inicio el array para que se machaque cada vez
                     alertArrayList = new ArrayList<>();
 
+                    //Recorro el JSONArray
                     for (int i = 0; i < alerts.length(); i++) {
                         //Log.i("ALERT", alerts.get(i).toString());
                         JSONObject alert = (JSONObject) alerts.get(i);
@@ -640,10 +575,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                         boolean assigned = alert.getBoolean("assigned");
                         String state = alert.getString("state");
 
+                        //Si el estado no es closed
                         if (!state.equals("closed")) {
+                            //Si no esta asignada la añado a la array sin mas
                             if (!assigned) {
                                 alertArrayList.add(new Alert(id, affair, description, province, date, assigned, state));
                             } else {
+                                //Si esta asignada la añado con el propietario
                                 String idTechnician = alert.getString("owner");
                                 alertArrayList.add(new Alert(id, affair, description, province, date, idTechnician, assigned, state));
                             }
@@ -682,6 +620,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    //AsyncTask para assignar una alerta pasandole la id de la alerta y la id del tecnico
     class AssignAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
@@ -727,6 +666,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    //AsyncTask para assignar una alerta pasandole la id de la alerta y la id del tecnico (desde los detalles)
+    // (Diferencia --> El FAB)
     class AssignDetailsAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
@@ -779,6 +720,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    //AsyncTask para cerrar una alerta pasandole el parte de esta
     class CloseAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
@@ -850,7 +792,18 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
+    //AsyncTask para comprobar el nombre y los apellidos pasandole la id
     class SelectTechnicianIDAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            String cabecera = "Técnico: ";
+            String contenido = "cargando...";
+
+            writeDetails(cabecera, contenido, ownerDetail);
+        }
 
         @Override
         protected String doInBackground(String... ids) {
@@ -905,19 +858,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             super.onPostExecute(name);
 
             if (!name.equals("")) {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-
                 String cabecera = "Técnico: ";
-                SpannableString cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 String contenido = name;
-                SpannableString contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, ownerDetail);
             } else {
                 Toast.makeText(getContext(), "Error: No se puede ver el tecnico de la alerta", Toast.LENGTH_SHORT).show();
             }
@@ -936,4 +880,3 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     };
 
 }
-

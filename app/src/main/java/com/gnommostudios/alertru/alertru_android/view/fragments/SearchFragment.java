@@ -299,22 +299,34 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
-    private void showAssingDetails(Alert alert) {
+    private void writeDetails(String cabecera, String contenido, TextView textView) {
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        SpannableString cabeceraSpannable = new SpannableString(cabecera);
+        cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
+        builder.append(cabeceraSpannable);
+
+        SpannableString contenidoSpannable = new SpannableString(contenido);
+        contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
+        builder.append(contenidoSpannable);
+
+        textView.setText(builder, TextView.BufferType.SPANNABLE);
+    }
+
+    //Muestro los detalles de la alerta que le paso
+    private void showAlertDetails(Alert alert) {
+        //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
         intent.putExtra("TITLE", "Detalles");
         //send broadcast
         getActivity().sendBroadcast(intent);
 
+        //Me guardo la alerta en una variable global para despues si quero asignarmela o cerrarla, poder acceder
         alertDetail = alert;
 
-        SpannableStringBuilder builder;
-
         String cabecera;
-        SpannableString cabeceraSpannable;
-
         String contenido;
-        SpannableString contenidoSpannable;
 
         if (alert.isAssigned()) {
             if (!alert.getIdTechnician().equals(prefs.getString("id", ""))) {
@@ -325,49 +337,22 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 stidat.execute(alert.getIdTechnician());
 
                 /*****Province*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Provincia: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                provinceDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, provinceDetailAssigned);
 
                 /*****Title*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Asunto Alerta: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getAffair();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                titleDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, titleDetailAssigned);
 
                 /*****Description*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Descripción: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getDescription();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                descriptionDetailAssigned.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, descriptionDetailAssigned);
 
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.VISIBLE);
@@ -378,64 +363,28 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 dateDetailAssignedOwner.setText(alert.getDate());
 
                 /*****Technician*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Técnico: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = prefs.getString("surname", "") + ", " + prefs.getString("name", "");
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                ownerDetailOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, ownerDetailOwner);
 
                 /*****Province*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Provincia: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                provinceDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, provinceDetailAssignedOwner);
 
                 /*****Title*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Asunto Alerta: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getAffair();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                titleDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, titleDetailAssignedOwner);
 
                 /*****Description*****/
-                builder = new SpannableStringBuilder();
-
                 cabecera = "Descripción: ";
-                cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 contenido = alert.getDescription();
-                contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                descriptionDetailAssignedOwner.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, descriptionDetailAssignedOwner);
 
                 layoutDetail.setVisibility(View.VISIBLE);
                 containerAssigned.setVisibility(View.GONE);
@@ -453,19 +402,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
                 if (alert.getState().equals("finished")) {
                     /*****Part*****/
-                    builder = new SpannableStringBuilder();
-
                     cabecera = "Parte de la incidencia: ";
-                    cabeceraSpannable = new SpannableString(cabecera);
-                    cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                    builder.append(cabeceraSpannable);
-
                     contenido = "";
-                    contenidoSpannable = new SpannableString(contenido);
-                    contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                    builder.append(contenidoSpannable);
 
-                    partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+                    writeDetails(cabecera, contenido, partTextView);
 
                     writeDetails.setVisibility(View.VISIBLE);
                     partTextView.setVisibility(View.VISIBLE);
@@ -473,19 +413,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                     shimmerCloseAlert.setVisibility(View.VISIBLE);
                 } else if (alert.getState().equals("closed")) {
                     /*****Part*****/
-                    builder = new SpannableStringBuilder();
-
                     cabecera = "Parte de la incidencia: ";
-                    cabeceraSpannable = new SpannableString(cabecera);
-                    cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                    builder.append(cabeceraSpannable);
-
                     contenido = alert.getNotes();
-                    contenidoSpannable = new SpannableString(contenido);
-                    contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                    builder.append(contenidoSpannable);
 
-                    partTextView.setText(builder, TextView.BufferType.SPANNABLE);
+                    writeDetails(cabecera, contenido, partTextView);
 
                     ownerDetailsImg.setVisibility(View.GONE);
                     closedDetails.setVisibility(View.VISIBLE);
@@ -498,49 +429,22 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
             dateDetailUnassigned.setText(alert.getDate());
 
             /*****Province*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Provincia: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = Character.toUpperCase(alert.getProvince().charAt(0)) + "" + alert.getProvince().subSequence(1, alert.getProvince().length());
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            provinceDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, provinceDetailUnassigned);
 
             /*****Title*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Asunto Alerta: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = alert.getAffair();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            titleDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, titleDetailUnassigned);
 
             /*****Description*****/
-            builder = new SpannableStringBuilder();
-
             cabecera = "Descripción: ";
-            cabeceraSpannable = new SpannableString(cabecera);
-            cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-            builder.append(cabeceraSpannable);
-
             contenido = alert.getDescription();
-            contenidoSpannable = new SpannableString(contenido);
-            contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-            builder.append(contenidoSpannable);
 
-            descriptionDetailUnassigned.setText(builder, TextView.BufferType.SPANNABLE);
+            writeDetails(cabecera, contenido, descriptionDetailUnassigned);
 
             layoutDetail.setVisibility(View.VISIBLE);
             containerAssigned.setVisibility(View.GONE);
@@ -767,9 +671,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-        showAssingDetails(alertArrayList.get(pos));
+        showAlertDetails(alertArrayList.get(pos));
     }
 
+    //AsyncTask para cargal la lista de alertas
     class AlertListAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
         @Override
@@ -893,6 +798,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         }
     }
 
+    //AsyncTask para asignarse una alerta desde los detalles
     class AssignDetailsAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
@@ -947,6 +853,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         }
     }
 
+    //AsyncTask para cerrar una alerta pasandole un parte
     class CloseAlertAsyncTask extends AsyncTask<Alert, Void, Boolean> {
 
         @Override
@@ -1018,7 +925,18 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         }
     }
 
+    //AsyncTask para comprobar el nombre y los apellidos pasandole la id
     class SelectTechnicianIDAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            String cabecera = "Técnico: ";
+            String contenido = "cargando...";
+
+            writeDetails(cabecera, contenido, ownerDetail);
+        }
 
         @Override
         protected String doInBackground(String... ids) {
@@ -1073,19 +991,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
             super.onPostExecute(name);
 
             if (!name.equals("")) {
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-
                 String cabecera = "Técnico: ";
-                SpannableString cabeceraSpannable = new SpannableString(cabecera);
-                cabeceraSpannable.setSpan(new StyleSpan(Typeface.BOLD), 0, cabecera.length(), 0);
-                builder.append(cabeceraSpannable);
-
                 String contenido = name;
-                SpannableString contenidoSpannable = new SpannableString(contenido);
-                contenidoSpannable.setSpan(null, 0, contenido.length(), 0);
-                builder.append(contenidoSpannable);
 
-                ownerDetail.setText(builder, TextView.BufferType.SPANNABLE);
+                writeDetails(cabecera, contenido, ownerDetail);
             } else {
                 Toast.makeText(getContext(), "Error: No se puede ver el tecnico de la alerta", Toast.LENGTH_SHORT).show();
             }

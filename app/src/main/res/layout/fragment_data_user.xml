@@ -55,7 +55,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="#A6ACAF"
                 android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Usuario"
+                android:hint="Usuario o correo electrónico"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:text="patata@patata.com"

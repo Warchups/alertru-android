@@ -95,6 +95,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    //Dependiendo del estado de conexion, cambia la visibilidad de los componentes
     private void changeStateVisibility() {
         stateLog = prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
 
@@ -129,21 +130,25 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //Cambia el estado de conexion en las preferencias
     private void changeState(String state) {
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putString(StatesLog.STATE_LOG, state);
 
         editor.commit();
+        //Llamo a la funcion para cambiar la visibilidad de los componentes
         changeStateVisibility();
     }
 
+    //Llamo a la asincrona que me desloguea
     private void logout() {
         LogoutAsyncTask logoutAsyncTask = new LogoutAsyncTask();
         logoutAsyncTask.execute();
     }
 
     private void login() {
+        //Controlo que se haya introducido un correo/username y una password
         if (txtEmail.getText().length() == 0 || txtPassword.getText().length() == 0) {
             Toast.makeText(getActivity(), "Indique el usuario y la contraseña.", Toast.LENGTH_SHORT).show();
         } else {
@@ -151,6 +156,9 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             password = txtPassword.getText().toString();
 
             LoginAsyncTask loginAsyncTask = new LoginAsyncTask();
+            //Si el primer campo es un correo (contiene una @, ya que en el servicio los username no pueden llevar @),
+            //llamo a la asincrona pasandole el indicativo de que se esta iniciando con email,
+            //si no contiene @, le indico que es username
             if (email.contains("@"))
                 loginAsyncTask.execute(email, password, "email");
             else
@@ -158,6 +166,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //AsyncTask para logearse
     class LoginAsyncTask extends AsyncTask<String, Integer, Integer> {
 
         @Override
@@ -190,6 +199,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
 
                 JSONObject jsonParam = new JSONObject();
+                //Le paso los parametros para decirle si es email o username
                 jsonParam.put(strings[2], strings[0]);
                 jsonParam.put("password", strings[1]);
 
@@ -206,6 +216,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 int respuesta = connection.getResponseCode();
                 StringBuilder result = new StringBuilder();
 
+                //Si el login me responde ok, paso a recojer la id y el access_token y busco los datos del usuario por la id
                 if (respuesta == HttpURLConnection.HTTP_OK) {
                     //Log.i("RESPONSE", HttpURLConnection.HTTP_OK + "");
                     String line;
@@ -259,6 +270,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
                         Technician technician = new Technician(name, surname, username, email, id, province);
 
+                        //Me guardo los atributos del tecnico recogido por la consulta por id, me guardo el estado de logeado
+                        //y el access_token en las preferencias
                         SharedPreferences.Editor editor = prefs.edit();
 
                         editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED);
@@ -296,16 +309,22 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(Integer integer) {
             loader.stop();
             loader.setVisibility(View.GONE);
+
             switch (integer) {
+                //Si me devuelve 0 es que alguno de los dos campos no es correcto
                 case 0:
                     Toast.makeText(getActivity(), "Usuario y/o contraseña incorrectos.", Toast.LENGTH_SHORT).show();
                     layoutLogin.setVisibility(View.VISIBLE);
                     break;
+                //Si me devuelve 1 es que el login es correcto
                 case 1:
                     //Toast.makeText(getActivity(), "Correcto", Toast.LENGTH_SHORT).show();
+                    //Me suscribo al tema de la provincia del usuario para que me lleguen notificaciones de Firebase
                     FirebaseMessaging.getInstance().subscribeToTopic(prefs.getString("province", ""));
+                    //Cambio la visibilidad de los elementos para que se muestre los datos del usuario y la opcion de desloguearse
                     changeStateVisibility();
                     break;
+                //Hay algun error de conexion desconocido
                 case 2:
                     //Toast.makeText(getActivity(), "Error Desconocido", Toast.LENGTH_SHORT).show();
                     layoutLogin.setVisibility(View.VISIBLE);
@@ -314,6 +333,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    //AsyncTask para desloguearse
     class LogoutAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -363,13 +383,10 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
             loader.stop();
             loader.setVisibility(View.GONE);
 
-            SharedPreferences.Editor editor = prefs.edit();
-
-            editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
-
-            editor.commit();
-
+            //Me desuscribo del tema de la provincia para que no me lleguen notificaciones de Firebase
             FirebaseMessaging.getInstance().unsubscribeFromTopic(prefs.getString("province", ""));
+
+            //Cambio el estado a desconectado
             changeState(StatesLog.DISCONNECTED);
         }
     }

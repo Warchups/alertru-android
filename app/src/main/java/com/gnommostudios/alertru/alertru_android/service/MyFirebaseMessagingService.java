@@ -26,6 +26,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void handleIntent(Intent intent) {
         //Log.i("HANDLE-INTENT", intent.getAction());
 
+        //Sobreescribo este metodo para controlar tambien cuando esta la pantalla bloqueada
+
+        //Si el action del intent es el de recivir un mensaje llamo a mi funcion
+        //para mostrar una notificacion pasandole el titulo y el cuerpo.
+        //Si no estoy reciviendo nada llamo a super para que haga sus gestiones
+        //en los casos que no me interesan
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();
 
@@ -45,10 +51,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         boolean activateAlert = prefs.getBoolean("activateAlert", true);
 
+        //Compruebo si estan activadas las alertas en preferencias
         if (activateAlert) {
+            //Si estan activadas recojo el valor de ringote que me dice que alerta quiere que suene el usuario
             String ringote = prefs.getString("ringote", "");
             Uri sound;
 
+            //Dependiendo de el valor de ringote creo una Uri de la alerta o otra
             if (ringote.equals("a1")) {
                 sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.alarm1);
             } else if (ringote.equals("a2")) {
@@ -58,13 +67,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else if (ringote.equals("nu")) {
                 sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.nuclear);
             } else {
+                //Si no hay ninguna guardada o esta la default coge la que tiene el telefono predeterminada
                 sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             }
 
+            //Preparo una vibracion ascendiente
             long [] vibrate = {0, 1000, 2000, 3000};
 
+            //Preparo un bitmap con la imagen de icono de alarma
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 
+            //Construyo la alerta
+            //Le pongo el icono de alerta, tanto en pequeño como en grande
+            //Le pongo el titulo y el cuerpo que le paso como parametros a la funcion
+            //Le pongo la vibracion
+            //Le pongo la visibilidad
+            //Le pongo el sonido de la notificacion
+            //Le pongo las luces de la notificacion
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.icon_alarma)
@@ -79,11 +98,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             Notification notification = mBuilder.build();
+            //Le pongo la flag de inssitent para que se repita hasta que el usuario la vea
             notification.flags = Notification.FLAG_INSISTENT;
 
+            //Muestro la notificacion
             mNotificationManager.notify(0, notification);
         }
 
+        //Mando un mensaje de broadcast para que, desde el main, avise que hay una alerta nueva
         Intent intent = new Intent("MainActivity");
         intent.putExtra("NOTIFICATION", true);
         intent.putExtra("CHANGE_TITLE", false);
