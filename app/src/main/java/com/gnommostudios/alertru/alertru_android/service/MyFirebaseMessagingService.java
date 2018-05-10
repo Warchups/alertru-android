@@ -101,7 +101,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             Notification notification = mBuilder.build();
             //Le pongo la flag de inssitent para que se repita hasta que el usuario la vea
-            notification.flags = Notification.FLAG_INSISTENT;
+            if (alert)
+                notification.flags = Notification.FLAG_INSISTENT;
 
             //Muestro la notificacion
             mNotificationManager.notify(0, notification);
