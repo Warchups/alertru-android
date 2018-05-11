@@ -9,13 +9,11 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,9 +32,6 @@ public class SplashScreen extends AppCompatActivity {
     private final int SPLASH_DISPLAY_LENGTH = 500;
 
     private SharedPreferences prefs;
-    private String stateLog;
-
-    private AVLoadingIndicatorView loader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +39,6 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
-        stateLog = prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
-
-        loader = (AVLoadingIndicatorView) findViewById(R.id.loading_splash);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // finally change the color

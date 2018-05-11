@@ -441,6 +441,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private void showAssingDialog(final Alert alert) {
         AlertDialog.Builder alerta =
                 new AlertDialog.Builder(getContext());
+
         if (!alert.isAssigned()) {
             alerta.setMessage("Asunto: " + alert.getAffair() + "\nFecha: " + alert.getDate())
                     .setTitle(R.string.titleAssign)

@@ -22,19 +22,4 @@
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="1dp"/>
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loading_splash"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:indicatorColor="@color/colorSplash"
-        app:indicatorName="BallScaleMultipleIndicator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
