@@ -2,6 +2,8 @@ package com.gnommostudios.alertru.alertru_android.view.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -46,6 +48,7 @@ public class ConfigFragment extends Fragment {
 
         static ListPreference ringote;
         static CheckBoxPreference activate;
+        private MediaPlayer mp = null;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +63,23 @@ public class ConfigFragment extends Fragment {
             if (ringote.getValue() == null)
                 ringote.setValueIndex(0);
 
+            switch (ringote.getValue()) {
+                case "nu":
+                    ringote.setSummary("Nuclear");
+                    break;
+                case "be":
+                    ringote.setSummary("Beep");
+                    break;
+                case "a1":
+                    ringote.setSummary("Alarm1");
+                    break;
+                case "a2":
+                    ringote.setSummary("Alarm2");
+                    break;
+                default:
+                    ringote.setSummary("Default");
+            }
+
             ringote.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -70,8 +90,7 @@ public class ConfigFragment extends Fragment {
                         editor.commit();
                     }
 
-                    //choiceRingote((String) newValue);
-
+                    choiceRingote((String) newValue);
                     return true;
                 }
             });
@@ -98,20 +117,26 @@ public class ConfigFragment extends Fragment {
         private void choiceRingote(String option) {
             switch (option) {
                 case "nu":
-                    Toast.makeText(getActivity(), "Nuclear", Toast.LENGTH_SHORT).show();
+                    mp = MediaPlayer.create(getActivity(), R.raw.nuclear);
+                    ringote.setSummary("Nuclear");
                     break;
                 case "be":
-                    Toast.makeText(getActivity(), "Beep", Toast.LENGTH_SHORT).show();
+                    mp = MediaPlayer.create(getActivity(), R.raw.beep);
+                    ringote.setSummary("Beep");
                     break;
                 case "a1":
-                    Toast.makeText(getActivity(), "Alarm1", Toast.LENGTH_SHORT).show();
+                    mp = MediaPlayer.create(getActivity(), R.raw.alarm1);
+                    ringote.setSummary("Alarm1");
                     break;
                 case "a2":
-                    Toast.makeText(getActivity(), "Alarm2", Toast.LENGTH_SHORT).show();
+                    mp = MediaPlayer.create(getActivity(), R.raw.alarm2);
+                    ringote.setSummary("Alarm2");
                     break;
                 default:
-                    Toast.makeText(getActivity(), "Default", Toast.LENGTH_SHORT).show();
+                    mp = MediaPlayer.create(getActivity(), RingtoneManager.TYPE_NOTIFICATION);
+                    ringote.setSummary("Default");
             }
+            mp.start();
         }
     }
 
