@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:text="title"
                     android:fontFamily="@font/walkway_ultrabold"
-                    android:textSize="32sp"/>
+                    android:textSize="24dp"/>
 
             </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.gnommostudios.alertru.alertru_android.view.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -98,6 +99,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     //Dependiendo del estado de conexion, cambia la visibilidad de los componentes
     private void changeStateVisibility() {
         stateLog = prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED);
+        Intent intent = new Intent("MainActivity");
 
         switch (stateLog) {
             case StatesLog.LOGGED:
@@ -108,12 +110,22 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 emailLogged.setText(prefs.getString("email", ""));
                 userNameLogged.setText(prefs.getString("username", ""));
                 provinceLogged.setText(prefs.getString("province", ""));
+                //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
+                intent.putExtra("CHANGE_TITLE", true);
+                intent.putExtra("TITLE", "Datos de usuario");
+                //send broadcast
+                getActivity().sendBroadcast(intent);
                 break;
             case StatesLog.DISCONNECTED:
                 txtEmail.setText("");
                 txtPassword.setText("");
                 layoutLogout.setVisibility(View.GONE);
                 layoutLogin.setVisibility(View.VISIBLE);
+                //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
+                intent.putExtra("CHANGE_TITLE", true);
+                intent.putExtra("TITLE", "Iniciar Sesión");
+                //send broadcast
+                getActivity().sendBroadcast(intent);
                 break;
         }
     }

@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/aviso"
-            android:padding="8dp"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/aviso" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="30dp"
-            android:layout_weight="0.3"
-            android:text="@string/error_connection"/>
+            android:paddingLeft="28dp"
+            android:text="@string/error_connection"
+            android:textSize="15dp" />
 
     </LinearLayout>
 

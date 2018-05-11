@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.adapter.MyFragmentPagerAdapter;
 import com.gnommostudios.alertru.alertru_android.util.CustomViewPager;
+import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,10 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean notification = false;
 
+    private SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
 
         initCustomTab();
 
@@ -71,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (getIntent().getExtras().getInt("PAGE") == 2) {
-            //Llamamos al método changeTitle(int) pasándole un -1 para que vaya al default
-            changeTitle(-1);
+            //Llamamos al método changeTitle(int) pasándole la id de R.id.button_home para que muestre el titulo de home
+            changeTitle(R.id.button_home);
             //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el home
             changeIcons(R.id.button_home);
         }
@@ -259,14 +265,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 titleToolbar.setText(R.string.settings);
                 break;
             case R.id.button_user:
-                titleToolbar.setText(R.string.user_data);
+                if (prefs.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED).equals(StatesLog.LOGGED))
+                    titleToolbar.setText("Datos de usuario");
+                else
+                    titleToolbar.setText("Iniciar Sesión");
+
                 break;
             case R.id.button_info:
                 titleToolbar.setText(R.string.info);
                 break;
-            default:
-                titleToolbar.setText(R.string.alertru);
-                break;
+            //default:
+            //    titleToolbar.setText(R.string.alertru);
+            //    break;
         }
     }
 
@@ -340,7 +350,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else {
                 //Si el intent es para cambiar el titulo lo recojo
-                titleToolbar.setText(intent.getExtras().getString("TITLE"));
+                String title = intent.getExtras().getString("TITLE");
+                if (title.equals("Iniciar Sesión") || title.equals("Datos de usuario") && viewPager.getCurrentItem() == 0)
+                    titleToolbar.setText(title);
+                else  if (title.equals("Detalles") || title.equals("Búsqueda") && viewPager.getCurrentItem() == 1)
+                    titleToolbar.setText(title);
+                else  if (title.equals("Detalles") || title.equals("Incidencias") && viewPager.getCurrentItem() == 2)
+                    titleToolbar.setText(title);
+
             }
         }
     };
