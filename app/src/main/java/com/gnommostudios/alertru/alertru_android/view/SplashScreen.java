@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.gnommostudios.alertru.alertru_android.R;
 import com.gnommostudios.alertru.alertru_android.util.StatesLog;
 import com.gnommostudios.alertru.alertru_android.util.Urls;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,6 +145,7 @@ public class SplashScreen extends AppCompatActivity {
                     break;
                 case 1:
                     //Si esta logueado paso el indice de la pagina donde esta la lista de las alertas activas
+                    FirebaseMessaging.getInstance().subscribeToTopic(prefs.getString("province", ""));
                     mainIntent.putExtra("PAGE", 2);
                     break;
             }
