@@ -15,8 +15,8 @@
     <color name="input_register_hint">#5e6266</color>
 
     <color name="colorTabLayout">#4d70ba</color>
-    <color name="colorCenterTab">#37AFFF</color>
-    <color name="colorCenterTab_dark">#008be8</color>
+    <color name="colorCenterTab">#008be8</color>
+    <color name="colorCenterTab_dark">#0068ae</color>
     <color name="colorCenterTabNotification">#329932</color>
 
     <color name="colorSplash">#8b9dc3</color>
