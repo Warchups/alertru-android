@@ -25,75 +25,76 @@
             android:visibility="gone"
             app:loading_color="@color/colorPrimary" />
 
-        <!--Login-->
-        <LinearLayout
-            android:id="@+id/layout_login"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
+            <!--Login-->
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/layout_login"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="@font/walkway_black"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:text="@string/titleDataUserLogin"
-                android:textColor="@color/colorPrimary"
-                android:textSize="26sp" />
+                android:background="@color/card_user_background"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:visibility="visible">
 
-            <EditText
-                android:id="@+id/txtEmail"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Usuario o correo electrónico"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:text="patata@patata.com"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
+                <EditText
+                    android:id="@+id/txtEmail"
+                    android:layout_width="500px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/walkway_oblique_bold"
+                    android:hint="Usuario o correo electrónico"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:text="patata@patata.com"
+                    android:textColor="@color/input_register"
+                    android:textColorHint="@color/input_register_hint" />
 
-            <EditText
-                android:id="@+id/txtPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="#A6ACAF"
-                android:fontFamily="@font/walkway_oblique_bold"
-                android:hint="Contraseña"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:text="j12345"
-                android:textColor="@color/input_register"
-                android:textColorHint="@color/input_register_hint" />
+                <EditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="500px"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/walkway_oblique_bold"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:text="j12345"
+                    android:textColor="@color/input_register"
+                    android:textColorHint="@color/input_register_hint" />
 
-            <android.support.v7.widget.CardView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dip"
-                app:cardCornerRadius="2dp">
-
-                <Button
-                    android:id="@+id/btnLogin"
+                <android.support.v7.widget.CardView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_button"
-                    android:text="Login"
-                    android:textColor="@color/white" />
+                    android:layout_marginTop="20dip"
+                    android:padding="1dp"
+                    android:background="@color/colorPrimary"
+                    app:cardCornerRadius="2dp">
 
-            </android.support.v7.widget.CardView>
+                    <Button
+                        android:id="@+id/btnLogin"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_login"
+                        android:text="Login"
+                        android:textColor="@color/colorPrimary" />
 
-        </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
 
         <!--Logout-->
         <LinearLayout
