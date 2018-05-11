@@ -615,7 +615,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             } else {
                 AuthenticationDialog dialog = new AuthenticationDialog();
                 dialog.show(getFragmentManager(), "CONNECTION_ERROR");
-                setAdapter();
+                //setAdapter();
             }
         }
     }

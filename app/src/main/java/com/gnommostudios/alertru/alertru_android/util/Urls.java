@@ -6,6 +6,8 @@ public class Urls {
     public static final int TIMEOUT_LONG = 30000;
 
     //Urls para las conexiones
+    //IP jorge -> 36
+    //IP mia -> 25
     public static final String LOGIN = "http://192.168.1.36:3000/api/AppUsers/login";
     public static final String SELECT_ID = "http://192.168.1.36:3000/api/AppUsers/";
 

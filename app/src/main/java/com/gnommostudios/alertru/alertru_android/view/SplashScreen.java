@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.gnommostudios.alertru.alertru_android.R;
@@ -45,23 +48,19 @@ public class SplashScreen extends AppCompatActivity {
 
         loader = (AVLoadingIndicatorView) findViewById(R.id.loading_splash);
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // finally change the color
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Si esta logeado en las preferencias compruebo el token
-                if (stateLog.equals(StatesLog.LOGGED)) {
-                    LoginAsyncTask lat = new LoginAsyncTask();
-                    lat.execute();
-                } else {
-                    //Si esta deslogeado inicio la aplicacion pasandole la pagina 0,
-                    //para que vaya al fragment donde esta el formulario para logearse,
-                    //ya que si no esta loqueado no tiene ninguna funcionalidad ni puede ver las alertas
-                    Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
-                    mainIntent.putExtra("PAGE", 0);
-
-                    SplashScreen.this.startActivity(mainIntent);
-                    SplashScreen.this.finish();
-                }
+                //Llammo a la asincrona para que compruebe el token
+                LoginAsyncTask lat = new LoginAsyncTask();
+                lat.execute();
             }
         }, SPLASH_DISPLAY_LENGTH);
 
@@ -72,6 +71,7 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... strings) {
             try {
+                Thread.sleep(2000);
                 String userId = prefs.getString("id", "");
                 String access_token = prefs.getString("access_token", "");
 
@@ -133,6 +133,8 @@ public class SplashScreen extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 

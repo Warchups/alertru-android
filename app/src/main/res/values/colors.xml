@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         
-    <color name="colorPrimary">#047CCC</color>
-        
-    <color name="colorPrimaryDark">#047CC4</color>
-        
+    <color name="colorPrimary">#3b5998</color>
+    <color name="colorPrimaryDark">#8b9dc3</color>
     <color name="colorAccent">#303F9F</color>
-        
-    <color name="colorWhite">#FFFFFF</color>
-        
-    <color name="common_signin_btn_light_text_disabled">#000000</color>
-        
+
     <color name="gray">#808080</color>
-        
     <color name="green">#008000</color>
-        
-    <color name="background">#EEEFEF</color>
-        
     <color name="white">#ffffff</color>
         
-    <color name="input_register">#444444</color>
+    <color name="background">#f7f7f7</color>
         
+    <color name="input_register">#444444</color>
     <color name="input_register_hint">#5e6266</color>
 
-    <color name="colorTabLayout">#2B93D3</color>
+    <color name="colorTabLayout">#4d70ba</color>
     <color name="colorCenterTab">#37AFFF</color>
-    <color name="colorCenterTab_dark">#047CCC</color>
+    <color name="colorCenterTab_dark">#008be8</color>
     <color name="colorCenterTabNotification">#329932</color>
+
+    <color name="colorSplash">#8b9dc3</color>
 
 </resources>
