@@ -204,14 +204,6 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void initList() {
-        //Inicio la lista y mando un mensaje de broadcast para que en el MainActivity cambie el icono,
-        //para que ya no salga el aviso de alerta nueva, ya que ya se han cargado las alertas
-        Intent intent = new Intent("MainActivity");
-        intent.putExtra("NOTIFICATION", false);
-        intent.putExtra("CHANGE_TITLE", false);
-        //send broadcast
-        getActivity().sendBroadcast(intent);
-
         //Pongo los detalles en GONE, por si estaban mostrandose
         layoutDetail.setVisibility(View.GONE);
 
@@ -612,6 +604,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             refresh.setRefreshing(false);
 
             if (correct) {
+                //Mando un mensaje de broadcast para que en el MainActivity cambie el icono,
+                //para que ya no salga el aviso de alerta nueva, ya que ya se han cargado las alertas
+                Intent intent = new Intent("MainActivity");
+                intent.putExtra("NOTIFICATION", false);
+                intent.putExtra("CHANGE_TITLE", false);
+                //send broadcast
+                getActivity().sendBroadcast(intent);
                 setAdapter();
             } else {
                 AuthenticationDialog dialog = new AuthenticationDialog();
