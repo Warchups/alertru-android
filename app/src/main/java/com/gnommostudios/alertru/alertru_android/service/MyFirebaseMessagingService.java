@@ -2,6 +2,7 @@ package com.gnommostudios.alertru.alertru_android.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +80,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Preparo un bitmap con la imagen de icono de alarma
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
 
+            Intent intent = new Intent("AlertListFragment");
+            intent.putExtra("REFRESH", true);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             //Construyo la alerta
             //Le pongo el icono de alerta, tanto en pequeño como en grande
             //Le pongo el titulo y el cuerpo que le paso como parametros a la funcion
@@ -93,6 +99,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setContentTitle(title)
                             .setContentText(body)
                             .setVibrate(vibrate)
+                            .addAction(0, "", pendingIntent)
                             .setVisibility(VISIBILITY_PUBLIC)
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
