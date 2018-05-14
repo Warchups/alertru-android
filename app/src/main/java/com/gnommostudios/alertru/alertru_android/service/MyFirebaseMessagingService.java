@@ -78,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             long [] vibrate = {0, 1000, 2000, 3000};
 
             //Preparo un bitmap con la imagen de icono de alarma
-            Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.icon_alarma);
+            Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.alert_notification);
 
             Intent intent = new Intent("AlertListFragment");
             intent.putExtra("REFRESH", true);
@@ -94,12 +94,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Le pongo las luces de la notificacion
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.imgcircle)
+                            .setSmallIcon(R.drawable.alertru_azul500)
                             .setLargeIcon(image)
                             .setContentTitle(title)
                             .setContentText(body)
                             .setVibrate(vibrate)
-                            .addAction(0, "", pendingIntent)
+                            .addAction(R.drawable.alert_notification, "Refresh Alerts", pendingIntent)
                             .setVisibility(VISIBILITY_PUBLIC)
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
