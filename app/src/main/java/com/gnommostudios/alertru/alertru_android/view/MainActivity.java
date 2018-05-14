@@ -365,7 +365,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             } else {
+                //Si el intent es desde main
                 if (intent.getExtras().getBoolean("IS_MAIN")) {
+                    //Si la pagina es home
                     if (intent.getExtras().getString("PAGE").equals("HOME")) {
                         ConstraintLayout containerList = (ConstraintLayout) findViewById(R.id.container_list);
                         LinearLayout layoutDetails = (LinearLayout) findViewById(R.id.layout_detail);
@@ -376,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
 
+                    //Si la pagina es search
                     if (intent.getExtras().getString("PAGE").equals("SEARCH")) {
                         LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
                         LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
