@@ -345,8 +345,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     //Si no es notificacion vuelvo a poner el listener en al que tiene en el main para poder navegar
                     //y quito el icono verde
-                    homeButton.setImageResource(R.drawable.icon_tab_center_black);
-                    homeButton.setOnClickListener(MainActivity.this);
+                    if (viewPager.getCurrentItem() == 2) {
+                        homeButton.setImageResource(R.drawable.icon_tab_center_black);
+                        homeButton.setOnClickListener(MainActivity.this);
+                    }
                 }
             } else {
                 //Si el intent es para cambiar el titulo lo recojo
