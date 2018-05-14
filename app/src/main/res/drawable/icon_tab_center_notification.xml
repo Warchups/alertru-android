@@ -4,9 +4,9 @@
     <item android:drawable="@drawable/circle_tab_notification" />
     <item
         android:drawable="@drawable/home_white"
-        android:bottom="32dp"
-        android:top="32dp"
-        android:right="32dp"
-        android:left="32dp"/>
+        android:bottom="35dp"
+        android:top="35dp"
+        android:right="35dp"
+        android:left="35dp"/>
 
 </layer-list>
