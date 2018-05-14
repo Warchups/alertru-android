@@ -113,6 +113,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 provinceLogged.setText(prefs.getString("province", ""));
                 //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
                 intent.putExtra("CHANGE_TITLE", true);
+                intent.putExtra("IS_MAIN", false);
                 intent.putExtra("TITLE", "Datos de usuario");
                 //send broadcast
                 getActivity().sendBroadcast(intent);
@@ -124,6 +125,7 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
                 layoutLogin.setVisibility(View.VISIBLE);
                 //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
                 intent.putExtra("CHANGE_TITLE", true);
+                intent.putExtra("IS_MAIN", false);
                 intent.putExtra("TITLE", "Iniciar Sesión");
                 //send broadcast
                 getActivity().sendBroadcast(intent);

@@ -337,6 +337,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("IS_MAIN", false);
         intent.putExtra("TITLE", "Detalles");
         //send broadcast
         getActivity().sendBroadcast(intent);
@@ -1034,6 +1035,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
     private void fromDetailsToList() {
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("IS_MAIN", false);
         intent.putExtra("TITLE", "Búsqueda");
         //send broadcast
         getActivity().sendBroadcast(intent);

@@ -306,6 +306,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         //Mando un mensaje de broadcast para que desde el MainActivity cambie el titulo
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("IS_MAIN", false);
         intent.putExtra("TITLE", "Detalles");
         //send broadcast
         getActivity().sendBroadcast(intent);
@@ -487,6 +488,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private void fromDetailsToList() {
         Intent intent = new Intent("MainActivity");
         intent.putExtra("CHANGE_TITLE", true);
+        intent.putExtra("IS_MAIN", false);
         intent.putExtra("TITLE", "Incidencias");
         //send broadcast
         getActivity().sendBroadcast(intent);
