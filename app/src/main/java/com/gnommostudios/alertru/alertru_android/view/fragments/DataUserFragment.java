@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
     private TextView userNameLogged;
     private TextView provinceLogged;
 
-    private LinearLayout layoutLogin;
-    private LinearLayout layoutLogout;
+    private CardView layoutLogin;
+    private CardView layoutLogout;
 
     private String email, password;
 
@@ -75,8 +76,8 @@ public class DataUserFragment extends Fragment implements View.OnClickListener {
 
         loader = (RotateLoading) view.findViewById(R.id.newton_cradle_loading);
 
-        layoutLogin = (LinearLayout) view.findViewById(R.id.layout_login);
-        layoutLogout = (LinearLayout) view.findViewById(R.id.layout_logout);
+        layoutLogin = (CardView) view.findViewById(R.id.layout_login);
+        layoutLogout = (CardView) view.findViewById(R.id.layout_logout);
 
         nameLogged = (TextView) view.findViewById(R.id.nameLogout);
         emailLogged = (TextView) view.findViewById(R.id.emailLogout);
