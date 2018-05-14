@@ -156,10 +156,16 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         calendarStart = (ImageView) view.findViewById(R.id.calendar_start);
         calendarEnd = (ImageView) view.findViewById(R.id.calendar_end);
 
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/walkway_ultrabold.ttf");
+
         searchOpen = (RadioButton) view.findViewById(R.id.radioOpenSearch);
         searchClose = (RadioButton) view.findViewById(R.id.radioCloseSearch);
 
         checkBoxSearch = (CheckBox) view.findViewById(R.id.checkSearchOpenAndExit);
+
+        searchOpen.setTypeface(font);
+        searchClose.setTypeface(font);
+        checkBoxSearch.setTypeface(font);
 
         btnSearch = (Button) view.findViewById(R.id.searchButton);
         btnSearch.setOnClickListener(this);

@@ -23,6 +23,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingLeft="28dp"
+            android:fontFamily="@font/walkway_black"
             android:text="@string/error_connection"
             android:textSize="15dp" />
 
