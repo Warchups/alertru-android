@@ -133,7 +133,7 @@ public class ConfigFragment extends Fragment {
                     ringote.setSummary("Alarm2");
                     break;
                 default:
-                    mp = MediaPlayer.create(getActivity(), RingtoneManager.TYPE_NOTIFICATION);
+                    mp = MediaPlayer.create(getActivity(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     ringote.setSummary("Default");
             }
             mp.start();
