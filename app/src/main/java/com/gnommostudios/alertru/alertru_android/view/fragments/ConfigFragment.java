@@ -115,6 +115,10 @@ public class ConfigFragment extends Fragment {
         }
 
         private void choiceRingote(String option) {
+            if (mp != null) {
+                mp.stop();
+            }
+
             switch (option) {
                 case "nu":
                     mp = MediaPlayer.create(getActivity(), R.raw.nuclear);
@@ -136,6 +140,7 @@ public class ConfigFragment extends Fragment {
                     mp = MediaPlayer.create(getActivity(), RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     ringote.setSummary("Default");
             }
+
             mp.start();
         }
     }
