@@ -11,7 +11,7 @@
         android:id="@+id/layout_disconnected"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="match_parent"
@@ -162,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/date_detail_unassigned"
@@ -209,7 +209,6 @@
                 android:padding="8dp"
                 app:arcColor="@color/green"
                 app:arcWidth="4dp"
-                app:finalIcon="@drawable/tick_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:reusable="true">
