@@ -117,6 +117,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private FloatingActionButton assingFAB;
     private FABProgressCircle fabProgressCircle;
 
+    private boolean alertUpdated = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -477,11 +479,19 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     public void onFABProgressAnimationEnd() {
         fabProgressCircle.hide();
 
-        Snackbar.make(fabProgressCircle, "Alerta Asignada", Snackbar.LENGTH_SHORT)
-                .setAction("Action", null)
-                .show();
+        if (alertUpdated) {
+            Snackbar.make(fabProgressCircle, "Alerta Asignada", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null)
+                    .show();
 
-        fromDetailsToList();
+            fromDetailsToList();
+        } else {
+            Snackbar.make(fabProgressCircle, "Error al asignar alerta", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null)
+                    .show();
+        }
+
+        alertUpdated = false;
     }
 
     private void fromDetailsToList() {
@@ -714,9 +724,8 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPostExecute(Boolean updated) {
             super.onPostExecute(updated);
 
-            if (updated) {
-                fabProgressCircle.beginFinalAnimation();
-            }
+            alertUpdated = updated;
+            fabProgressCircle.beginFinalAnimation();
         }
     }
 
