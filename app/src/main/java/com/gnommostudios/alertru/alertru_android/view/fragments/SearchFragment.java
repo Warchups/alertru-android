@@ -66,6 +66,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
     private TextView titleSearch, withoutResults;
 
     private TextView dateEnter, dateExit;
+    private ImageView calendarStart, calendarEnd;
+
     private RadioButton searchOpen, searchClose;
     private CheckBox checkBoxSearch;
     private Button btnSearch, seeClosed;
@@ -151,6 +153,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
         dateEnter = (TextView) view.findViewById(R.id.txtDateEnter);
         dateExit = (TextView) view.findViewById(R.id.txtDateExit);
 
+        calendarStart = (ImageView) view.findViewById(R.id.calendar_start);
+        calendarEnd = (ImageView) view.findViewById(R.id.calendar_end);
+
         searchOpen = (RadioButton) view.findViewById(R.id.radioOpenSearch);
         searchClose = (RadioButton) view.findViewById(R.id.radioCloseSearch);
 
@@ -175,9 +180,23 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
 
             @Override
             public void onClick(View v) {
-                showDatePickerDialogEnterExit();
+                showDatePickerDialogEndDate();
             }
 
+        });
+
+        calendarStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialogEnterDate();
+            }
+        });
+
+        calendarEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialogEndDate();
+            }
         });
 
         checkBoxSearch.setOnClickListener(new View.OnClickListener() {
@@ -271,11 +290,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 dateEnter.setText(selectedDate);
                 dEnter = selectedDate;
             }
-        });
+        }, "Fecha Inicio");
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 
-    private void showDatePickerDialogEnterExit() {
+    private void showDatePickerDialogEndDate() {
         DatePicker newFragment = DatePicker.newInstance(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
@@ -295,7 +314,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                 dateExit.setText(selectedDate);
                 dExit = selectedDate;
             }
-        });
+        }, "Fecha Fin");
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
 

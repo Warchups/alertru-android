@@ -11,14 +11,16 @@ import java.util.Calendar;
 public class DatePicker extends DialogFragment {
 
     private DatePickerDialog.OnDateSetListener listener;
+    private String title;
 
-    public static DatePicker newInstance(DatePickerDialog.OnDateSetListener listener) {
+    public static DatePicker newInstance(DatePickerDialog.OnDateSetListener listener, String title) {
         DatePicker fragment = new DatePicker();
-        fragment.setListener(listener);
+        fragment.setListener(listener, title);
         return fragment;
     }
 
-    public void setListener(DatePickerDialog.OnDateSetListener listener) {
+    public void setListener(DatePickerDialog.OnDateSetListener listener, String title) {
+        this.title = title;
         this.listener = listener;
     }
 
@@ -31,7 +33,9 @@ public class DatePicker extends DialogFragment {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), listener, year, month, day);
+        DatePickerDialog dpd = new DatePickerDialog(getActivity(), listener, year, month, day);
+        dpd.setTitle(title);
+        return dpd;
     }
 
 }

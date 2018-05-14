@@ -87,7 +87,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_button_login"
                         android:text="Login"
-                        android:textColor="@drawable/bg_button_login_text" />
+                        android:textColor="@drawable/bg_button_login_text"
+                        android:textSize="14dp" />
 
                 </android.support.v7.widget.CardView>
 
@@ -197,7 +198,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_button_login"
                         android:text="Logout"
-                        android:textColor="@drawable/bg_button_login_text" />
+                        android:textColor="@drawable/bg_button_login_text"
+                        android:textSize="14dp" />
 
                 </android.support.v7.widget.CardView>
 
