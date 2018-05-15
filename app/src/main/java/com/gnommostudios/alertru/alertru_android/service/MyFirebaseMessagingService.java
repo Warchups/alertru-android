@@ -119,9 +119,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notification.flags = Notification.FLAG_INSISTENT|Notification.FLAG_AUTO_CANCEL;
             }
 
-            long collapseKey = Long.parseLong(collapseKeyString);
-
-            int m = (int) ((collapseKey / 1000L) % Integer.MAX_VALUE);
+            int m = (int) ((Long.parseLong(collapseKeyString) / 1000L) % Integer.MAX_VALUE);
 
             //Muestro la notificacion con el collapsekey para que muestre notificaciones diferentes
             mNotificationManager.notify(m, notification);
