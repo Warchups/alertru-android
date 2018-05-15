@@ -30,9 +30,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Sobreescribo este metodo para controlar tambien cuando esta la pantalla bloqueada
 
-        //Si el action del intent es el de recivir un mensaje llamo a mi funcion
+        //Si el action del intent es el de recibir un mensaje llamo a mi funcion
         //para mostrar una notificacion pasandole el titulo, el cuerpo, si es una alerta y el collapsekey.
-        //Si no estoy reciviendo nada llamo a super para que haga sus gestiones
+        //Si no estoy recibiendo nada llamo a super para que haga sus gestiones
         //en los casos que no me interesan para las notificaciones
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();

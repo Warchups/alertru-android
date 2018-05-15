@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Extract data included in the Intent
             //Log.i("BROADCAST", "Hola");
 
-            //Si el intent de broadcast que recive no es para cambiar de titulo (es para mostrar notificacion),
+            //Si el intent de broadcast que recibe no es para cambiar de titulo (es para mostrar notificacion),
             //compruebo el extra boolean de NOTIFICATION
             if (!intent.getExtras().getBoolean("CHANGE_TITLE")) {
                 notification = intent.getExtras().getBoolean("NOTIFICATION");
