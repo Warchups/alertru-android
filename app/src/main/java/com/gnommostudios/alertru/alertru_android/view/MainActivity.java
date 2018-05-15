@@ -350,6 +350,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             getApplicationContext().sendBroadcast(intent);
                             //Y pongo la pagina de la lista
                             viewPager.setCurrentItem(2);
+
+                            changeIcons(R.id.button_home);
+                            changeTitle(R.id.button_home);
                         }
                     });
                 } else {
