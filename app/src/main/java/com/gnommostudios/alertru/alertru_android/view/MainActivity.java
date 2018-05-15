@@ -283,14 +283,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     titleToolbar.setText("Datos de usuario");
                 else
                     titleToolbar.setText("Iniciar Sesión");
-
                 break;
             case R.id.button_info:
                 titleToolbar.setText(R.string.info);
                 break;
-            //default:
-            //    titleToolbar.setText(R.string.alertru);
-            //    break;
         }
     }
 
@@ -365,40 +361,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             } else {
-                //Si el intent es desde main
-                if (intent.getExtras().getBoolean("IS_MAIN")) {
-                    //Si la pagina es home
-                    if (intent.getExtras().getString("PAGE").equals("HOME")) {
-                        ConstraintLayout containerList = (ConstraintLayout) findViewById(R.id.container_list);
-                        LinearLayout layoutDetails = (LinearLayout) findViewById(R.id.layout_detail);
-
-                        if (layoutDetails.getVisibility() == View.VISIBLE) {
-                            containerList.setVisibility(View.VISIBLE);
-                            layoutDetails.setVisibility(View.GONE);
-                        }
-                    }
-
-                    //Si la pagina es search
-                    if (intent.getExtras().getString("PAGE").equals("SEARCH")) {
-                        LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
-                        LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
-                        LinearLayout searchDetails = (LinearLayout) findViewById(R.id.details_search);
-
-                        if (searchList.getVisibility() == View.VISIBLE || searchDetails.getVisibility() == View.VISIBLE) {
-                            searchList.setVisibility(View.GONE);
-                            searchForm.setVisibility(View.VISIBLE);
-                            searchDetails.setVisibility(View.GONE);
-                        }
-                    }
+                if (intent.getExtras().getBoolean("REFRESH")) {
+                    Intent intent2 = new Intent("AlertListFragment");
+                    intent2.putExtra("REFRESH", true);
+                    //send broadcast
+                    getApplicationContext().sendBroadcast(intent2);
+                    //Y pongo la pagina de la lista
+                    viewPager.setCurrentItem(2);
                 }else {
-                    //Si el intent es para cambiar el titulo lo recojo
-                    String title = intent.getExtras().getString("TITLE");
-                    if (title.equals("Iniciar Sesión") || title.equals("Datos de usuario") && viewPager.getCurrentItem() == 0) {
-                        titleToolbar.setText(title);
-                    } else if (title.equals("Detalles") || title.equals("Búsqueda") && viewPager.getCurrentItem() == 1) {
-                        titleToolbar.setText(title);
-                    } else if (title.equals("Detalles") || title.equals("Incidencias") && viewPager.getCurrentItem() == 2) {
-                        titleToolbar.setText(title);
+                    //Si el intent es desde main
+                    if (intent.getExtras().getBoolean("IS_MAIN")) {
+                        //Si la pagina es home
+                        if (intent.getExtras().getString("PAGE").equals("HOME")) {
+                            ConstraintLayout containerList = (ConstraintLayout) findViewById(R.id.container_list);
+                            LinearLayout layoutDetails = (LinearLayout) findViewById(R.id.layout_detail);
+
+                            if (layoutDetails.getVisibility() == View.VISIBLE) {
+                                containerList.setVisibility(View.VISIBLE);
+                                layoutDetails.setVisibility(View.GONE);
+                            }
+                        }
+
+                        //Si la pagina es search
+                        if (intent.getExtras().getString("PAGE").equals("SEARCH")) {
+                            LinearLayout searchForm = (LinearLayout) findViewById(R.id.search_form);
+                            LinearLayout searchList = (LinearLayout) findViewById(R.id.search_list);
+                            LinearLayout searchDetails = (LinearLayout) findViewById(R.id.details_search);
+
+                            if (searchList.getVisibility() == View.VISIBLE || searchDetails.getVisibility() == View.VISIBLE) {
+                                searchList.setVisibility(View.GONE);
+                                searchForm.setVisibility(View.VISIBLE);
+                                searchDetails.setVisibility(View.GONE);
+                            }
+                        }
+                    } else {
+                        //Si el intent es para cambiar el titulo lo recojo
+                        String title = intent.getExtras().getString("TITLE");
+                        if (title.equals("Iniciar Sesión") || title.equals("Datos de usuario") && viewPager.getCurrentItem() == 0) {
+                            titleToolbar.setText(title);
+                        } else if (title.equals("Detalles") || title.equals("Búsqueda") && viewPager.getCurrentItem() == 1) {
+                            titleToolbar.setText(title);
+                        } else if (title.equals("Detalles") || title.equals("Incidencias") && viewPager.getCurrentItem() == 2) {
+                            titleToolbar.setText(title);
+                        }
                     }
                 }
             }

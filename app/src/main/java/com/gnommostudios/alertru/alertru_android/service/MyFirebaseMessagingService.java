@@ -11,13 +11,14 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
+import java.util.Date;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -30,15 +31,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //Sobreescribo este metodo para controlar tambien cuando esta la pantalla bloqueada
 
         //Si el action del intent es el de recivir un mensaje llamo a mi funcion
-        //para mostrar una notificacion pasandole el titulo y el cuerpo.
+        //para mostrar una notificacion pasandole el titulo, el cuerpo y si es una alerta.
         //Si no estoy reciviendo nada llamo a super para que haga sus gestiones
-        //en los casos que no me interesan
+        //en los casos que no me interesan para las notificaciones
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();
 
-            //Log.i("BUNDLE", bundle.toString());
+            Log.i("BUNDLE", bundle.toString());
 
-            showNotification(bundle.getString("title"), bundle.getString("body"), bundle.get("alert").equals("true"));
+            showNotification(bundle.getString("title"), bundle.getString("body"), bundle.get("alert").equals("true"), bundle.getString("collapse_key"));
         } else {
             super.handleIntent(intent);
         }
@@ -46,10 +47,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        showNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("alert").equals("true"));
+        showNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), remoteMessage.getData().get("alert").equals("true"), remoteMessage.getCollapseKey());
     }
 
-    private void showNotification(String title, String body, boolean alert) {
+    private void showNotification(String title, String body, boolean alert, String collapseKeyString) {
         prefs = getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
         boolean activateAlert = prefs.getBoolean("activateAlert", true);
@@ -80,39 +81,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Preparo un bitmap con la imagen de icono de alarma
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.alert_notification);
 
-            Intent intent = new Intent("AlertListFragment");
+            Intent intent = new Intent("MainActivity");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("CHANGE_TITLE", true);
             intent.putExtra("REFRESH", true);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, intent, 0);
 
             //Construyo la alerta
             //Le pongo el icono de alerta, tanto en pequeño como en grande
             //Le pongo el titulo y el cuerpo que le paso como parametros a la funcion
             //Le pongo la vibracion
             //Le pongo la visibilidad
+            //Le pongo el intent
             //Le pongo el sonido de la notificacion
             //Le pongo las luces de la notificacion
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
+            Notification.Builder mBuilder =
+                    new Notification.Builder(this)
                             .setSmallIcon(R.drawable.alertru_azul500)
                             .setLargeIcon(image)
+                            .setAutoCancel(true)
                             .setContentTitle(title)
                             .setContentText(body)
                             .setVibrate(vibrate)
-                            .addAction(R.drawable.alert_notification, "Refresh Alerts", pendingIntent)
-                            .setVisibility(VISIBILITY_PUBLIC)
+                            .setContentIntent(pendingIntent)
                             .setSound(sound)
                             .setLights(0xFFFF0000, 300, 100);
 
             final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-            Notification notification = mBuilder.build();
-            //Le pongo la flag de inssitent para que se repita hasta que el usuario la vea
-            if (alert)
-                notification.flags = Notification.FLAG_INSISTENT;
+            Notification notification = new Notification.BigTextStyle(mBuilder)
+                    .bigText(body).build();
+
+            //Le pongo la flag de insitent para que se repita hasta que el usuario la vea
+            //y autocancel paara que se elimine cuando se pulse encima
+            if (alert) {
+                notification.flags = Notification.FLAG_INSISTENT|Notification.FLAG_AUTO_CANCEL;
+            }
+
+            long collapseKey = Long.parseLong(collapseKeyString);
+
+            int m = (int) ((collapseKey / 1000L) % Integer.MAX_VALUE);
 
             //Muestro la notificacion
-            mNotificationManager.notify(0, notification);
+            mNotificationManager.notify(m, notification);
         }
 
         if (alert) {
