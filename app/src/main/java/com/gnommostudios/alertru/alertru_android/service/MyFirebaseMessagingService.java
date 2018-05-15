@@ -77,6 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Preparo un bitmap con la imagen de icono de alarma
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.alert_notification);
 
+            //Preparo el intent que ara al pulsar la notificacion
             Intent intent = new Intent("MainActivity");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("CHANGE_TITLE", true);
