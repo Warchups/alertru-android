@@ -11,14 +11,10 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.gnommostudios.alertru.alertru_android.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.Date;
-
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -37,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
             Bundle bundle = intent.getExtras();
 
-            Log.i("BUNDLE", bundle.toString());
+            //Log.i("BUNDLE", bundle.toString());
 
             showNotification(bundle.getString("title"), bundle.getString("body"), bundle.get("alert").equals("true"), bundle.getString("collapse_key"));
         } else {
