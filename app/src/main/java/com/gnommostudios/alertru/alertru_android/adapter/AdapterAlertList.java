@@ -32,6 +32,11 @@ public class AdapterAlertList extends ArrayAdapter<Alert> {
         prefs = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

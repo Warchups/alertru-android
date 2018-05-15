@@ -19,6 +19,7 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,11 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
     private FloatingActionButton assingFAB;
     private FABProgressCircle fabProgressCircle;
 
+    private FloatingActionButton upFAB;
+
+    private boolean isFirst = true;
+    private int lastCharge = -1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,16 +202,23 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refesh_layout);
         refresh.setOnRefreshListener(this);
 
-        initList();
+        upFAB = (FloatingActionButton) view.findViewById(R.id.up_fab);
+        upFAB.hide();
+        upFAB.setOnClickListener(this);
+
+        initList("0");
 
         getActivity().registerReceiver(mMessageReceiver, new IntentFilter("AlertListFragment"));
 
         return view;
     }
 
-    public void initList() {
+    public void initList(String skip) {
         //Pongo los detalles en GONE, por si estaban mostrandose
         layoutDetail.setVisibility(View.GONE);
+
+        if (skip.equals("0"))
+            lastCharge = -1;
 
         //Si esta logueado llamo muestro el contenedor de la lista y
         //llamo a la funcion asincrona que hace la consulta de las alertas
@@ -213,7 +226,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             containerList.setVisibility(View.VISIBLE);
             layoutDisconnected.setVisibility(View.GONE);
             AlertListAsyncTask alat = new AlertListAsyncTask();
-            alat.execute();
+            alat.execute(skip);
         } else {
             //Si no esta logueado oculto el contenedor de la lista y muestro el layout que te dice que no estas logueado
             containerList.setVisibility(View.GONE);
@@ -226,7 +239,13 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             //Si hay alertas en el array, muestro la lista y pongo el adapter
             withoutAlerts.setVisibility(View.GONE);
             alertList.setVisibility(View.VISIBLE);
-            alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
+            if (isFirst) {
+                alertList.setAdapter(new AdapterAlertList(this, alertArrayList));
+            } else {
+                AdapterAlertList adapterAlertList = (AdapterAlertList) alertList.getAdapter();
+                adapterAlertList.notifyDataSetChanged();
+            }
+
         } else {
             //Si no hay alertas oculto la lista y muestro un textview que me avisa de que no hay alertas
             withoutAlerts.setVisibility(View.VISIBLE);
@@ -241,16 +260,19 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        initList();
+        initList("0");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.up_fab:
+                alertList.smoothScrollToPositionFromTop(0, 0, 500);
+                break;
             case R.id.layout_disconnected:
                 //Si pulso encima del layout que me sale cuando estoy deslogeuado intenta volver a cargar la lista,
                 //si no estoy logueado volvera a aparecer este layout, y si ya me he logueado cargara la lista
-                initList();
+                initList("-1");
                 break;
             case R.id.assign_fab:
                 //Si, desde los detalles de una alerta, pulso en el FAB para assignarme la alerta,
@@ -495,7 +517,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         //send broadcast
         getActivity().sendBroadcast(intent);
 
-        initList();
+        initList("0");
 
     }
 
@@ -510,6 +532,20 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             refresh.setEnabled(false);
         } else {
             refresh.setEnabled(true);
+        }
+
+        if (firstVisibleItem > 10) {
+            upFAB.show();
+        } else {
+            upFAB.hide();
+        }
+
+        if (firstVisibleItem % 10 == 0 && firstVisibleItem != 0) {
+            //Log.i("EEE", firstVisibleItem + "");
+            if (lastCharge < firstVisibleItem) {
+                initList(Integer.toString(firstVisibleItem));
+                lastCharge = firstVisibleItem;
+            }
         }
     }
 
@@ -526,8 +562,17 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
+                JSONObject jsonObject = new JSONObject();
+                if (strings[0].equals("0"))
+                    jsonObject.put("limit", Urls.FIRST_LIMIT_ALERTS);
+                else
+                    jsonObject.put("limit", Urls.LIMIT_ALERTS);
+
+                jsonObject.put("skip", strings[0]);
+
+
                 URL url = new URL(Urls.GET_ALERT_LIST + prefs.getString("id", "") +
-                        "/get-alerts-by-owner-province?access_token=" + prefs.getString("access_token", ""));
+                        "/get-alerts-by-owner-province?filter=" + jsonObject + "&access_token=" + prefs.getString("access_token", ""));
 
                 //Log.i("CONSULTA_ALERTAS", url.toString());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -554,8 +599,12 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
                     //Recojo el array de alertas que me devuelve la consulta
                     JSONArray alerts = new JSONArray(result.toString());
 
-                    //Inicio el array para que se machaque cada vez
-                    alertArrayList = new ArrayList<>();
+                    if (strings[0].equals("0")) {
+                        alertArrayList = new ArrayList<>();
+                        isFirst = true;
+                    } else {
+                        isFirst = false;
+                    }
 
                     //Recorro el JSONArray
                     for (int i = 0; i < alerts.length(); i++) {
@@ -666,7 +715,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             super.onPostExecute(updated);
 
             if (updated) {
-                initList();
+                initList("0");
             }
         }
     }
@@ -884,7 +933,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             // Extract data included in the Intent
             //Si el intent es para refescar inicio la lista
             if (intent.getExtras().getBoolean("REFRESH")) {
-                initList();
+                initList("0");
             }
         }
     };

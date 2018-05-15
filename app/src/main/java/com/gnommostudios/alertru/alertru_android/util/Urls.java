@@ -5,6 +5,9 @@ public class Urls {
     public static final int TIMEOUT = 15000;
     public static final int TIMEOUT_LONG = 30000;
 
+    public static final String FIRST_LIMIT_ALERTS = "20";
+    public static final String LIMIT_ALERTS = "10";
+
     //Urls para las conexiones
     //IP jorge -> 36
     //IP mia -> 25
