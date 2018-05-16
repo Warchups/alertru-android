@@ -545,6 +545,10 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
             upFAB.hide();
         }
 
+        if (firstVisibleItem + 4 >= alertArrayList.size() - 1) {
+            upFAB.hide();
+        }
+
         //Si el firstVisibleItem es multiple de 10 y es diferente a 0
         /*if (firstVisibleItem % 10 == 0 && firstVisibleItem != 0) {
             //Log.i("EEE", firstVisibleItem + "");
