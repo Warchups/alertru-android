@@ -19,7 +19,6 @@ import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +73,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private ListView alertList;
     private SwipeRefreshLayout refresh;
+
     private TextView withoutAlerts;
 
     private AVLoadingIndicatorView loader;
@@ -206,6 +206,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         upFAB.hide();
         upFAB.setOnClickListener(this);
 
+        //Inicio la lista pasandole 0 para indicarle que es el primero
         initList("0");
 
         getActivity().registerReceiver(mMessageReceiver, new IntentFilter("AlertListFragment"));
@@ -260,6 +261,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
+        //Inicio la lista pasandole 0 para indicarle que la reinicie desde el principio
         initList("0");
     }
 
@@ -517,6 +519,7 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
         //send broadcast
         getActivity().sendBroadcast(intent);
 
+        //Inicio la lista pasandole 0 para que la reinicie desde el principio
         initList("0");
 
     }
@@ -528,24 +531,33 @@ public class AlertListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //Solo pongo el refesh en enabled cuando esta en la primera posicion
         if (firstVisibleItem > 0) {
             refresh.setEnabled(false);
         } else {
             refresh.setEnabled(true);
         }
 
+        //Solo muestro el upFAB cuando paso de la posicion 10
         if (firstVisibleItem > 10) {
             upFAB.show();
         } else {
             upFAB.hide();
         }
 
-        if (firstVisibleItem % 10 == 0 && firstVisibleItem != 0) {
+        //Si el firstVisibleItem es multiple de 10 y es diferente a 0
+        /*if (firstVisibleItem % 10 == 0 && firstVisibleItem != 0) {
             //Log.i("EEE", firstVisibleItem + "");
+            //Si firstVisibleItem es mayor que la ultima carga (esto lo hago para que no cargue al subir)
             if (lastCharge < firstVisibleItem) {
                 initList(Integer.toString(firstVisibleItem));
                 lastCharge = firstVisibleItem;
             }
+        }*/
+
+        if (firstVisibleItem + 4 >= alertArrayList.size() - 1 && lastCharge < firstVisibleItem) {
+            initList(Integer.toString(firstVisibleItem));
+            lastCharge = firstVisibleItem;
         }
     }
 
