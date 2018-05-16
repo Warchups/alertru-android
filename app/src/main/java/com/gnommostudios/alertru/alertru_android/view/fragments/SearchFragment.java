@@ -516,7 +516,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                     adaat.execute(alertDetail);
                     break;
             }
-        }else {
+        } else {
             Toast.makeText(getActivity(), "No has iniciado sesión.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -567,8 +567,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
             alertArrayList = new ArrayList<>();
 
             titleSearch.setText("Tus alertas cerradas:");
-            AlertListAsyncTask alat = new AlertListAsyncTask();
-            alat.execute(3);
+            ClosedAlertListAsyncTask calat = new ClosedAlertListAsyncTask();
+            calat.execute();
         }
 
     }
@@ -786,6 +786,102 @@ public class SearchFragment extends Fragment implements View.OnClickListener, FA
                                 }
                             }
                         }
+                    }
+
+                    return true;
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean correct) {
+            super.onPostExecute(correct);
+            searchLoading.setVisibility(View.GONE);
+
+            if (correct) {
+                setAdapter();
+                searchList.setVisibility(View.VISIBLE);
+                if (alertArrayList.size() == 0) {
+                    withoutResults.setVisibility(View.VISIBLE);
+                    alertList.setVisibility(View.GONE);
+                } else {
+                    withoutResults.setVisibility(View.GONE);
+                    alertList.setVisibility(View.VISIBLE);
+                }
+            } else {
+                AuthenticationDialog dialog = new AuthenticationDialog();
+                dialog.show(getFragmentManager(), "CONNECTION_ERROR");
+                searchForm.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    //AsyncTask para cargal la lista de alertas cerradas
+    class ClosedAlertListAsyncTask extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            searchForm.setVisibility(View.GONE);
+            searchLoading.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... op) {
+            try {
+                URL url = new URL(Urls.GET_CLOSED_ALERT_LIST + prefs.getString("id", "") +
+                        "/get-alerts-closed-by-owner?access_token=" + prefs.getString("access_token", ""));
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept", "application/json");
+
+                connection.setConnectTimeout(Urls.TIMEOUT);
+                connection.connect();
+
+
+                int respuesta = connection.getResponseCode();
+
+                //Log.i("EEE", "Llego aqui");
+                StringBuilder result = new StringBuilder();
+
+                if (respuesta == HttpURLConnection.HTTP_OK) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    result.append(br.readLine());
+
+                    JSONArray alerts = new JSONArray(result.toString());
+
+                    for (int i = 0; i < alerts.length(); i++) {
+                        //Log.i("ALERT", alerts.get(i).toString());
+                        JSONObject alert = (JSONObject) alerts.get(i);
+
+                        String id = alert.getString("id");
+                        String affair = alert.getString("title");
+                        String description = alert.getString("description");
+                        String province = alert.getString("province");
+                        Date d = new Date(Long.parseLong(alert.getString("date")));
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                        String date = sdf.format(d);
+                        boolean assigned = alert.getBoolean("assigned");
+                        String state = alert.getString("state");
+                        String idTechnician = alert.getString("owner");
+                        String note = alert.getString("note");
+
+                        alertArrayList.add(new Alert(id, affair, description, province, date, idTechnician, assigned, state, note));
+
                     }
 
                     return true;
