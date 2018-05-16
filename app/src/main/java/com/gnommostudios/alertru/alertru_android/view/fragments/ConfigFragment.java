@@ -101,7 +101,7 @@ public class ConfigFragment extends Fragment {
                     if ((boolean) newValue) {
                         //Toast.makeText(getActivity(), "Check", Toast.LENGTH_SHORT).show();
                         editor.putString("ringote", ringote.getValue());
-                    }else {
+                    } else {
                         //Toast.makeText(getActivity(), "Uncheck", Toast.LENGTH_SHORT).show();
                         editor.putString("ringote", "def");
                     }

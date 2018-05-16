@@ -72,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
             //Preparo una vibracion ascendiente
-            long [] vibrate = {0, 1000, 2000, 3000};
+            long[] vibrate = {0, 1000, 2000, 3000};
 
             //Preparo un bitmap con la imagen de icono de alarma
             Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.alert_notification);
@@ -83,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("CHANGE_TITLE", true);
             intent.putExtra("REFRESH", true);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
             //Construyo la alerta
             //Le pongo el icono de alerta, tanto en pequeño como en grande
@@ -113,7 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //Le pongo la flag de insitent para que se repita hasta que el usuario la vea
             //y autocancel paara que se elimine cuando se pulse encima
             if (alert) {
-                notification.flags = Notification.FLAG_INSISTENT|Notification.FLAG_AUTO_CANCEL;
+                notification.flags = Notification.FLAG_INSISTENT | Notification.FLAG_AUTO_CANCEL;
             }
 
             int m = (int) ((Long.parseLong(collapseKeyString) / 1000L) % Integer.MAX_VALUE);

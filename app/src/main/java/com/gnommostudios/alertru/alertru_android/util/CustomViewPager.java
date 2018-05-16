@@ -13,8 +13,8 @@ public class CustomViewPager extends ViewPager {
         super(context);
     }
 
-    public CustomViewPager(Context context, AttributeSet attrs){
-        super(context,attrs);
+    public CustomViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CustomViewPager extends ViewPager {
         return disable ? false : super.onTouchEvent(event);
     }
 
-    public void disableScroll(Boolean disable){
+    public void disableScroll(Boolean disable) {
         //When disable = true not work the scroll and when disble = false work the scroll
         this.disable = disable;
     }

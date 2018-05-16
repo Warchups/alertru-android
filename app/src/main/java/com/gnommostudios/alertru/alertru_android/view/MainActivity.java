@@ -371,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     getApplicationContext().sendBroadcast(intent2);
                     //Y pongo la pagina de la lista
                     viewPager.setCurrentItem(2);
-                }else {
+                } else {
                     //Si el intent es desde main
                     if (intent.getExtras().getBoolean("IS_MAIN")) {
                         //Si la pagina es home

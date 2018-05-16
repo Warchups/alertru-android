@@ -14,16 +14,16 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="8dp"
             android:layout_margin="8dp"
+            android:padding="8dp"
             android:src="@drawable/aviso" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:fontFamily="@font/walkway_black"
             android:gravity="center"
             android:paddingLeft="28dp"
-            android:fontFamily="@font/walkway_black"
             android:text="@string/error_connection"
             android:textSize="15dp" />
 

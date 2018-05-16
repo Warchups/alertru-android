@@ -28,9 +28,9 @@
                     android:id="@+id/titleToolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="title"
                     android:fontFamily="@font/walkway_ultrabold"
-                    android:textSize="24dp"/>
+                    android:text="title"
+                    android:textSize="24dp" />
 
             </LinearLayout>
 
@@ -38,6 +38,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_main" />
 
 </RelativeLayout>
