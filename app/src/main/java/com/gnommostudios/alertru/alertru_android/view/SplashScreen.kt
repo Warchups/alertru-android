@@ -47,7 +47,7 @@ class SplashScreen : AppCompatActivity() {
         }
 
         Handler().postDelayed({
-            //Llammo a la asincrona para que compruebe el token
+            //Llamo a la asincrona para que compruebe el token
             val lat = LoginAsyncTask()
             lat.execute()
         }, SPLASH_DISPLAY_LENGTH.toLong())
