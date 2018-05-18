@@ -16,10 +16,10 @@ import com.gnommostudios.alertru.alertru_android.model.Alert
 
 import java.util.ArrayList
 
-class AdapterAlertList(context: Fragment, internal var elements: ArrayList<Alert>) : ArrayAdapter<Alert>(context.activity, R.layout.element_list, elements) {
+class AdapterAlertList(context: Fragment, private var elements: ArrayList<Alert>) : ArrayAdapter<Alert>(context.activity, R.layout.element_list, elements) {
 
     internal var context: Activity = context.activity
-    internal var prefs: SharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE)
+    private var prefs: SharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE)
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
