@@ -215,7 +215,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         return view
     }
 
-    fun initList(skip: String) {
+    private fun initList(skip: String) {
         //Pongo los detalles en GONE, por si estaban mostrandose
         layoutDetail!!.visibility = View.GONE
 
@@ -236,7 +236,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         }
     }
 
-    fun setAdapter() {
+    private fun setAdapter() {
         if (alertArrayList!!.size > 0) {
             //Si hay alertas en el array, muestro la lista y pongo el adapter
             withoutAlerts!!.visibility = View.GONE

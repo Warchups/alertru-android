@@ -1066,7 +1066,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         searchForm!!.visibility = View.GONE
     }
 
-    fun setAdapter() {
+    private fun setAdapter() {
         alertList!!.adapter = AdapterAlertList(this, alertArrayList!!)
         alertList!!.onItemClickListener = this
     }
