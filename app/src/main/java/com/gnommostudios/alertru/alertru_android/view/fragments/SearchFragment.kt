@@ -127,11 +127,6 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     private var assingFAB: FloatingActionButton? = null
     private var fabProgressCircle: FABProgressCircle? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_search, container, false)
@@ -195,7 +190,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
             }
         }
 
-        /*****************************Details */
+        /*****************************Details*****************************/
         layoutDetail = view.findViewById<View>(R.id.details_search) as LinearLayout
         layoutDetail!!.visibility = View.GONE
 
@@ -208,27 +203,27 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         containerAssignedOwner = view.findViewById<View>(R.id.search_assigned_owner) as ConstraintLayout
         containerAssignedOwner!!.visibility = View.GONE
 
-        /******Assigned */
+        /******Assigned******/
         dateDetailAssigned = view.findViewById<View>(R.id.date_detail_assigned_search) as TextView
         ownerDetail = view.findViewById<View>(R.id.owner_detail_search) as TextView
         provinceDetailAssigned = view.findViewById<View>(R.id.province_detail_assigned_search) as TextView
         titleDetailAssigned = view.findViewById<View>(R.id.title_detail_assigned_search) as TextView
         descriptionDetailAssigned = view.findViewById<View>(R.id.description_detail_assigned_search) as TextView
 
-        /*****Unassigned */
+        /*****Unassigned******/
         dateDetailUnassigned = view.findViewById<View>(R.id.date_detail_unassigned_search) as TextView
         provinceDetailUnassigned = view.findViewById<View>(R.id.province_detail_unassigned_search) as TextView
         titleDetailUnassigned = view.findViewById<View>(R.id.title_detail_unassigned_search) as TextView
         descriptionDetailUnassigned = view.findViewById<View>(R.id.description_detail_unassigned_search) as TextView
 
-        /******Assigned Owner */
+        /******Assigned Owner******/
         dateDetailAssignedOwner = view.findViewById<View>(R.id.date_detail_assigned_owner_search) as TextView
         ownerDetailOwner = view.findViewById<View>(R.id.owner_detail_owner_search) as TextView
         provinceDetailAssignedOwner = view.findViewById<View>(R.id.province_detail_assigned_owner_search) as TextView
         titleDetailAssignedOwner = view.findViewById<View>(R.id.title_detail_assigned_owner_search) as TextView
         descriptionDetailAssignedOwner = view.findViewById<View>(R.id.description_detail_assigned_owner_search) as TextView
 
-        /**Finalized */
+        /******Finalized******/
         writeDetails = view.findViewById<View>(R.id.write_detail_assigned_owner_search) as ImageView
         closedDetails = view.findViewById<View>(R.id.closed_detail_assigned_owner_search) as ImageView
         ownerDetailsImg = view.findViewById<View>(R.id.image_detail_assigned_owner_search) as ImageView
@@ -247,24 +242,23 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         fabProgressCircle = view.findViewById<View>(R.id.fabProgressCircle_search) as FABProgressCircle
         fabProgressCircle!!.attachListener(this)
 
-        /** */
+        /**********************************************************/
 
         return view
     }
 
     private fun showDatePickerDialogEnterDate() {
         val newFragment = DatePicker.newInstance(DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-            val selectedDate: String
-            if (month + 1 >= 10) {
+            val selectedDate: String = if (month + 1 >= 10) {
                 if (day >= 10)
-                    selectedDate = day.toString() + "-" + (month + 1) + "-" + year
+                    day.toString() + "-" + (month + 1) + "-" + year
                 else
-                    selectedDate = "0" + day + "-" + (month + 1) + "-" + year
+                    "0" + day + "-" + (month + 1) + "-" + year
             } else {
                 if (day >= 10)
-                    selectedDate = day.toString() + "-0" + (month + 1) + "-" + year
+                    day.toString() + "-0" + (month + 1) + "-" + year
                 else
-                    selectedDate = "0" + day + "-0" + (month + 1) + "-" + year
+                    "0" + day + "-0" + (month + 1) + "-" + year
             }
 
             dateEnter!!.text = selectedDate
@@ -275,17 +269,16 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
     private fun showDatePickerDialogEndDate() {
         val newFragment = DatePicker.newInstance(DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-            val selectedDate: String
-            if (month + 1 >= 10) {
+            val selectedDate: String = if (month + 1 >= 10) {
                 if (day >= 10)
-                    selectedDate = day.toString() + "-" + (month + 1) + "-" + year
+                    day.toString() + "-" + (month + 1) + "-" + year
                 else
-                    selectedDate = "0" + day + "-" + (month + 1) + "-" + year
+                    "0" + day + "-" + (month + 1) + "-" + year
             } else {
                 if (day >= 10)
-                    selectedDate = day.toString() + "-0" + (month + 1) + "-" + year
+                    day.toString() + "-0" + (month + 1) + "-" + year
                 else
-                    selectedDate = "0" + day + "-0" + (month + 1) + "-" + year
+                    "0" + day + "-0" + (month + 1) + "-" + year
             }
 
             dateExit!!.text = selectedDate
@@ -329,23 +322,23 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
             if (alert.idTechnician != prefs!!.getString("id", "")) {
                 dateDetailAssigned!!.text = alert.date
 
-                /*****Technician */
+                /*****Technician*****/
                 val stidat = SelectTechnicianIDAsyncTask()
                 stidat.execute(alert.idTechnician)
 
-                /*****Province */
+                /*****Province*****/
                 cabecera = "Provincia: "
                 contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
                 writeDetails(cabecera, contenido, provinceDetailAssigned)
 
-                /*****Title */
+                /*****Title*****/
                 cabecera = "Asunto Alerta: "
                 contenido = alert.affair
 
                 writeDetails(cabecera, contenido, titleDetailAssigned)
 
-                /*****Description */
+                /*****Description*****/
                 cabecera = "Descripción: "
                 contenido = alert.description
 
@@ -359,25 +352,25 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
             } else {
                 dateDetailAssignedOwner!!.text = alert.date
 
-                /*****Technician */
+                /*****Technician*****/
                 cabecera = "Técnico: "
                 contenido = prefs!!.getString("surname", "") + ", " + prefs!!.getString("name", "")
 
                 writeDetails(cabecera, contenido, ownerDetailOwner)
 
-                /*****Province */
+                /*****Province*****/
                 cabecera = "Provincia: "
                 contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
                 writeDetails(cabecera, contenido, provinceDetailAssignedOwner)
 
-                /*****Title */
+                /*****Title*****/
                 cabecera = "Asunto Alerta: "
                 contenido = alert.affair
 
                 writeDetails(cabecera, contenido, titleDetailAssignedOwner)
 
-                /*****Description */
+                /*****Description*****/
                 cabecera = "Descripción: "
                 contenido = alert.description
 
@@ -398,7 +391,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
 
                 if (alert.state == "finished") {
-                    /*****Part */
+                    /*****Part*****/
                     cabecera = "Parte de la incidencia: "
                     contenido = ""
 
@@ -409,7 +402,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                     editTextPart!!.visibility = View.VISIBLE
                     shimmerCloseAlert!!.visibility = View.VISIBLE
                 } else if (alert.state == "closed") {
-                    /*****Part */
+                    /*****Part*****/
                     cabecera = "Parte de la incidencia: "
                     contenido = alert.notes
 
@@ -425,19 +418,19 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         } else {
             dateDetailUnassigned!!.text = alert.date
 
-            /*****Province */
+            /*****Province*****/
             cabecera = "Provincia: "
             contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
             writeDetails(cabecera, contenido, provinceDetailUnassigned)
 
-            /*****Title */
+            /*****Title*****/
             cabecera = "Asunto Alerta: "
             contenido = alert.affair
 
             writeDetails(cabecera, contenido, titleDetailUnassigned)
 
-            /*****Description */
+            /*****Description*****/
             cabecera = "Descripción: "
             contenido = alert.description
 
@@ -468,7 +461,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                 R.id.close_alert_search -> {
                     val alertToClose = alertDetail
 
-                    if (editTextPart!!.text.toString().length > 0) {
+                    if (editTextPart!!.text.toString().isNotEmpty()) {
                         alertToClose!!.notes = editTextPart!!.text.toString()
                         val caat = CloseAlertAsyncTask()
                         caat.execute(alertToClose)
@@ -501,7 +494,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
             val searchOpen = this.searchOpen!!.isChecked
             val searchClosed = this.searchClose!!.isChecked
 
-            if (dEnter.length == 0 || dExit.length == 0) {
+            if (dEnter.isEmpty() || dExit.isEmpty()) {
                 Toast.makeText(activity, "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show()
             } else {
                 alertArrayList = ArrayList()
@@ -795,7 +788,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
             searchLoading!!.visibility = View.VISIBLE
         }
 
-        protected override fun doInBackground(vararg op: Int?): Boolean? {
+        override fun doInBackground(vararg op: Int?): Boolean? {
             try {
                 val url = URL(Urls.GET_CLOSED_ALERT_LIST + prefs!!.getString("id", "") +
                         "/get-alerts-closed-by-owner?access_token=" + prefs!!.getString("access_token", ""))
@@ -1021,9 +1014,9 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                 val resultSelect = StringBuilder()
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    val `in` = BufferedInputStream(connection.inputStream)
+                    val inputStream = BufferedInputStream(connection.inputStream)
 
-                    val reader = BufferedReader(InputStreamReader(`in`))
+                    val reader = BufferedReader(InputStreamReader(inputStream))
 
                     resultSelect.append(reader.readLine())
 

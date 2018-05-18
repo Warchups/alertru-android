@@ -78,9 +78,9 @@ class SplashScreen : AppCompatActivity() {
                 val resultSelect = StringBuilder()
 
                 if (respuestaSelect == HttpURLConnection.HTTP_OK) {
-                    val `in` = BufferedInputStream(conSelect.inputStream)
+                    val inputStream = BufferedInputStream(conSelect.inputStream)
 
-                    val reader = BufferedReader(InputStreamReader(`in`))
+                    val reader = BufferedReader(InputStreamReader(inputStream))
 
                     resultSelect.append(reader.readLine())
 

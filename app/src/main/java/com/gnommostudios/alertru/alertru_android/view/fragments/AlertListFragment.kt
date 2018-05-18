@@ -130,10 +130,6 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -144,7 +140,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         containerList = view.findViewById<View>(R.id.container_list) as ConstraintLayout
         containerList!!.visibility = View.VISIBLE
 
-        /*****************************Details */
+        /*****************************Details*****************************/
         layoutDetail = view.findViewById<View>(R.id.layout_detail) as LinearLayout
         layoutDetail!!.visibility = View.GONE
 
@@ -157,27 +153,27 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         containerAssignedOwner = view.findViewById<View>(R.id.container_assigned_owner) as ConstraintLayout
         containerAssignedOwner!!.visibility = View.GONE
 
-        /******Assigned */
+        /******Assigned*****/
         dateDetailAssigned = view.findViewById<View>(R.id.date_detail_assigned) as TextView
         ownerDetail = view.findViewById<View>(R.id.owner_detail) as TextView
         provinceDetailAssigned = view.findViewById<View>(R.id.province_detail_assigned) as TextView
         titleDetailAssigned = view.findViewById<View>(R.id.title_detail_assigned) as TextView
         descriptionDetailAssigned = view.findViewById<View>(R.id.description_detail_assigned) as TextView
 
-        /*****Unassigned */
+        /*****Unassigned*****/
         dateDetailUnassigned = view.findViewById<View>(R.id.date_detail_unassigned) as TextView
         provinceDetailUnassigned = view.findViewById<View>(R.id.province_detail_unassigned) as TextView
         titleDetailUnassigned = view.findViewById<View>(R.id.title_detail_unassigned) as TextView
         descriptionDetailUnassigned = view.findViewById<View>(R.id.description_detail_unassigned) as TextView
 
-        /******Assigned Owner */
+        /******Assigned Owner*****/
         dateDetailAssignedOwner = view.findViewById<View>(R.id.date_detail_assigned_owner) as TextView
         ownerDetailOwner = view.findViewById<View>(R.id.owner_detail_owner) as TextView
         provinceDetailAssignedOwner = view.findViewById<View>(R.id.province_detail_assigned_owner) as TextView
         titleDetailAssignedOwner = view.findViewById<View>(R.id.title_detail_assigned_owner) as TextView
         descriptionDetailAssignedOwner = view.findViewById<View>(R.id.description_detail_assigned_owner) as TextView
 
-        /**Finalized */
+        /*****Finalized*****/
         partTextView = view.findViewById<View>(R.id.partTextView) as TextView
         editTextPart = view.findViewById<View>(R.id.editText_part) as EditText
         writeDetails = view.findViewById<View>(R.id.write_detail_assigned_owner) as ImageView
@@ -194,7 +190,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         fabProgressCircle = view.findViewById<View>(R.id.fabProgressCircle) as FABProgressCircle
         fabProgressCircle!!.attachListener(this)
 
-        /** */
+        /**********************************************************/
 
         layoutDisconnected = view.findViewById<View>(R.id.layout_disconnected) as LinearLayout
         layoutDisconnected!!.visibility = View.GONE
@@ -288,7 +284,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
                 //Si, desde los detalles de una alerta, pulso en el boton para cerrar la alerta,
                 //compruebo que el usuario haya introducido algo en el EditText del parte,
                 //si ha escrito un parte, se lo añado a un POJO de alerta y llamo a la asincrona
-                if (editTextPart!!.text.toString().length > 0) {
+                if (editTextPart!!.text.toString().isNotEmpty()) {
                     alertToClose!!.notes = editTextPart!!.text.toString()
                     val caat = CloseAlertAsyncTask()
                     caat.execute(alertToClose)
@@ -344,23 +340,23 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
             if (alert.idTechnician != prefs!!.getString("id", "")) {
                 dateDetailAssigned!!.text = alert.date
 
-                /*****Technician */
+                /*****Technician*****/
                 val stidat = SelectTechnicianIDAsyncTask()
                 stidat.execute(alert.idTechnician)
 
-                /*****Province */
+                /*****Province*****/
                 cabecera = "Provincia: "
                 contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
                 writeDetails(cabecera, contenido, provinceDetailAssigned)
 
-                /*****Title */
+                /*****Title*****/
                 cabecera = "Asunto Alerta: "
                 contenido = alert.affair
 
                 writeDetails(cabecera, contenido, titleDetailAssigned)
 
-                /*****Description */
+                /*****Description*****/
                 cabecera = "Descripción: "
                 contenido = alert.description
 
@@ -374,25 +370,25 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
             } else {
                 dateDetailAssignedOwner!!.text = alert.date
 
-                /*****Technician */
+                /*****Technician*****/
                 cabecera = "Técnico: "
                 contenido = prefs!!.getString("surname", "") + ", " + prefs!!.getString("name", "")
 
                 writeDetails(cabecera, contenido, ownerDetailOwner)
 
-                /*****Province */
+                /*****Province*****/
                 cabecera = "Provincia: "
                 contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
                 writeDetails(cabecera, contenido, provinceDetailAssignedOwner)
 
-                /*****Title */
+                /*****Title*****/
                 cabecera = "Asunto Alerta: "
                 contenido = alert.affair
 
                 writeDetails(cabecera, contenido, titleDetailAssignedOwner)
 
-                /*****Description */
+                /*****Description*****/
                 cabecera = "Descripción: "
                 contenido = alert.description
 
@@ -411,7 +407,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
 
                 if (alert.state == "finished") {
-                    /*****Part */
+                    /*****Part*****/
                     cabecera = "Parte de la incidencia: "
                     contenido = ""
 
@@ -426,19 +422,19 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
         } else {
             dateDetailUnassigned!!.text = alert.date
 
-            /*****Province */
+            /*****Province*****/
             cabecera = "Provincia: "
             contenido = Character.toUpperCase(alert.province!![0]) + "" + alert.province!!.subSequence(1, alert.province!!.length)
 
             writeDetails(cabecera, contenido, provinceDetailUnassigned)
 
-            /*****Title */
+            /*****Title*****/
             cabecera = "Asunto Alerta: "
             contenido = alert.affair
 
             writeDetails(cabecera, contenido, titleDetailUnassigned)
 
-            /*****Description */
+            /*****Description*****/
             cabecera = "Descripción: "
             contenido = alert.description
 
@@ -512,11 +508,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
     override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
         //Solo pongo el refesh en enabled cuando esta en la primera posicion
-        if (firstVisibleItem > 0) {
-            refresh!!.isEnabled = false
-        } else {
-            refresh!!.isEnabled = true
-        }
+        refresh!!.isEnabled = firstVisibleItem <= 0
 
         //Solo muestro el upFAB cuando paso de la posicion 10
         if (firstVisibleItem > 10) {
@@ -689,9 +681,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
                 val respuesta = connection.responseCode
 
-                return if (respuesta == HttpURLConnection.HTTP_OK) {
-                    true
-                } else false
+                return respuesta == HttpURLConnection.HTTP_OK
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -855,9 +845,9 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
                 val resultSelect = StringBuilder()
 
                 if (respuesta == HttpURLConnection.HTTP_OK) {
-                    val `in` = BufferedInputStream(connection.inputStream)
+                    val inputStream = BufferedInputStream(connection.inputStream)
 
-                    val reader = BufferedReader(InputStreamReader(`in`))
+                    val reader = BufferedReader(InputStreamReader(inputStream))
 
                     resultSelect.append(reader.readLine())
 

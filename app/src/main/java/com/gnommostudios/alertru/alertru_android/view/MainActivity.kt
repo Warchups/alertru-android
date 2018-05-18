@@ -342,10 +342,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.button_home -> titleToolbar!!.setText(R.string.incidents)
             R.id.button_search -> titleToolbar!!.setText(R.string.search)
             R.id.button_config -> titleToolbar!!.setText(R.string.settings)
-            R.id.button_user -> if (prefs!!.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED) == StatesLog.LOGGED)
-                titleToolbar!!.text = "Datos de usuario"
-            else
-                titleToolbar!!.text = "Iniciar Sesión"
+            R.id.button_user ->
+                if (prefs!!.getString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED) == StatesLog.LOGGED)
+                    titleToolbar!!.text = "Datos de usuario"
+                else
+                    titleToolbar!!.text = "Iniciar Sesión"
             R.id.button_info -> titleToolbar!!.setText(R.string.info)
         }
     }
@@ -357,15 +358,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val searchList = findViewById<View>(R.id.search_list) as LinearLayout
             val searchDetails = findViewById<View>(R.id.details_search) as LinearLayout
 
-            if (searchList.visibility == View.VISIBLE) {
-                searchList.visibility = View.GONE
-                searchForm.visibility = View.VISIBLE
-            } else if (searchDetails.visibility == View.VISIBLE) {
-                searchDetails.visibility = View.GONE
-                searchList.visibility = View.VISIBLE
-                titleToolbar!!.text = "Búsqueda"
-            } else {
-                super.onBackPressed()
+            when {
+                searchList.visibility == View.VISIBLE -> {
+                    searchList.visibility = View.GONE
+                    searchForm.visibility = View.VISIBLE
+                }
+                searchDetails.visibility == View.VISIBLE -> {
+                    searchDetails.visibility = View.GONE
+                    searchList.visibility = View.VISIBLE
+                    titleToolbar!!.text = "Búsqueda"
+                }
+                else -> super.onBackPressed()
             }
 
         } else if (viewPager!!.currentItem == 2) {

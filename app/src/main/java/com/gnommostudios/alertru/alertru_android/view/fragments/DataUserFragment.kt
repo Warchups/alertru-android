@@ -153,7 +153,7 @@ class DataUserFragment : Fragment(), View.OnClickListener {
 
     private fun login() {
         //Controlo que se haya introducido un correo/username y una password
-        if (txtEmail!!.text.length == 0 || txtPassword!!.text.length == 0) {
+        if (txtEmail!!.text.isEmpty() || txtPassword!!.text.isEmpty()) {
             Toast.makeText(activity, "Indique el usuario y la contraseña.", Toast.LENGTH_SHORT).show()
         } else {
             email = txtEmail!!.text.toString()
@@ -247,9 +247,9 @@ class DataUserFragment : Fragment(), View.OnClickListener {
 
                     if (respuestaSelect == HttpURLConnection.HTTP_OK) {
                         //Log.i("EE", "Llego aqui");
-                        val `in` = BufferedInputStream(conSelect.inputStream)
+                        val inputStream = BufferedInputStream(conSelect.inputStream)
 
-                        val reader = BufferedReader(InputStreamReader(`in`))
+                        val reader = BufferedReader(InputStreamReader(inputStream))
 
                         resultSelect.append(reader.readLine())
 
