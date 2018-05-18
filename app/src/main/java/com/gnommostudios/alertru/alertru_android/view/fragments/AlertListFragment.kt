@@ -738,9 +738,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
                 val respuesta = connection.responseCode
 
-                return if (respuesta == HttpURLConnection.HTTP_OK) {
-                    true
-                } else false
+                return respuesta == HttpURLConnection.HTTP_OK
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -804,9 +802,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
                 val respuesta = connection.responseCode
 
-                return if (respuesta == HttpURLConnection.HTTP_OK) {
-                    true
-                } else false
+                return respuesta == HttpURLConnection.HTTP_OK
 
             } catch (e: IOException) {
                 e.printStackTrace()

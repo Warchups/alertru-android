@@ -908,9 +908,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
                 val respuesta = connection.responseCode
 
-                return if (respuesta == HttpURLConnection.HTTP_OK) {
-                    true
-                } else false
+                return respuesta == HttpURLConnection.HTTP_OK
 
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -970,9 +968,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
                 val respuesta = connection.responseCode
 
-                return if (respuesta == HttpURLConnection.HTTP_OK) {
-                    true
-                } else false
+                return respuesta == HttpURLConnection.HTTP_OK
 
             } catch (e: IOException) {
                 e.printStackTrace()
