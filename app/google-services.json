@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "271450768634",
+    "firebase_url": "https://app-pruebas-972aa.firebaseio.com",
+    "project_id": "app-pruebas-972aa",
+    "storage_bucket": "app-pruebas-972aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271450768634:android:283f31e2f4995239",
+        "android_client_info": {
+          "package_name": "com.gnommostudios.alertru.alertru_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271450768634-5fg8eg479r1vsjn3h81vm40gb5puot9l.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "271450768634-b78le1jlqsj4ko0hkk2duiskksarkpdo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw5gdIHdrSp8qnqFe9zdA4V30t2Agu38Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

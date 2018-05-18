@@ -18,13 +18,8 @@ import java.util.ArrayList
 
 class AdapterAlertList(context: Fragment, internal var elements: ArrayList<Alert>) : ArrayAdapter<Alert>(context.activity, R.layout.element_list, elements) {
 
-    internal var context: Activity
-    internal var prefs: SharedPreferences
-
-    init {
-        this.context = context.activity
-        prefs = getContext().getSharedPreferences("user", Context.MODE_PRIVATE)
-    }
+    internal var context: Activity = context.activity
+    internal var prefs: SharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE)
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

@@ -35,7 +35,7 @@ dependencies {
     compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
     compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 
