@@ -658,7 +658,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         showAlertDetails(alertArrayList!![pos])
     }
 
-    //AsyncTask para cargal la lista de alertas
+    //AsyncTask para cargar la lista de alertas
     internal inner class AlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
 
         override fun onPreExecute() {
@@ -709,36 +709,26 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                         val assigned = alert.getBoolean("assigned")
                         val state = alert.getString("state")
 
-                        if (op[0] != 3) {
-                            if (!assigned) {
+                        if (!assigned) {
+                            if (op[0] == 0)
+                                createAlertsArray(Alert(id, affair, description, province, date, assigned, state), date)
+
+                            if (op[0] == 1)
+                                createAlertsArrayOpen(Alert(id, affair, description, province, date, assigned, state), date)
+
+                            if (op[0] == 2)
+                                createAlertsArrayClosed(Alert(id, affair, description, province, date, assigned, state), date)
+                        } else {
+                            if (state != "closed") {
+                                val idTechnician = alert.getString("owner")
                                 if (op[0] == 0)
-                                    createAlertsArray(Alert(id, affair, description, province, date, assigned, state), date)
+                                    createAlertsArray(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
 
                                 if (op[0] == 1)
-                                    createAlertsArrayOpen(Alert(id, affair, description, province, date, assigned, state), date)
+                                    createAlertsArrayOpen(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
 
                                 if (op[0] == 2)
-                                    createAlertsArrayClosed(Alert(id, affair, description, province, date, assigned, state), date)
-                            } else {
-                                if (state != "closed") {
-                                    val idTechnician = alert.getString("owner")
-                                    if (op[0] == 0)
-                                        createAlertsArray(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
-
-                                    if (op[0] == 1)
-                                        createAlertsArrayOpen(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
-
-                                    if (op[0] == 2)
-                                        createAlertsArrayClosed(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
-                                }
-                            }
-                        } else {
-                            if (assigned) {
-                                val idTechnician = alert.getString("owner")
-                                if (state == "closed" && idTechnician == prefs!!.getString("id", "")) {
-                                    val note = alert.getString("note")
-                                    alertArrayList!!.add(Alert(id, affair, description, province, date, idTechnician, assigned, state, note))
-                                }
+                                    createAlertsArrayClosed(Alert(id, affair, description, province, date, idTechnician, assigned, state), date)
                             }
                         }
                     }
@@ -779,7 +769,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         }
     }
 
-    //AsyncTask para cargal la lista de alertas cerradas
+    //AsyncTask para cargar la lista de alertas cerradas
     internal inner class ClosedAlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
 
         override fun onPreExecute() {
