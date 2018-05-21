@@ -17,15 +17,13 @@ class Technician {
         this.province = province
     }
 
-    override fun toString(): String {
-        return "Technician{" +
-                "name='" + name + '\''.toString() +
-                ", surname='" + surname + '\''.toString() +
-                ", username='" + username + '\''.toString() +
-                ", email='" + email + '\''.toString() +
-                ", id='" + id + '\''.toString() +
-                ", province='" + province + '\''.toString() +
-                '}'.toString()
-    }
+    override fun toString(): String = "Technician{" +
+            "name='" + name + '\''.toString() +
+            ", surname='" + surname + '\''.toString() +
+            ", username='" + username + '\''.toString() +
+            ", email='" + email + '\''.toString() +
+            ", id='" + id + '\''.toString() +
+            ", province='" + province + '\''.toString() +
+            '}'.toString()
 
 }

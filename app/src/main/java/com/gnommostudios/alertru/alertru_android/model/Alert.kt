@@ -47,13 +47,11 @@ class Alert : Serializable {
         this.province = province
     }
 
-    override fun toString(): String {
-        return "Alert{" +
-                "affair='" + affair + '\''.toString() +
-                ", date='" + date + '\''.toString() +
-                ", idTechnician='" + idTechnician + '\''.toString() +
-                ", assigned=" + isAssigned +
-                '}'.toString()
-    }
+    override fun toString(): String = "Alert{" +
+            "affair='" + affair + '\''.toString() +
+            ", date='" + date + '\''.toString() +
+            ", idTechnician='" + idTechnician + '\''.toString() +
+            ", assigned=" + isAssigned +
+            '}'.toString()
 
 }
