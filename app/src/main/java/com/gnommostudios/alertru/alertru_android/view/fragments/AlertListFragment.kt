@@ -242,6 +242,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
             //Si hay alertas en el array, muestro la lista y pongo el adapter
             withoutAlerts!!.visibility = View.GONE
             alertList!!.visibility = View.VISIBLE
+
             if (isFirst) {
                 alertList!!.adapter = AdapterAlertList(this, alertArrayList!!)
             } else {
@@ -302,8 +303,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     override fun onItemLongClick(parent: AdapterView<*>, view: View, pos: Int, id: Long): Boolean {
-        showAssingDialog(alertArrayList!![pos])
-        return true
+        return showAssingDialog(alertArrayList!![pos])
     }
 
     private fun writeDetails(cabecera: String, contenido: String?, textView: TextView?) {
@@ -451,7 +451,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     //Muestro un dialogo para asignarte la alerta que has mantenido
-    private fun showAssingDialog(alert: Alert) {
+    private fun showAssingDialog(alert: Alert): Boolean {
         val alerta = AlertDialog.Builder(context)
 
         if (!alert.isAssigned) {
@@ -477,6 +477,8 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
             }
         }
         alerta.show()
+
+        return true
     }
 
     override fun onFABProgressAnimationEnd() {
@@ -532,6 +534,8 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
             }
         }*/
 
+        //Si el scroll esta abajo y firstVisibleItem es mayor que la ultima carga
+        //(esto lo hago para que no cargue dos veces en el mismo sitio), lo refresco
         if (firstVisibleItem + 4 >= alertArrayList!!.size - 1 && lastCharge < firstVisibleItem) {
             initList(Integer.toString(firstVisibleItem))
             lastCharge = firstVisibleItem
@@ -556,7 +560,6 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
                     jsonObject.put("limit", Urls.LIMIT_ALERTS)
 
                 jsonObject.put("skip", strings[0])
-
 
                 val url = URL(Urls.GET_ALERT_LIST + prefs!!.getString("id", "") +
                         "/get-alerts-by-owner-province?filter=" + jsonObject + "&access_token=" + prefs!!.getString("access_token", ""))
