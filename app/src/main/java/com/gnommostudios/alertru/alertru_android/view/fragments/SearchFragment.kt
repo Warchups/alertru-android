@@ -249,17 +249,18 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
     private fun showDatePickerDialogEnterDate() {
         val newFragment = DatePicker.newInstance(DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-            val selectedDate: String = if (month + 1 >= 10) {
-                if (day >= 10)
-                    day.toString() + "-" + (month + 1) + "-" + year
-                else
-                    "0" + day + "-" + (month + 1) + "-" + year
-            } else {
-                if (day >= 10)
-                    day.toString() + "-0" + (month + 1) + "-" + year
-                else
-                    "0" + day + "-0" + (month + 1) + "-" + year
-            }
+            val selectedDate: String =
+                    if (month + 1 >= 10) {
+                        if (day >= 10)
+                            day.toString() + "-" + (month + 1) + "-" + year
+                        else
+                            "0" + day + "-" + (month + 1) + "-" + year
+                    } else {
+                        if (day >= 10)
+                            day.toString() + "-0" + (month + 1) + "-" + year
+                        else
+                            "0" + day + "-0" + (month + 1) + "-" + year
+                    }
 
             dateEnter!!.text = selectedDate
             dEnter = selectedDate
@@ -269,17 +270,18 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
     private fun showDatePickerDialogEndDate() {
         val newFragment = DatePicker.newInstance(DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-            val selectedDate: String = if (month + 1 >= 10) {
-                if (day >= 10)
-                    day.toString() + "-" + (month + 1) + "-" + year
-                else
-                    "0" + day + "-" + (month + 1) + "-" + year
-            } else {
-                if (day >= 10)
-                    day.toString() + "-0" + (month + 1) + "-" + year
-                else
-                    "0" + day + "-0" + (month + 1) + "-" + year
-            }
+            val selectedDate: String =
+                    if (month + 1 >= 10) {
+                        if (day >= 10)
+                            day.toString() + "-" + (month + 1) + "-" + year
+                        else
+                            "0" + day + "-" + (month + 1) + "-" + year
+                    } else {
+                        if (day >= 10)
+                            day.toString() + "-0" + (month + 1) + "-" + year
+                        else
+                            "0" + day + "-0" + (month + 1) + "-" + year
+                    }
 
             dateExit!!.text = selectedDate
             dExit = selectedDate
@@ -388,7 +390,6 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                 editTextPart!!.setText("")
                 editTextPart!!.visibility = View.GONE
                 shimmerCloseAlert!!.visibility = View.GONE
-
 
                 if (alert.state == "finished") {
                     /*****Part*****/
@@ -683,7 +684,6 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                 connection.connectTimeout = Urls.TIMEOUT
                 connection.connect()
 
-
                 val respuesta = connection.responseCode
 
                 //Log.i("EEE", "Llego aqui");
@@ -794,7 +794,6 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
                 connection.connectTimeout = Urls.TIMEOUT
                 connection.connect()
 
-
                 val respuesta = connection.responseCode
 
                 //Log.i("EEE", "Llego aqui");
@@ -887,7 +886,6 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
 
                 connection.connectTimeout = Urls.TIMEOUT
                 connection.connect()
-
 
                 val respuesta = connection.responseCode
 
