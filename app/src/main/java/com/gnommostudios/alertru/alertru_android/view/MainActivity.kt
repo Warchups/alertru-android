@@ -158,18 +158,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         //Deshabilitamos el titulo del ToolBar
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        if (intent.extras!!.getInt("PAGE") == 2) {
-            //Llamamos al método changeTitle(int) pasándole la id de R.id.button_home para que muestre el titulo de home
-            changeTitle(R.id.button_home)
-            //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el home
-            changeIcons(R.id.button_home)
-        }
-
-        if (intent.extras!!.getInt("PAGE") == 0) {
-            //Llamamos al método changeTitle(int) pasándole la ide de R.id.button_user para que muestre el titulo de user
-            changeTitle(R.id.button_user)
-            //Llamamos el método changeIcons(int) pasándole la id de R.id.button_user para que muestre seleccionado el user
-            changeIcons(R.id.button_user)
+        when (intent.extras!!.getInt("PAGE")) {
+            2 -> {
+                //Llamamos al método changeTitle(int) pasándole la id de R.id.button_home para que muestre el titulo de home
+                changeTitle(R.id.button_home)
+                //Llamamos el método changeIcons(int) pasándole la id de R.id.button_home para que muestre seleccionado el home
+                changeIcons(R.id.button_home)
+            }
+            0 -> {
+                //Llamamos al método changeTitle(int) pasándole la ide de R.id.button_user para que muestre el titulo de user
+                changeTitle(R.id.button_user)
+                //Llamamos el método changeIcons(int) pasándole la id de R.id.button_user para que muestre seleccionado el user
+                changeIcons(R.id.button_user)
+            }
         }
     }
 
@@ -211,130 +212,123 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     //Función para cambiar los iconos y resaltarlos si los hemos pulsado
     private fun changeIcons(id: Int) {
-        //Si ha sido Search
-        if (id == R.id.button_search) {
-            //searchButton.setImageResource(R.drawable.search_black);
-            searchButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
-            subSearch!!.visibility = View.VISIBLE
+        when (id) {
+            //Si ha sido Search
+            R.id.button_search -> {
+                searchButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
+                subSearch!!.visibility = View.VISIBLE
 
-            userButton!!.setImageResource(R.drawable.user_white)
-            userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subUser!!.visibility = View.INVISIBLE
+                userButton!!.setImageResource(R.drawable.user_white)
+                userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subUser!!.visibility = View.INVISIBLE
 
-            if (!notification)
-                homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
+                if (!notification)
+                    homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
 
-            settingsButton!!.setImageResource(R.drawable.config_white)
-            settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSettings!!.visibility = View.INVISIBLE
+                settingsButton!!.setImageResource(R.drawable.config_white)
+                settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSettings!!.visibility = View.INVISIBLE
 
-            infoButton!!.setImageResource(R.drawable.info_white)
-            infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subInfo!!.visibility = View.INVISIBLE
+                infoButton!!.setImageResource(R.drawable.info_white)
+                infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subInfo!!.visibility = View.INVISIBLE
 
-            val intent = Intent("MainActivity")
-            intent.putExtra("CHANGE_TITLE", true)
-            intent.putExtra("IS_MAIN", true)
-            intent.putExtra("PAGE", "SEARCH")
-            //send broadcast
-            sendBroadcast(intent)
+                val intent = Intent("MainActivity")
+                intent.putExtra("CHANGE_TITLE", true)
+                intent.putExtra("IS_MAIN", true)
+                intent.putExtra("PAGE", "SEARCH")
+                //send broadcast
+                sendBroadcast(intent)
+            }
+            //Si ha sido User
+            R.id.button_user -> {
+                searchButton!!.setImageResource(R.drawable.search_white)
+                searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSearch!!.visibility = View.INVISIBLE
+
+                userButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
+                subUser!!.visibility = View.VISIBLE
+
+                if (!notification)
+                    homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
+
+                settingsButton!!.setImageResource(R.drawable.config_white)
+                settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSettings!!.visibility = View.INVISIBLE
+
+                infoButton!!.setImageResource(R.drawable.info_white)
+                infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subInfo!!.visibility = View.INVISIBLE
+            }
+            //Si ha sido Home
+            R.id.button_home -> {
+                searchButton!!.setImageResource(R.drawable.search_white)
+                searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSearch!!.visibility = View.INVISIBLE
+
+                userButton!!.setImageResource(R.drawable.user_white)
+                userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subUser!!.visibility = View.INVISIBLE
+
+                if (!notification)
+                    homeButton!!.setImageResource(R.drawable.icon_tab_center_black)
+
+                settingsButton!!.setImageResource(R.drawable.config_white)
+                settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSettings!!.visibility = View.INVISIBLE
+
+                infoButton!!.setImageResource(R.drawable.info_white)
+                infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subInfo!!.visibility = View.INVISIBLE
+
+                val intent = Intent("MainActivity")
+                intent.putExtra("CHANGE_TITLE", true)
+                intent.putExtra("IS_MAIN", true)
+                intent.putExtra("PAGE", "HOME")
+                //send broadcast
+                sendBroadcast(intent)
+            }
+            //Si ha sido Config
+            R.id.button_config -> {
+                searchButton!!.setImageResource(R.drawable.search_white)
+                searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSearch!!.visibility = View.INVISIBLE
+
+                userButton!!.setImageResource(R.drawable.user_white)
+                userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subUser!!.visibility = View.INVISIBLE
+
+                if (!notification)
+                    homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
+
+                settingsButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
+                subSettings!!.visibility = View.VISIBLE
+
+                infoButton!!.setImageResource(R.drawable.info_white)
+                infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subInfo!!.visibility = View.INVISIBLE
+            }
+            //Si ha sido Info
+            R.id.button_info -> {
+                searchButton!!.setImageResource(R.drawable.search_white)
+                searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSearch!!.visibility = View.INVISIBLE
+
+                userButton!!.setImageResource(R.drawable.user_white)
+                userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subUser!!.visibility = View.INVISIBLE
+
+                if (!notification)
+                    homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
+
+                settingsButton!!.setImageResource(R.drawable.config_white)
+                settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
+                subSettings!!.visibility = View.INVISIBLE
+
+                infoButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
+                subInfo!!.visibility = View.VISIBLE
+            }
         }
-
-        //Si ha sido User
-        if (id == R.id.button_user) {
-            searchButton!!.setImageResource(R.drawable.search_white)
-            searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSearch!!.visibility = View.INVISIBLE
-
-            //userButton.setImageResource(R.drawable.user_black);
-            userButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
-            subUser!!.visibility = View.VISIBLE
-
-            if (!notification)
-                homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
-
-            settingsButton!!.setImageResource(R.drawable.config_white)
-            settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSettings!!.visibility = View.INVISIBLE
-
-            infoButton!!.setImageResource(R.drawable.info_white)
-            infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subInfo!!.visibility = View.INVISIBLE
-        }
-
-        //Si ha sido Home
-        if (id == R.id.button_home) {
-            searchButton!!.setImageResource(R.drawable.search_white)
-            searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSearch!!.visibility = View.INVISIBLE
-
-            userButton!!.setImageResource(R.drawable.user_white)
-            userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subUser!!.visibility = View.INVISIBLE
-
-            if (!notification)
-                homeButton!!.setImageResource(R.drawable.icon_tab_center_black)
-
-            settingsButton!!.setImageResource(R.drawable.config_white)
-            settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSettings!!.visibility = View.INVISIBLE
-
-            infoButton!!.setImageResource(R.drawable.info_white)
-            infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subInfo!!.visibility = View.INVISIBLE
-
-            val intent = Intent("MainActivity")
-            intent.putExtra("CHANGE_TITLE", true)
-            intent.putExtra("IS_MAIN", true)
-            intent.putExtra("PAGE", "HOME")
-            //send broadcast
-            sendBroadcast(intent)
-        }
-
-        //Si ha sido Config
-        if (id == R.id.button_config) {
-            searchButton!!.setImageResource(R.drawable.search_white)
-            searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSearch!!.visibility = View.INVISIBLE
-
-            userButton!!.setImageResource(R.drawable.user_white)
-            userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subUser!!.visibility = View.INVISIBLE
-
-            if (!notification)
-                homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
-
-            //settingsButton.setImageResource(R.drawable.config_black);
-            settingsButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
-            subSettings!!.visibility = View.VISIBLE
-
-            infoButton!!.setImageResource(R.drawable.info_white)
-            infoButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subInfo!!.visibility = View.INVISIBLE
-        }
-
-        //Si ha sido Info
-        if (id == R.id.button_info) {
-            searchButton!!.setImageResource(R.drawable.search_white)
-            searchButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSearch!!.visibility = View.INVISIBLE
-
-            userButton!!.setImageResource(R.drawable.user_white)
-            userButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subUser!!.visibility = View.INVISIBLE
-
-            if (!notification)
-                homeButton!!.setImageResource(R.drawable.icon_tab_center_white)
-
-            settingsButton!!.setImageResource(R.drawable.config_white)
-            settingsButton!!.setBackgroundColor(resources.getColor(R.color.colorTabLayout))
-            subSettings!!.visibility = View.INVISIBLE
-
-            //infoButton.setImageResource(R.drawable.info_black);
-            infoButton!!.background = resources.getDrawable(R.drawable.degraded_tab_item)
-            subInfo!!.visibility = View.VISIBLE
-        }
-
     }
 
     //Función para cambiar el titulo dependiendo de la opción que hemos pulsado
@@ -354,38 +348,40 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         //Si estoy en la pagina del search o de la lista juego con las visibilidades de los detalles y lista
-        if (viewPager!!.currentItem == 1) {
-            val searchForm = findViewById<View>(R.id.search_form) as LinearLayout
-            val searchList = findViewById<View>(R.id.search_list) as LinearLayout
-            val searchDetails = findViewById<View>(R.id.details_search) as LinearLayout
+        when (viewPager!!.currentItem) {
+            1 -> {
+                val searchForm = findViewById<View>(R.id.search_form) as LinearLayout
+                val searchList = findViewById<View>(R.id.search_list) as LinearLayout
+                val searchDetails = findViewById<View>(R.id.details_search) as LinearLayout
 
-            when {
-                searchList.visibility == View.VISIBLE -> {
-                    searchList.visibility = View.GONE
-                    searchForm.visibility = View.VISIBLE
+                when {
+                    searchList.visibility == View.VISIBLE -> {
+                        searchList.visibility = View.GONE
+                        searchForm.visibility = View.VISIBLE
+                    }
+                    searchDetails.visibility == View.VISIBLE -> {
+                        searchDetails.visibility = View.GONE
+                        searchList.visibility = View.VISIBLE
+                        titleToolbar!!.text = "Búsqueda"
+                    }
+                    else -> super.onBackPressed()
                 }
-                searchDetails.visibility == View.VISIBLE -> {
-                    searchDetails.visibility = View.GONE
-                    searchList.visibility = View.VISIBLE
-                    titleToolbar!!.text = "Búsqueda"
+
+            }
+            2 -> {
+                val containerList = findViewById<View>(R.id.container_list) as ConstraintLayout
+                val layoutDetails = findViewById<View>(R.id.layout_detail) as LinearLayout
+
+                if (layoutDetails.visibility == View.VISIBLE) {
+                    containerList.visibility = View.VISIBLE
+                    layoutDetails.visibility = View.GONE
+                    titleToolbar!!.setText(R.string.incidents)
+                } else {
+                    super.onBackPressed()
                 }
-                else -> super.onBackPressed()
+
             }
-
-        } else if (viewPager!!.currentItem == 2) {
-            val containerList = findViewById<View>(R.id.container_list) as ConstraintLayout
-            val layoutDetails = findViewById<View>(R.id.layout_detail) as LinearLayout
-
-            if (layoutDetails.visibility == View.VISIBLE) {
-                containerList.visibility = View.VISIBLE
-                layoutDetails.visibility = View.GONE
-                titleToolbar!!.setText(R.string.incidents)
-            } else {
-                super.onBackPressed()
-            }
-
-        } else {
-            super.onBackPressed()
+            else -> super.onBackPressed()
         }
 
     }

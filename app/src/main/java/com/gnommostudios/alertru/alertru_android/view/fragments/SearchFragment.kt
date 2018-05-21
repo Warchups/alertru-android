@@ -487,49 +487,50 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
         // 2 - Assigned with a date
         // 3 - Closed from technician
 
-        if (id == R.id.searchButton) {
-            val dEnter = dateEnter!!.text.toString()
-            val dExit = dateExit!!.text.toString()
+        when (id) {
+            R.id.searchButton -> {
+                val dEnter = dateEnter!!.text.toString()
+                val dExit = dateExit!!.text.toString()
 
-            val searchOpenAndClosed = checkBoxSearch!!.isChecked
-            val searchOpen = this.searchOpen!!.isChecked
-            val searchClosed = this.searchClose!!.isChecked
+                val searchOpenAndClosed = checkBoxSearch!!.isChecked
+                val searchOpen = this.searchOpen!!.isChecked
+                val searchClosed = this.searchClose!!.isChecked
 
-            if (dEnter.isEmpty() || dExit.isEmpty()) {
-                Toast.makeText(activity, "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show()
-            } else {
+                if (dEnter.isEmpty() || dExit.isEmpty()) {
+                    Toast.makeText(activity, "Selecciona una fecha de entrada y una de salida", Toast.LENGTH_SHORT).show()
+                } else {
+                    alertArrayList = ArrayList()
+
+                    val alat = AlertListAsyncTask()
+
+                    if (!searchOpenAndClosed && !searchOpen && !searchClosed) {
+                        titleSearch!!.text = "Asignadas y sin asignar\nde $dEnter a $dExit:"
+                        alat.execute(0)
+                    } else if (searchOpenAndClosed) {
+                        titleSearch!!.text = "Asignadas y sin asignar\nde $dEnter a $dExit:"
+                        alat.execute(0)
+                    } else {
+                        if (searchOpen) {
+                            titleSearch!!.text = "Sin asignar\nde $dEnter a $dExit:"
+                            alat.execute(1)
+                        }
+                        if (searchClosed) {
+                            titleSearch!!.text = "Asignadas\nde $dEnter a $dExit:"
+                            alat.execute(2)
+                        }
+                    }
+
+                }
+            }
+
+            R.id.searchFinalized -> {
                 alertArrayList = ArrayList()
 
-                val alat = AlertListAsyncTask()
-
-                if (!searchOpenAndClosed && !searchOpen && !searchClosed) {
-                    titleSearch!!.text = "Asignadas y sin asignar\nde $dEnter a $dExit:"
-                    alat.execute(0)
-                } else if (searchOpenAndClosed) {
-                    titleSearch!!.text = "Asignadas y sin asignar\nde $dEnter a $dExit:"
-                    alat.execute(0)
-                } else {
-                    if (searchOpen) {
-                        titleSearch!!.text = "Sin asignar\nde $dEnter a $dExit:"
-                        alat.execute(1)
-                    }
-                    if (searchClosed) {
-                        titleSearch!!.text = "Asignadas\nde $dEnter a $dExit:"
-                        alat.execute(2)
-                    }
-                }
-
+                titleSearch!!.text = "Tus alertas cerradas:"
+                val calat = ClosedAlertListAsyncTask()
+                calat.execute()
             }
         }
-
-        if (id == R.id.searchFinalized) {
-            alertArrayList = ArrayList()
-
-            titleSearch!!.text = "Tus alertas cerradas:"
-            val calat = ClosedAlertListAsyncTask()
-            calat.execute()
-        }
-
     }
 
     //Cualquier alerta

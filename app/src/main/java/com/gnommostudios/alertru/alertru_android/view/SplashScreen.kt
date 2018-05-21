@@ -75,37 +75,42 @@ class SplashScreen : AppCompatActivity() {
 
                 val resultSelect = StringBuilder()
 
-                if (respuestaSelect == HttpURLConnection.HTTP_OK) {
-                    val inputStream = BufferedInputStream(conSelect.inputStream)
+                when (respuestaSelect) {
+                    HttpURLConnection.HTTP_OK -> {
+                        val inputStream = BufferedInputStream(conSelect.inputStream)
 
-                    val reader = BufferedReader(InputStreamReader(inputStream))
+                        val reader = BufferedReader(InputStreamReader(inputStream))
 
-                    resultSelect.append(reader.readLine())
+                        resultSelect.append(reader.readLine())
 
-                    val respuestaJSONSelect = JSONObject(resultSelect.toString())
+                        val respuestaJSONSelect = JSONObject(resultSelect.toString())
 
-                    val id = respuestaJSONSelect.getString("id")
+                        val id = respuestaJSONSelect.getString("id")
 
-                    //Guardo las variables recogidas del JSON en el fichero de preferencias,
-                    //a parte me guardo el estado a logueado
-                    val editor = prefs!!.edit()
+                        //Guardo las variables recogidas del JSON en el fichero de preferencias,
+                        //a parte me guardo el estado a logueado
+                        val editor = prefs!!.edit()
 
-                    editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED)
+                        editor.putString(StatesLog.STATE_LOG, StatesLog.LOGGED)
 
-                    editor.putString("userId", id)
-                    editor.putString("access_token", access_token)
+                        editor.putString("userId", id)
+                        editor.putString("access_token", access_token)
 
-                    editor.commit()
+                        editor.commit()
 
-                    return 1
-                }
+                        return 1
+                    }
                 //Si llega a aqui significa que el token no es valido, por lo tanto, me guardo en preferencias que esta deslogueado
-                val editor = prefs!!.edit()
+                    else -> {
+                        val editor = prefs!!.edit()
 
-                editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED)
+                        editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED)
 
-                editor.commit()
-                return 0
+                        editor.commit()
+                        return 0
+
+                    }
+                }
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
@@ -132,15 +137,16 @@ class SplashScreen : AppCompatActivity() {
                     FirebaseMessaging.getInstance().subscribeToTopic(prefs!!.getString("province", "")!!)
                     mainIntent.putExtra("PAGE", 2)
                 }
+                2 -> {
+                    //Si hay algun problema de conexion cierro la aplicacion, no tiene sentido que entre sin conexion
+                    Toast.makeText(this@SplashScreen, "ERROR DE CONEXIÓN", Toast.LENGTH_LONG).show()
+                    this@SplashScreen.finish()
+                }
             }
 
             //Si no ha entrado a ninguna excepcion (no ha habido ningun fallo de conexion), inicio la aplicacion
             if (integer != 2) {
                 this@SplashScreen.startActivity(mainIntent)
-                this@SplashScreen.finish()
-            } else {
-                //Si hay algun problema de conexion cierro la aplicacion, no tiene sentido que entre sin conexion
-                Toast.makeText(this@SplashScreen, "ERROR DE CONEXIÓN", Toast.LENGTH_LONG).show()
                 this@SplashScreen.finish()
             }
         }
