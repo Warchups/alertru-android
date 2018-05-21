@@ -42,8 +42,7 @@ class SplashScreen : AppCompatActivity() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             // finally change the color
             window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
-
-            window.navigationBarColor = resources.getColor(R.color.colorPrimary)
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         }
 
         Handler().postDelayed({
@@ -58,7 +57,6 @@ class SplashScreen : AppCompatActivity() {
 
         override fun doInBackground(vararg strings: String): Int? {
             try {
-                Thread.sleep(2000)
                 val userId = prefs!!.getString("id", "")
                 val access_token = prefs!!.getString("access_token", "")
 
