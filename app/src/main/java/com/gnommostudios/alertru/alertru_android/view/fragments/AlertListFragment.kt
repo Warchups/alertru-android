@@ -543,7 +543,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     //AsyncTask para cargar la lista de las alertas
-    internal inner class AlertListAsyncTask : AsyncTask<String, Void, Boolean>() {
+    private inner class AlertListAsyncTask : AsyncTask<String, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -664,7 +664,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     //AsyncTask para assignar una alerta pasandole la id de la alerta y la id del tecnico
-    internal inner class AssignAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
+    private inner class AssignAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
 
         override fun doInBackground(vararg alertsParams: Alert): Boolean? {
             try {
@@ -705,7 +705,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
 
     //AsyncTask para assignar una alerta pasandole la id de la alerta y la id del tecnico (desde los detalles)
     // (Diferencia --> El FAB)
-    internal inner class AssignDetailsAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
+    private inner class AssignDetailsAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -756,7 +756,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     //AsyncTask para cerrar una alerta pasandole el parte de esta
-    internal inner class CloseAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
+    private inner class CloseAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -821,7 +821,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     }
 
     //AsyncTask para comprobar el nombre y los apellidos pasandole la id
-    internal inner class SelectTechnicianIDAsyncTask : AsyncTask<String, Void, String>() {
+    private inner class SelectTechnicianIDAsyncTask : AsyncTask<String, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()

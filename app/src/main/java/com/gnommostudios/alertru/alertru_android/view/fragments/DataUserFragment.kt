@@ -171,7 +171,7 @@ class DataUserFragment : Fragment(), View.OnClickListener {
     }
 
     //AsyncTask para logearse
-    internal inner class LoginAsyncTask : AsyncTask<String, Int, Int>() {
+    private inner class LoginAsyncTask : AsyncTask<String, Int, Int>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -326,7 +326,7 @@ class DataUserFragment : Fragment(), View.OnClickListener {
     }
 
     //AsyncTask para desloguearse
-    internal inner class LogoutAsyncTask : AsyncTask<String, Void, Boolean>() {
+    private inner class LogoutAsyncTask : AsyncTask<String, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()

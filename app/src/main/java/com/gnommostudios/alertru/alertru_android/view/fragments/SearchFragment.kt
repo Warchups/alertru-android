@@ -660,7 +660,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     }
 
     //AsyncTask para cargar la lista de alertas
-    internal inner class AlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
+    private inner class AlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -770,7 +770,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     }
 
     //AsyncTask para cargar la lista de alertas cerradas
-    internal inner class ClosedAlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
+    private inner class ClosedAlertListAsyncTask : AsyncTask<Int, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -862,7 +862,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     }
 
     //AsyncTask para asignarse una alerta desde los detalles
-    internal inner class AssignDetailsAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
+    private inner class AssignDetailsAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -909,7 +909,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     }
 
     //AsyncTask para cerrar una alerta pasandole un parte
-    internal inner class CloseAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
+    private inner class CloseAlertAsyncTask : AsyncTask<Alert, Void, Boolean>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -974,7 +974,7 @@ class SearchFragment : Fragment(), View.OnClickListener, FABProgressListener, Ad
     }
 
     //AsyncTask para comprobar el nombre y los apellidos pasandole la id
-    internal inner class SelectTechnicianIDAsyncTask : AsyncTask<String, Void, String>() {
+    private inner class SelectTechnicianIDAsyncTask : AsyncTask<String, Void, String>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
