@@ -84,8 +84,9 @@ class ConfigFragment : Fragment() {
         }
 
         private fun choiceRingote(option: String) {
-            if (mp != null) {
-                mp!!.stop()
+            //Check is not null
+            mp?.let {
+                it.stop()
             }
 
             when (option) {
