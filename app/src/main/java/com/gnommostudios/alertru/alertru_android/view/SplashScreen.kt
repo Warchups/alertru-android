@@ -98,15 +98,14 @@ class SplashScreen : AppCompatActivity() {
                     editor.commit()
 
                     return 1
-                } else {
-                    //Si llega a aqui significa que el token no es valido, por lo tanto, me guardo en preferencias que esta deslogueado
-                    val editor = prefs!!.edit()
-
-                    editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED)
-
-                    editor.commit()
-                    return 0
                 }
+                //Si llega a aqui significa que el token no es valido, por lo tanto, me guardo en preferencias que esta deslogueado
+                val editor = prefs!!.edit()
+
+                editor.putString(StatesLog.STATE_LOG, StatesLog.DISCONNECTED)
+
+                editor.commit()
+                return 0
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
