@@ -99,7 +99,7 @@ class DataUserFragment : Fragment(), View.OnClickListener {
                 layoutLogout!!.visibility = View.VISIBLE
                 layoutLogin!!.visibility = View.GONE
 
-                nameLogged!!.text = prefs!!.getString("surname", "") + ", " + prefs!!.getString("name", "")
+                nameLogged!!.text = "${prefs!!.getString("surname", "")}, ${prefs!!.getString("name", "")}"
                 emailLogged!!.text = prefs!!.getString("email", "")
                 userNameLogged!!.text = prefs!!.getString("username", "")
                 provinceLogged!!.text = prefs!!.getString("province", "")
@@ -354,9 +354,7 @@ class DataUserFragment : Fragment(), View.OnClickListener {
 
                 val respuesta = connection.responseCode
 
-                if (respuesta == HttpURLConnection.HTTP_NO_CONTENT) {
-                    return true
-                }
+                return respuesta == HttpURLConnection.HTTP_NO_CONTENT
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
