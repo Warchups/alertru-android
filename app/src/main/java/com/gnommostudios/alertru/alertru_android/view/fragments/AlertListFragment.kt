@@ -120,6 +120,7 @@ class AlertListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, View
     private var isFirst = true
     private var lastCharge = -1
 
+    //BroadcastReveiver
     private val mMessageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // Extract data included in the Intent

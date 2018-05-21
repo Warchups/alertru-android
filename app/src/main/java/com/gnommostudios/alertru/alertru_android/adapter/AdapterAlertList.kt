@@ -25,7 +25,7 @@ class AdapterAlertList(context: Fragment, private var elements: ArrayList<Alert>
         val inflater = context.layoutInflater
         var convertView = inflater.inflate(R.layout.element_list, null)
 
-        val background = convertView!!.findViewById<View>(R.id.background_element) as LinearLayout
+        val background = convertView.findViewById<View>(R.id.background_element) as LinearLayout
         val imagePadlock = convertView.findViewById<View>(R.id.imagePadlock) as ImageView
         val affairTxt = convertView.findViewById<View>(R.id.affairTxt) as TextView
         val descriptionTxt = convertView.findViewById<View>(R.id.descriptionTxt) as TextView

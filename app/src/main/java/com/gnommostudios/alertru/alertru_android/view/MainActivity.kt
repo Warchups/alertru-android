@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private var prefs: SharedPreferences? = null
 
+    //BroadcastReveiver
     private val mMessageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             // Extract data included in the Intent
