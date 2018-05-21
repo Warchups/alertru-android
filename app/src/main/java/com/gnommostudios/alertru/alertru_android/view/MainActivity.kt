@@ -196,8 +196,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         //Switch para navegar por las paginas con los botones del TabLayout hecho a mano
         when (v.id) {
-            R.id.button_search -> viewPager!!.currentItem = 1
             R.id.button_user -> viewPager!!.currentItem = 0
+            R.id.button_search -> viewPager!!.currentItem = 1
             R.id.button_home -> viewPager!!.currentItem = 2
             R.id.button_config -> viewPager!!.currentItem = 3
             R.id.button_info -> viewPager!!.currentItem = 4
