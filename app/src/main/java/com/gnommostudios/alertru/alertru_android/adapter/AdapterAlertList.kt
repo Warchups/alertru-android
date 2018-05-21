@@ -21,7 +21,6 @@ class AdapterAlertList(context: Fragment, private var elements: ArrayList<Alert>
     internal var context: Activity = context.activity
     private var prefs: SharedPreferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
         var convertView = inflater.inflate(R.layout.element_list, null)
