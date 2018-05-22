@@ -1,21 +1,6 @@
 package com.gnommostudios.alertru.alertru_android.model
 
-class Technician {
-    var name: String? = null
-    var surname: String? = null
-    var username: String? = null
-    var email: String? = null
-    var id: String? = null
-    var province: String? = null
-
-    constructor(name: String, surname: String, username: String, email: String, id: String, province: String) {
-        this.name = name
-        this.surname = surname
-        this.username = username
-        this.email = email
-        this.id = id
-        this.province = province
-    }
+class Technician(var name: String, var surname: String, var username: String, var email: String, var id: String, var province: String) {
 
     override fun toString(): String = "Technician{" +
             "name='" + name + '\''.toString() +
