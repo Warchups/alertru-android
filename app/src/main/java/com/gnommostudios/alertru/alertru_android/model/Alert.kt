@@ -46,12 +46,4 @@ class Alert : Serializable {
         this.notes = notes
         this.province = province
     }
-
-    override fun toString(): String = "Alert{" +
-            "affair='" + affair + '\''.toString() +
-            ", date='" + date + '\''.toString() +
-            ", idTechnician='" + idTechnician + '\''.toString() +
-            ", assigned=" + isAssigned +
-            '}'.toString()
-
 }
